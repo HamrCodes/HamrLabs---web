@@ -1,0 +1,1514 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hamr Labs / Performance marketing podnik. Měříme všechno.</title>
+<meta name="description" content="Měříme reklamy. Snižujeme náklady na lead. AI obsah s lidskou kontrolou. CPL pokles o 64 procent za 60 dnů. České e-shopy a služby." />
+<meta property="og:title" content="Hamr Labs / Performance marketing s AI rychlostí" />
+<meta property="og:description" content="Reklamy, lead generation, AI obsah. Bez balíčků, bez sklepových reportů. Vše v Business Manageru." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="cs_CZ" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap">
+<style>
+/* ============================================================
+   Hamr Labs / Industrial Underground Luxury
+   ============================================================ */
+
+:root{
+  --ink:        #0A0A0B;
+  --ink-2:      #111114;
+  --surface:    #16161A;
+  --surface-2:  #1C1C22;
+  --line:       #26262E;
+  --line-2:     #3A3A45;
+  --paper:      #F2F2EC;
+  --paper-2:    #C8C8BE;
+  --muted:      #7A7A82;
+  --muted-2:    #50505A;
+
+  --signal:     #C8FF00;
+  --signal-ink: #0A0A0B;
+  --hot:        #FF3B2E;
+
+  --font-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  --font-sans:  'Inter Tight', system-ui, -apple-system, sans-serif;
+
+  --container:  1440px;
+  --gutter:     clamp(16px, 4vw, 56px);
+  --section-y:  clamp(80px, 12vw, 180px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0;background:var(--ink);color:var(--paper);font-family:var(--font-sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+::selection{background:var(--signal);color:var(--signal-ink)}
+
+/* Cursor / magnetic */
+@media (hover: hover) and (pointer: fine){
+  body{cursor:none}
+  .cursor{
+    position:fixed;top:0;left:0;width:14px;height:14px;
+    background:var(--signal);border-radius:50%;
+    pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);
+    transition:width .2s ease, height .2s ease, background .2s ease, opacity .2s ease;
+    mix-blend-mode:difference;
+  }
+  .cursor.hover{width:48px;height:48px;background:var(--paper)}
+  a, button, .magnetic{cursor:none}
+}
+.cursor{display:none}
+
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);width:100%}
+
+/* ============================================================
+   Typography utilities
+   ============================================================ */
+
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.label{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;
+}
+.label .num{color:var(--paper);font-weight:600}
+.label .dot{color:var(--signal)}
+
+h1,h2,h3,h4,h5{margin:0;font-weight:400}
+.display{
+  font-family:var(--font-mono);
+  font-weight:700;
+  letter-spacing:-0.04em;
+  line-height:0.92;
+  text-transform:uppercase;
+}
+.serif-it{font-style:italic;font-family:var(--font-sans);font-weight:400;letter-spacing:-0.02em;text-transform:none}
+
+/* Signal mark */
+.mark{
+  display:inline-block;color:var(--signal);
+}
+.strike-signal{
+  position:relative;display:inline-block;
+}
+.strike-signal::after{
+  content:"";position:absolute;
+  left:-4px;right:-4px;top:48%;height:8px;
+  background:var(--signal);
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform 1.1s cubic-bezier(.65,0,.35,1) .9s;
+}
+.loaded .strike-signal::after{transform:scaleX(1)}
+
+/* ============================================================
+   Nav
+   ============================================================ */
+
+.cursor-dot{display:none}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,10,11,0.78);
+  backdrop-filter:saturate(180%) blur(8px);
+  -webkit-backdrop-filter:saturate(180%) blur(8px);
+  border-bottom:1px solid transparent;
+  transition:border-color .2s ease, background .2s ease;
+}
+.nav.scrolled{border-bottom-color:var(--line);background:rgba(10,10,11,0.94)}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px var(--gutter);
+  max-width:var(--container);margin:0 auto;
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--font-mono);font-weight:700;font-size:14px;letter-spacing:-0.02em;
+  text-transform:uppercase;
+}
+.brand-mark{
+  width:30px;height:30px;
+  background:var(--signal);color:var(--ink);
+  display:grid;place-items:center;
+  font-family:var(--font-mono);font-size:13px;font-weight:800;
+  letter-spacing:-0.02em;
+}
+.nav-links{display:flex;gap:28px;align-items:center;font-family:var(--font-mono);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em}
+.nav-links a{color:var(--paper-2);transition:color .15s ease}
+.nav-links a:hover{color:var(--signal)}
+
+.menu-toggle{display:none;width:42px;height:42px;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--ink-2)}
+.menu-toggle span,
+.menu-toggle span::before,
+.menu-toggle span::after{display:block;width:18px;height:1.5px;background:var(--paper);position:relative}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:18px}
+.menu-toggle span::before{top:-6px}
+.menu-toggle span::after{top:6px}
+
+.drawer{
+  position:fixed;inset:0;background:var(--ink);
+  z-index:200;padding:18px var(--gutter);
+  transform:translateY(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateY(0)}
+.drawer-top{display:flex;align-items:center;justify-content:space-between}
+.drawer-close{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);color:var(--paper);font-family:var(--font-mono)}
+.drawer-links{margin:auto 0;display:flex;flex-direction:column;gap:6px}
+.drawer-links a{font-family:var(--font-mono);font-size:42px;font-weight:700;text-transform:uppercase;letter-spacing:-0.03em;line-height:1;padding:8px 0}
+.drawer-links a:hover{color:var(--signal)}
+.drawer-foot{display:flex;justify-content:space-between;padding-top:24px;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-mono);font-size:13px;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.04em;
+  padding:14px 22px;
+  border:1px solid transparent;
+  transition:transform .18s cubic-bezier(.2,.7,.2,1), background .18s ease, color .18s ease, border-color .18s ease;
+  white-space:nowrap;position:relative;
+}
+.btn-signal{background:var(--signal);color:var(--signal-ink);border-color:var(--signal)}
+.btn-signal:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn-signal .arrow{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.btn-signal:hover .arrow{transform:translateX(4px)}
+.btn-ghost{background:transparent;color:var(--paper);border-color:var(--line-2)}
+.btn-ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+
+.btn-arrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:0.08em;
+  padding:8px 0;border-bottom:1px solid currentColor;
+}
+.btn-arrow:hover{color:var(--signal)}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+
+.hero{
+  padding:calc(var(--section-y) + 60px) 0 var(--section-y);
+  position:relative;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(60% 80% at 20% 30%, rgba(200,255,0,0.06), transparent 60%),
+    radial-gradient(40% 60% at 80% 70%, rgba(200,255,0,0.04), transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+.hero > *{position:relative;z-index:1}
+
+.hero-top{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:40px;border-bottom:1px solid var(--line);
+  margin-bottom:48px;
+  flex-wrap:wrap;gap:12px;
+}
+.hero-top .label .ping{
+  display:inline-flex;align-items:center;gap:8px;
+}
+.hero-top .label .ping::before{
+  content:"";width:8px;height:8px;background:var(--signal);border-radius:50%;
+  animation:ping 1.8s infinite;
+}
+@keyframes ping{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(0.7);opacity:0.5}
+}
+
+.hero-headline{
+  font-size:clamp(48px, 11vw, 200px);
+  margin:0 0 56px;
+  max-width:13ch;
+}
+.hero-headline .row{display:block;overflow:hidden}
+.hero-headline .row span{
+  display:inline-block;
+  transform:translateY(110%);
+  transition:transform 1s cubic-bezier(.22,1,.36,1);
+}
+.loaded .hero-headline .row:nth-child(1) span{transform:translateY(0);transition-delay:0.1s}
+.loaded .hero-headline .row:nth-child(2) span{transform:translateY(0);transition-delay:0.2s}
+.loaded .hero-headline .row:nth-child(3) span{transform:translateY(0);transition-delay:0.3s}
+
+.hero-bottom{
+  display:grid;
+  grid-template-columns:1.4fr auto;
+  gap:48px;
+  align-items:end;
+}
+.hero-lead{
+  font-size:clamp(18px, 1.6vw, 24px);
+  line-height:1.4;
+  color:var(--paper-2);
+  max-width:48ch;
+  margin:0 0 32px;
+}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+.live-feed{
+  background:var(--ink-2);
+  border:1px solid var(--line);
+  padding:24px;
+  min-width:320px;
+}
+.live-feed-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:14px;
+}
+.live-feed-head .label{font-size:10px}
+.live-feed-head .ping{display:flex;align-items:center;gap:8px;color:var(--paper)}
+.live-feed-head .ping::before{
+  content:"";width:7px;height:7px;background:var(--signal);border-radius:50%;
+  animation:ping 1.8s infinite;
+}
+.live-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:10px 0;font-family:var(--font-mono);font-size:13px;
+}
+.live-row + .live-row{border-top:1px dashed var(--line)}
+.live-row .k{color:var(--muted);letter-spacing:0.04em}
+.live-row .v{font-weight:700;font-size:18px;color:var(--paper)}
+.live-row .v.up{color:var(--signal)}
+.live-row .v.down{color:var(--signal)}
+
+.hero-metrics{
+  margin-top:64px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.metric{
+  padding:28px 24px 28px 0;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:8px;
+}
+.metric:last-child{border-right:0}
+.metric:nth-child(n+2){padding-left:24px}
+.metric-num{
+  font-family:var(--font-mono);
+  font-size:clamp(40px, 5.5vw, 72px);
+  font-weight:700;
+  letter-spacing:-0.04em;
+  line-height:1;
+  color:var(--paper);
+}
+.metric-num.signal{color:var(--signal)}
+.metric-num .sup{font-size:0.45em;vertical-align:super;margin-right:2px;color:var(--muted)}
+.metric-num.signal .sup{color:var(--signal)}
+.metric-label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ============================================================
+   Marquee
+   ============================================================ */
+
+.marquee{
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  padding:24px 0;
+  background:var(--ink);
+}
+.marquee-track{
+  display:flex;gap:48px;
+  white-space:nowrap;
+  font-family:var(--font-mono);font-size:clamp(28px, 4vw, 56px);font-weight:700;
+  text-transform:uppercase;letter-spacing:-0.02em;
+  animation:marq 42s linear infinite;
+}
+.marquee-track .sep{color:var(--signal)}
+.marquee-track .ghost{color:transparent;-webkit-text-stroke:1px var(--line-2)}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================================================
+   Sections
+   ============================================================ */
+
+section{position:relative}
+.section-pad{padding:var(--section-y) 0;border-bottom:1px solid var(--line)}
+
+.section-head{
+  display:grid;grid-template-columns:1fr 1.5fr;gap:48px;
+  align-items:end;
+  margin-bottom:80px;
+}
+.section-head h2{
+  font-size:clamp(40px, 7vw, 120px);
+  margin:24px 0 0;
+}
+.section-head .lead{
+  font-size:clamp(17px, 1.4vw, 21px);
+  color:var(--paper-2);max-width:54ch;line-height:1.45;
+}
+.section-head .lead .serif-it{color:var(--signal)}
+
+/* ============================================================
+   Services
+   ============================================================ */
+
+.services-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--line);border-left:1px solid var(--line);
+}
+.service{
+  padding:48px 40px;
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  display:flex;flex-direction:column;gap:24px;
+  min-height:300px;
+  position:relative;
+  transition:background .25s ease;
+}
+.service::before{
+  content:"";position:absolute;left:0;top:0;width:0;height:2px;background:var(--signal);
+  transition:width .4s cubic-bezier(.2,.7,.2,1);
+}
+.service:hover{background:var(--ink-2)}
+.service:hover::before{width:100%}
+.service:hover .service-arrow{transform:translate(4px, -4px);color:var(--signal)}
+
+.service-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.service-num{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0.06em}
+.service-arrow{
+  font-family:var(--font-mono);font-size:18px;color:var(--muted);
+  transition:transform .25s cubic-bezier(.2,.7,.2,1), color .25s ease;
+}
+.service-name{
+  font-family:var(--font-mono);font-size:clamp(28px, 3.5vw, 48px);font-weight:700;
+  text-transform:uppercase;letter-spacing:-0.03em;line-height:0.95;
+  color:var(--paper);
+}
+.service-desc{color:var(--paper-2);font-size:15px;line-height:1.55;max-width:42ch}
+.service-tag{
+  margin-top:auto;display:flex;justify-content:space-between;
+  padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+}
+.service-tag .k{color:var(--muted)}
+.service-tag .v{color:var(--signal);font-weight:600}
+
+/* ============================================================
+   Process
+   ============================================================ */
+
+.process{background:var(--ink-2)}
+.process-track{
+  position:relative;
+  border-top:1px solid var(--line);
+}
+.process-progress{
+  position:absolute;top:-1px;left:0;height:2px;
+  background:var(--signal);
+  transition:width .5s ease;
+  z-index:2;
+}
+.process-grid{
+  display:grid;grid-template-columns:repeat(4, 1fr);
+}
+.process-step{
+  padding:40px 28px 32px 0;
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:20px;
+  min-height:340px;
+  position:relative;
+}
+.process-step:not(:first-child){padding-left:28px}
+.process-step:last-child{border-right:0}
+.process-week{
+  font-family:var(--font-mono);font-size:11px;
+  letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
+}
+.process-week.active{color:var(--signal)}
+.process-name{
+  font-family:var(--font-mono);font-size:clamp(26px, 2.8vw, 38px);font-weight:700;
+  text-transform:uppercase;letter-spacing:-0.03em;line-height:1;
+  color:var(--paper);
+}
+.process-desc{color:var(--paper-2);font-size:14px;line-height:1.55;max-width:30ch}
+.process-list{list-style:none;padding:0;margin:auto 0 0;display:flex;flex-direction:column;gap:0;font-family:var(--font-mono);font-size:12px;color:var(--paper)}
+.process-list li{
+  display:flex;align-items:baseline;gap:10px;
+  padding:8px 0;border-top:1px dashed var(--line);
+  letter-spacing:0.02em;
+}
+.process-list li::before{content:"//";color:var(--signal);font-weight:600}
+
+/* ============================================================
+   About
+   ============================================================ */
+
+.about-grid{
+  display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start;
+}
+.pillars{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.pillar{
+  padding:32px 0;border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:auto 1fr;gap:32px;
+  transition:padding-left .3s ease;
+}
+.pillar:hover{padding-left:12px}
+.pillar:hover .pillar-num{color:var(--signal)}
+.pillar-num{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--muted);padding-top:8px;transition:color .25s ease}
+.pillar-name{font-family:var(--font-mono);font-size:clamp(22px, 2.2vw, 32px);font-weight:700;text-transform:uppercase;letter-spacing:-0.02em;line-height:1.05;margin-bottom:10px}
+.pillar-desc{color:var(--paper-2);max-width:42ch;font-size:15px;line-height:1.5}
+
+.about-side{display:flex;flex-direction:column;gap:32px}
+.about-copy p{margin:0 0 16px;font-size:16px;line-height:1.6;color:var(--paper-2)}
+.about-copy p:last-child{margin-bottom:0}
+.about-copy .mark{color:var(--signal);font-weight:500}
+
+.pullquote{
+  padding:32px 0;border-top:2px solid var(--signal);border-bottom:1px solid var(--line);
+  font-family:var(--font-mono);font-size:clamp(20px, 2vw, 28px);font-weight:600;
+  letter-spacing:-0.02em;line-height:1.25;color:var(--paper);
+  text-transform:uppercase;
+}
+.pullquote .signal{color:var(--signal)}
+
+.mascot{
+  border:1px solid var(--line);padding:24px;background:var(--surface);
+  display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:flex-start;
+  position:relative;
+}
+.mascot::after{
+  content:"AI";position:absolute;top:8px;right:12px;
+  font-family:var(--font-mono);font-size:10px;color:var(--signal);letter-spacing:0.1em;
+}
+.mascot-icon{
+  width:56px;height:56px;background:var(--signal);color:var(--ink);
+  display:grid;place-items:center;
+  font-family:var(--font-mono);font-size:11px;font-weight:800;letter-spacing:-0.02em;
+  flex-shrink:0;
+}
+.mascot h4{font-family:var(--font-mono);font-size:14px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;margin-bottom:4px;color:var(--paper)}
+.mascot .sub{font-size:14px;color:var(--paper-2);margin-bottom:8px}
+.mascot .desc{font-size:13px;color:var(--muted);line-height:1.55}
+
+.badges{display:flex;flex-wrap:wrap;gap:8px}
+.badge{
+  font-family:var(--font-mono);font-size:11px;font-weight:500;
+  letter-spacing:0.06em;text-transform:uppercase;
+  padding:7px 12px;border:1px solid var(--line);color:var(--paper);
+}
+.badge.signal{background:var(--signal);color:var(--ink);border-color:var(--signal);font-weight:700}
+
+/* ============================================================
+   Case Studies
+   ============================================================ */
+
+.cases{background:var(--ink-2)}
+.cases-list{border-top:1px solid var(--line)}
+.case{
+  padding:48px 0;border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:auto 1fr 1fr auto;gap:48px;align-items:center;
+  transition:padding-left .3s ease;
+}
+.case:hover{padding-left:16px}
+.case:hover .case-result-num{transform:scale(1.05)}
+.case-num{font-family:var(--font-mono);font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0.06em;min-width:40px}
+.case-meta{display:flex;flex-direction:column;gap:6px;min-width:240px}
+.case-name{font-family:var(--font-mono);font-size:clamp(22px, 2.3vw, 32px);font-weight:700;text-transform:uppercase;letter-spacing:-0.02em;line-height:1;color:var(--paper)}
+.case-industry{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.case-desc{color:var(--paper-2);font-size:14px;line-height:1.55;max-width:44ch}
+.case-result{text-align:right;min-width:200px}
+.case-result-num{
+  font-family:var(--font-mono);font-size:clamp(36px, 4.5vw, 64px);font-weight:700;
+  letter-spacing:-0.04em;line-height:1;color:var(--signal);
+  transition:transform .35s cubic-bezier(.2,.7,.2,1);
+  display:inline-block;
+}
+.case-result-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+
+.faq-list{border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{
+  width:100%;text-align:left;
+  padding:32px 0;
+  display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;
+  font-family:var(--font-mono);font-size:clamp(18px, 1.8vw, 26px);
+  font-weight:600;letter-spacing:-0.02em;line-height:1.2;color:var(--paper);
+  text-transform:uppercase;
+  transition:color .15s ease;
+}
+.faq-q:hover{color:var(--signal)}
+.faq-q .num{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0.06em}
+.faq-q:hover .num{color:var(--signal)}
+.faq-q .plus{
+  font-size:20px;color:var(--muted);transition:transform .3s ease, color .25s ease;
+  font-weight:500;
+}
+.faq-item[aria-expanded="true"] .faq-q .plus{transform:rotate(45deg);color:var(--signal)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.faq-a-inner{padding:0 0 32px;max-width:64ch;color:var(--paper-2);font-size:16px;line-height:1.6}
+.faq-a-inner .signal{color:var(--signal)}
+
+/* ============================================================
+   Contact
+   ============================================================ */
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-left h2{font-size:clamp(40px, 7vw, 100px);line-height:0.95;margin-bottom:32px}
+.contact-left h2 .signal{color:var(--signal)}
+.contact-left .lead{font-size:clamp(17px, 1.4vw, 21px);color:var(--paper-2);margin-bottom:40px;max-width:48ch}
+
+.contact-info{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.contact-info-row{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:18px 0;border-bottom:1px solid var(--line);gap:24px;
+  font-family:var(--font-mono);
+}
+.contact-info-row .k{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.contact-info-row .v{font-size:15px;color:var(--paper);transition:color .15s ease}
+.contact-info-row .v:hover{color:var(--signal)}
+
+.form{display:flex;flex-direction:column;gap:18px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--muted);font-weight:500;
+}
+.field label .req{color:var(--signal)}
+.field input, .field select, .field textarea{
+  background:var(--ink-2);
+  border:1px solid var(--line);
+  padding:14px 16px;
+  font-size:15px;color:var(--paper);
+  transition:border-color .18s ease, background .18s ease;
+  font-family:var(--font-sans);
+}
+.field select{font-family:var(--font-mono);font-size:13px;letter-spacing:0.02em}
+.field textarea{resize:vertical;min-height:140px}
+.field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--signal);background:var(--ink)}
+.field input::placeholder, .field textarea::placeholder{color:var(--muted-2)}
+.form-submit{margin-top:8px;align-self:flex-start}
+.form-submit.sent{background:var(--signal);color:var(--ink);pointer-events:none}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+
+.footer{padding:80px 0 32px;background:var(--ink)}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+  padding-bottom:64px;border-bottom:1px solid var(--line);
+}
+.footer-brand p{color:var(--paper-2);font-size:14px;line-height:1.55;margin:18px 0 24px;max-width:36ch}
+.footer-col h5{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;font-weight:500}
+.footer-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-family:var(--font-mono);font-size:13px;letter-spacing:0.02em}
+.footer-col a{color:var(--paper-2);transition:color .15s ease}
+.footer-col a:hover{color:var(--signal)}
+.footer-meta{display:flex;justify-content:space-between;align-items:center;padding-top:32px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+
+.footer-wordmark{
+  font-family:var(--font-mono);font-weight:800;
+  font-size:clamp(80px, 22vw, 320px);
+  letter-spacing:-0.06em;line-height:0.82;text-transform:uppercase;
+  color:var(--paper);
+  margin:48px 0 8px;padding-top:48px;border-top:1px solid var(--line);
+  white-space:nowrap;overflow:hidden;
+}
+.footer-wordmark .signal{color:var(--signal)}
+
+/* ============================================================
+   Reveal
+   ============================================================ */
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s ease, transform 1s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 1024px){
+  .hero-bottom{grid-template-columns:1fr;gap:32px}
+  .live-feed{width:100%}
+  .services-grid{grid-template-columns:1fr}
+  .service{border-right:0}
+  .process-grid{grid-template-columns:1fr 1fr}
+  .process-step{border-right:0;border-bottom:1px solid var(--line);min-height:auto;padding:32px 0}
+  .process-step:nth-child(odd){padding-right:24px;border-right:1px solid var(--line)}
+  .process-step:nth-child(even){padding-left:24px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .case{grid-template-columns:auto 1fr auto;gap:24px}
+  .case-desc{grid-column:2/4;grid-row:2;margin-top:-12px}
+  .contact-grid{grid-template-columns:1fr;gap:48px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .footer-brand{grid-column:1/-1}
+  .section-head{grid-template-columns:1fr;gap:16px}
+}
+@media (max-width: 640px){
+  .nav-links{display:none}
+  .menu-toggle{display:flex}
+  .hero-metrics{grid-template-columns:1fr}
+  .metric{border-right:0;border-bottom:1px solid var(--line);padding:24px 0!important}
+  .metric:last-child{border-bottom:0}
+  .hero-ctas .btn{flex:1;justify-content:center}
+  .process-grid{grid-template-columns:1fr}
+  .process-step{border-right:0!important;padding:32px 0!important}
+  .case{grid-template-columns:1fr;gap:14px;padding:36px 0}
+  .case-meta{min-width:0}
+  .case-desc{grid-column:auto;grid-row:auto;margin-top:0}
+  .case-result{text-align:left;min-width:0}
+  .form-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-meta{flex-direction:column;gap:8px;align-items:flex-start}
+  .faq-q{grid-template-columns:1fr auto;gap:16px}
+  .faq-q .num{grid-column:1/-1;font-size:11px}
+  .drawer-links a{font-size:32px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+  .hero-headline .row span{transform:none}
+  .strike-signal::after{transform:scaleX(1)}
+  body{cursor:auto}
+  .cursor{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="Hamr Labs domů">
+      <span class="brand-mark">HL</span>
+      <span>Hamr / Labs</span>
+    </a>
+    <nav class="nav-links" aria-label="Hlavní navigace">
+      <a href="#sluzby">Služby</a>
+      <a href="#proces">Proces</a>
+      <a href="#o-nas">Lab</a>
+      <a href="#pripadovky">Případovky</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#kontakt" class="btn btn-signal magnetic">
+      Domluvit hovor <span class="arrow">→</span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-top">
+    <a href="#top" class="brand">
+      <span class="brand-mark">HL</span>
+      <span>Hamr / Labs</span>
+    </a>
+    <button class="drawer-close" id="drawerClose" aria-label="Zavřít menu">✕</button>
+  </div>
+  <nav class="drawer-links" aria-label="Mobilní navigace">
+    <a href="#sluzby">Služby</a>
+    <a href="#proces">Proces</a>
+    <a href="#o-nas">Lab</a>
+    <a href="#pripadovky">Případovky</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontakt" style="color:var(--signal)">Hovor →</a>
+  </nav>
+  <div class="drawer-foot">
+    <span>Hamr Labs / 2026</span>
+    <span>Česká republika</span>
+  </div>
+</aside>
+
+<main id="top">
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="container">
+
+    <div class="hero-top reveal">
+      <span class="label">
+        <span class="num">01</span><span class="dot"> / </span>Performance marketing podnik
+      </span>
+      <span class="label">
+        <span class="ping">Active accounts <strong style="color:var(--paper);font-weight:700">14</strong></span>
+      </span>
+    </div>
+
+    <h1 class="display hero-headline">
+      <span class="row"><span>Reklamy</span></span>
+      <span class="row"><span>které <i class="serif-it">prodávají.</i></span></span>
+      <span class="row"><span>Ne <span class="strike-signal">lajkují.</span></span></span>
+    </h1>
+
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-lead reveal">
+          Stavíme reklamy, lead systémy a AI obsah pro české e-shopy a služby,
+          které přestaly věřit sklepovým reportům. Vše v Business Manageru.
+          Vše měřitelné. Vše tvoje.
+        </p>
+        <div class="hero-ctas reveal">
+          <a href="#kontakt" class="btn btn-signal magnetic">
+            Domluvit hovor <span class="arrow">→</span>
+          </a>
+          <a href="#pripadovky" class="btn btn-ghost">Vidět ukázky</a>
+        </div>
+      </div>
+
+      <aside class="live-feed reveal" aria-label="Aktuální výsledky">
+        <div class="live-feed-head">
+          <span class="ping label">Live · Q1 / 26</span>
+          <span class="label" style="color:var(--paper)">Z účtu</span>
+        </div>
+        <div class="live-row">
+          <span class="k">CPL · 60 dní</span>
+          <span class="v down">−64 %</span>
+        </div>
+        <div class="live-row">
+          <span class="k">ROAS</span>
+          <span class="v up">3.2 ×</span>
+        </div>
+        <div class="live-row">
+          <span class="k">Leads / měsíc</span>
+          <span class="v up">+184 %</span>
+        </div>
+        <div class="live-row">
+          <span class="k">Konverze</span>
+          <span class="v up">+41 %</span>
+        </div>
+      </aside>
+    </div>
+
+    <div class="hero-metrics reveal">
+      <div class="metric">
+        <span class="metric-num signal"><span class="sup">−</span><span data-count="64">0</span><span class="sup">%</span></span>
+        <span class="metric-label">Průměrný pokles CPL</span>
+      </div>
+      <div class="metric">
+        <span class="metric-num"><span data-count="60">0</span> dní</span>
+        <span class="metric-label">Do prvních výsledků</span>
+      </div>
+      <div class="metric">
+        <span class="metric-num signal"><span data-count="3" data-suffix=" ×">0</span></span>
+        <span class="metric-label">Průměrné ROAS</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     MARQUEE
+============================================================ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Meta Ads</span><span class="sep">/</span>
+    <span class="ghost">Lead Gen</span><span class="sep">/</span>
+    <span>AI Obsah</span><span class="sep">/</span>
+    <span class="ghost">Performance</span><span class="sep">/</span>
+    <span>Audit</span><span class="sep">/</span>
+    <span class="ghost">Strategy</span><span class="sep">/</span>
+    <span>Meta Ads</span><span class="sep">/</span>
+    <span class="ghost">Lead Gen</span><span class="sep">/</span>
+    <span>AI Obsah</span><span class="sep">/</span>
+    <span class="ghost">Performance</span><span class="sep">/</span>
+    <span>Audit</span><span class="sep">/</span>
+    <span class="ghost">Strategy</span><span class="sep">/</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     SLUŽBY
+============================================================ -->
+<section class="section-pad" id="sluzby">
+  <div class="container">
+
+    <header class="section-head">
+      <div class="reveal">
+        <span class="label">
+          <span class="num">02</span><span class="dot"> / </span>Co děláme
+        </span>
+        <h2 class="display">Čtyři <br>disciplíny.</h2>
+      </div>
+      <p class="lead reveal">
+        Jeden cíl. <i class="serif-it">Měřitelný růst.</i>
+        Žádné měsíční reporty, kde se hraje na barvičky.
+      </p>
+    </header>
+
+    <div class="services-grid">
+      <article class="service reveal">
+        <div class="service-top">
+          <span class="service-num">01</span>
+          <span class="service-arrow">↗</span>
+        </div>
+        <h3 class="service-name">Meta<br>Ads</h3>
+        <p class="service-desc">Kampaně na Facebooku a Instagramu od struktury přes kreativy až po škálování. Pixel, server-side události, tracking od piky.</p>
+        <div class="service-tag">
+          <span class="k">Disciplína</span>
+          <span class="v">Performance</span>
+        </div>
+      </article>
+
+      <article class="service reveal">
+        <div class="service-top">
+          <span class="service-num">02</span>
+          <span class="service-arrow">↗</span>
+        </div>
+        <h3 class="service-name">Lead<br>Generation</h3>
+        <p class="service-desc">Systémy na získávání kvalifikovaných leadů. Data místo dojmů. CRM napojení, scoring, follow-up workflow.</p>
+        <div class="service-tag">
+          <span class="k">Disciplína</span>
+          <span class="v">Pipeline</span>
+        </div>
+      </article>
+
+      <article class="service reveal">
+        <div class="service-top">
+          <span class="service-num">03</span>
+          <span class="service-arrow">↗</span>
+        </div>
+        <h3 class="service-name">AI<br>Obsah</h3>
+        <p class="service-desc">Kreativy, karusely, copy a videa s AI rychlejší tempem, s přesným brand hlasem. Lidská kontrola, ne autopilot.</p>
+        <div class="service-tag">
+          <span class="k">Disciplína</span>
+          <span class="v">Creative</span>
+        </div>
+      </article>
+
+      <article class="service reveal">
+        <div class="service-top">
+          <span class="service-num">04</span>
+          <span class="service-arrow">↗</span>
+        </div>
+        <h3 class="service-name">Audit &amp;<br>Strategie</h3>
+        <p class="service-desc">Kompletní audit Meta účtu. Najdeme co nefunguje, navrhneme co bude. PDF report + 60min walk-through.</p>
+        <div class="service-tag">
+          <span class="k">Disciplína</span>
+          <span class="v">Strategy</span>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PROCES
+============================================================ -->
+<section class="section-pad process" id="proces">
+  <div class="container">
+
+    <header class="section-head">
+      <div class="reveal">
+        <span class="label">
+          <span class="num">03</span><span class="dot"> / </span>Proces
+        </span>
+        <h2 class="display">Čtyři týdny<br>k výsledkům.</h2>
+      </div>
+      <p class="lead reveal">
+        Od podpisu k prvním optimalizovaným kampaním.
+        <i class="serif-it">Žádný kouř, žádné PowerPointy navíc.</i>
+      </p>
+    </header>
+
+    <div class="process-track">
+      <div class="process-progress" id="processProgress"></div>
+      <div class="process-grid">
+        <article class="process-step reveal" data-step="1">
+          <span class="process-week">Týden 01 / Onboarding</span>
+          <h3 class="process-name">Briefing<br>&amp; setup.</h3>
+          <p class="process-desc">Přístupy do Business Manageru, projekt, sdílené dokumenty, komunikační kanály. Definujeme KPI.</p>
+          <ul class="process-list">
+            <li>Onboarding call</li>
+            <li>Audit přístupů</li>
+            <li>Tracking stack</li>
+            <li>Brand / tone</li>
+          </ul>
+        </article>
+
+        <article class="process-step reveal" data-step="2">
+          <span class="process-week">Týden 02 / Průzkum</span>
+          <h3 class="process-name">Účet,<br>konkurence.</h3>
+          <p class="process-desc">Hluboká analýza účtu, konkurence a unit economics. Z čísel, ne z domněnek. Strategická mapa.</p>
+          <ul class="process-list">
+            <li>Account audit (12 m)</li>
+            <li>Competitor bench</li>
+            <li>Unit economics</li>
+            <li>Strategy deck</li>
+          </ul>
+        </article>
+
+        <article class="process-step reveal" data-step="3">
+          <span class="process-week">Týden 03 / Setup</span>
+          <h3 class="process-name">Kampaně<br>&amp; kreativy.</h3>
+          <p class="process-desc">Tvorba kreativ, kampaně, tracking, server-side události. Vše napojené, vše měřené, vše live.</p>
+          <ul class="process-list">
+            <li>Kreativy + varianty</li>
+            <li>Audiences</li>
+            <li>Pixel + CAPI</li>
+            <li>Reporting dashboard</li>
+          </ul>
+        </article>
+
+        <article class="process-step reveal" data-step="4">
+          <span class="process-week">Týden 04+ / Výsledky</span>
+          <h3 class="process-name">Optimalizace<br>&amp; škálování.</h3>
+          <p class="process-desc">Reporty, weekly optimalizace, škálování vítězných kreativ. V Slacku odpovídáme v hodinách, ne dnech.</p>
+          <ul class="process-list">
+            <li>Weekly call</li>
+            <li>Creative refresh</li>
+            <li>Škálování vítězů</li>
+            <li>Slack support</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     O NÁS
+============================================================ -->
+<section class="section-pad" id="o-nas">
+  <div class="container">
+
+    <header class="section-head">
+      <div class="reveal">
+        <span class="label">
+          <span class="num">04</span><span class="dot"> / </span>Lab
+        </span>
+        <h2 class="display">Hamr<br>/ Labs.</h2>
+      </div>
+      <p class="lead reveal">
+        Malý tým performance marketérů a inženýrů, který uvěřil, že AI nezmění marketing tím,
+        že nahradí lidi. <i class="serif-it">Ale tím, že umožní dělat kvalitní práci rychleji a transparentněji.</i>
+      </p>
+    </header>
+
+    <div class="about-grid">
+
+      <div class="pillars reveal">
+        <article class="pillar">
+          <span class="pillar-num">01</span>
+          <div>
+            <h3 class="pillar-name">Přímý.<br>Ne drzý.</h3>
+            <p class="pillar-desc">Říkáme co si myslíme. Čísla, ne vzduch. Když něco nefunguje, řekneme to první.</p>
+          </div>
+        </article>
+        <article class="pillar">
+          <span class="pillar-num">02</span>
+          <div>
+            <h3 class="pillar-name">Technologický.<br>Ne technický.</h3>
+            <p class="pillar-desc">AI a data zjednodušují život klienta. Bez žargonu, bez vyhýbavých termínů.</p>
+          </div>
+        </article>
+        <article class="pillar">
+          <span class="pillar-num">03</span>
+          <div>
+            <h3 class="pillar-name">Sebejistý.<br>Ne nafoukaný.</h3>
+            <p class="pillar-desc">Výsledky mluví za sebe. Naše práce je dělat čísla, ne se prezentovat.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="about-side reveal">
+        <div class="about-copy">
+          <p>Pracujeme s e-shopy, službami a místními firmami v Česku. <span class="mark">Bez „balíčků za 9 990 Kč", bez sklepových reportů, bez slibů, které nejdou splnit.</span></p>
+          <p>Vše, co děláme, je vidět v Business Manageru a v reportingu, ke kterému máš přístup <span class="mark">24 hodin denně.</span></p>
+        </div>
+
+        <blockquote class="pullquote">
+          „CPL kleslo <span class="signal">o 64 %.</span><br>Za 60 dní. Přestali jsme<br>střílet naslepo."
+        </blockquote>
+
+        <div class="mascot">
+          <div class="mascot-icon">HAMR<br>.AI</div>
+          <div>
+            <h4>HAMR.AI</h4>
+            <div class="sub">Náš interní asistent</div>
+            <div class="desc">Trénovaný na všech našich kampaních. Pomáhá nám hledat patterny, které člověk přehlédne.</div>
+          </div>
+        </div>
+
+        <div class="badges">
+          <span class="badge signal">Meta Business Partner</span>
+          <span class="badge">AI-Powered</span>
+          <span class="badge">Czech Republic</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PŘÍPADOVKY
+============================================================ -->
+<section class="section-pad cases" id="pripadovky">
+  <div class="container">
+
+    <header class="section-head">
+      <div class="reveal">
+        <span class="label">
+          <span class="num">05</span><span class="dot"> / </span>Případovky
+        </span>
+        <h2 class="display">Tři projekty.<br>Reálná data.</h2>
+      </div>
+      <p class="lead reveal">
+        Bez vybarvených grafů, bez fiktivních metrik.
+        <i class="serif-it">Všechno z Business Manageru.</i>
+      </p>
+    </header>
+
+    <div class="cases-list">
+      <article class="case reveal">
+        <span class="case-num">01</span>
+        <div class="case-meta">
+          <h3 class="case-name">Flach s.r.o.</h3>
+          <span class="case-industry">Stavebnictví / Olomoucký kraj</span>
+        </div>
+        <p class="case-desc">Rebuild Meta kampaně. Nové kreativy, regionální targeting a tracking od piky. Klient přestal platit za leady mimo svozovou oblast.</p>
+        <div class="case-result">
+          <div class="case-result-num">−58 %</div>
+          <div class="case-result-label">Cost per lead · 90 dní</div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <span class="case-num">02</span>
+        <div class="case-meta">
+          <h3 class="case-name">Elegant Dog's<br>Barber</h3>
+          <span class="case-industry">Psí grooming / Brno</span>
+        </div>
+        <p class="case-desc">Setup Pixelu, server-side události a struktura kampaní pro lokální službu. Z chaotické historie čistý profil, který škáluje.</p>
+        <div class="case-result">
+          <div class="case-result-num">+3.2 ×</div>
+          <div class="case-result-label">ROAS vs. baseline</div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <span class="case-num">03</span>
+        <div class="case-meta">
+          <h3 class="case-name">Klub moderního<br>psa</h3>
+          <span class="case-industry">E-shop / ČR + SK</span>
+        </div>
+        <p class="case-desc">AI audit, PDF report s konkrétními doporučeními a navazující Python / pandas analýza historických dat. Implementace v dalším sprintu.</p>
+        <div class="case-result">
+          <div class="case-result-num">+41 %</div>
+          <div class="case-result-label">Konverzní poměr e-shopu</div>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section class="section-pad" id="faq">
+  <div class="container">
+
+    <header class="section-head">
+      <div class="reveal">
+        <span class="label">
+          <span class="num">06</span><span class="dot"> / </span>FAQ
+        </span>
+        <h2 class="display">Pět otázek.<br>Pět odpovědí.</h2>
+      </div>
+      <p class="lead reveal">
+        Pět věcí, na které se ptá většina klientů ještě před prvním callem.
+        Pokud nenajdeš odpověď, <i class="serif-it">napiš do DM.</i>
+      </p>
+    </header>
+
+    <div class="faq-list reveal">
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q">
+          <span class="num">Q.01</span>
+          <span>Jak rychle uvidíme výsledky?</span>
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            První signály z účtu typicky <span class="signal">7 až 14 dní</span> po spuštění kampaní. Stabilní snížení CPL a růst ROAS pak v horizontu 30 až 60 dní, kdy už máme dostatek dat na optimalizaci a škálování vítězných kreativ.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q">
+          <span class="num">Q.02</span>
+          <span>S jakým minimálním rozpočtem pracujete?</span>
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            Doporučený mediální rozpočet startuje na <span class="signal">30 000 Kč / měsíc</span>, abychom měli statisticky relevantní data pro testování. Pod tuto hranici typicky nedoporučujeme začínat, výsledky by byly nečitelné.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q">
+          <span class="num">Q.03</span>
+          <span>Zahrnuje spolupráce i tvorbu obsahu?</span>
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            Ano. Kreativy, statické vizuály, karusely i video formáty děláme in-house s podporou AI nástrojů. Pracujeme s tvým brand voicem a vizuálním systémem, ne proti nim.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q">
+          <span class="num">Q.04</span>
+          <span>Jak probíhá onboarding?</span>
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            První týden: briefing, audit přístupů, tracking stack, sdílené dokumenty. Druhý týden: hluboká analýza účtu, konkurence a unit economics. Třetí: setup kampaní a kreativ. Detail najdeš v sekci <span class="signal">Proces.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q">
+          <span class="num">Q.05</span>
+          <span>Jak reportujete výsledky?</span>
+          <span class="plus">+</span>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">
+            Týdenní krátký report v Loomu nebo Slacku + měsíční reportingový dashboard s KPI, do kterého máš přístup <span class="signal">24 / 7.</span> Žádné 30stránkové PDF, které nikdo nečte.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     KONTAKT
+============================================================ -->
+<section class="section-pad" id="kontakt" style="background:var(--ink-2)">
+  <div class="container">
+
+    <div class="contact-grid">
+      <div class="contact-left">
+        <span class="label reveal">
+          <span class="num">07</span><span class="dot"> / </span>Kontakt
+        </span>
+        <h2 class="display reveal" style="margin-top:24px">
+          Napiš<br>do <span class="signal">DM.</span>
+        </h2>
+        <p class="lead reveal">
+          Stručný brief stačí. Pošli firmu, rozpočet a co řešíš.
+          Vrátíme ti návrh, jak na to bychom šli my.
+          <span style="color:var(--paper);display:block;margin-top:12px"><strong>Odpovíme do 24 hodin.</strong></span>
+        </p>
+
+        <div class="contact-info reveal">
+          <div class="contact-info-row">
+            <span class="k">Instagram</span>
+            <a class="v" href="https://instagram.com/hamrlabs" target="_blank" rel="noopener">@hamrlabs ↗</a>
+          </div>
+          <div class="contact-info-row">
+            <span class="k">Facebook</span>
+            <a class="v" href="https://facebook.com/HamrLabs" target="_blank" rel="noopener">/HamrLabs ↗</a>
+          </div>
+          <div class="contact-info-row">
+            <span class="k">Response time</span>
+            <span class="v">&lt; 24 h</span>
+          </div>
+          <div class="contact-info-row">
+            <span class="k">Status</span>
+            <span class="v" style="color:var(--signal)">Bereme klienty</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="form reveal" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Jméno <span class="req">*</span></label>
+            <input id="name" name="name" type="text" placeholder="Jan Novák" required>
+          </div>
+          <div class="field">
+            <label for="company">Firma</label>
+            <input id="company" name="company" type="text" placeholder="Hamr Labs s.r.o.">
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">E-mail <span class="req">*</span></label>
+          <input id="email" name="email" type="email" placeholder="jan@firma.cz" required>
+        </div>
+        <div class="field">
+          <label for="interest">Zájem o</label>
+          <select id="interest" name="interest">
+            <option>Meta Ads</option>
+            <option>Lead Generation</option>
+            <option>AI Obsah</option>
+            <option>Kompletní spolupráce</option>
+            <option>Audit Meta účtu</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="budget">Mediální rozpočet / měsíc</label>
+          <select id="budget" name="budget">
+            <option>30 až 60 tisíc Kč</option>
+            <option>60 až 150 tisíc Kč</option>
+            <option>150 až 300 tisíc Kč</option>
+            <option>300+ tisíc Kč</option>
+            <option>Nevím / poradíte</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Zpráva</label>
+          <textarea id="message" name="message" placeholder="Pár vět o tom, co řešíš."></textarea>
+        </div>
+        <button type="submit" class="btn btn-signal form-submit magnetic">
+          Odeslat brief <span class="arrow">→</span>
+        </button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <span class="brand-mark">HL</span>
+          <span>Hamr / Labs</span>
+        </div>
+        <p>Performance marketing podnik. Reklamy, lead generation, AI obsah pro firmy, které měří všechno.</p>
+        <div class="badges">
+          <span class="badge">Meta Business Partner</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Web</h5>
+        <ul>
+          <li><a href="#sluzby">Služby</a></li>
+          <li><a href="#proces">Proces</a></li>
+          <li><a href="#o-nas">Lab</a></li>
+          <li><a href="#pripadovky">Případovky</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Social</h5>
+        <ul>
+          <li><a href="https://instagram.com/hamrlabs" target="_blank" rel="noopener">Instagram ↗</a></li>
+          <li><a href="https://facebook.com/HamrLabs" target="_blank" rel="noopener">Facebook ↗</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Kontakt</h5>
+        <ul>
+          <li>Česká republika</li>
+          <li>&lt; 24 h response</li>
+          <li><a href="#kontakt">Napsat brief →</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-wordmark" aria-hidden="true">HAMR<span class="signal">/</span>LABS</div>
+
+    <div class="footer-meta">
+      <span>© 2026 Hamr Labs / Česká republika</span>
+      <span>Brand v2.0 / 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(hover: none) or (pointer: coarse)').matches;
+
+  requestAnimationFrame(() => document.body.classList.add('loaded'));
+
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Drawer
+  const drawer = document.getElementById('drawer');
+  const menuToggle = document.getElementById('menuToggle');
+  const drawerClose = document.getElementById('drawerClose');
+  const openDrawer = () => { drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); menuToggle.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
+  const closeDrawer = () => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); menuToggle.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+  menuToggle.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+  // Custom cursor (desktop only)
+  if (!isTouch && !reduced){
+    const cursor = document.getElementById('cursor');
+    cursor.style.display = 'block';
+    let mx = -100, my = -100, cx = -100, cy = -100;
+    document.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; }, {passive:true});
+    const loop = () => {
+      cx += (mx - cx) * 0.22;
+      cy += (my - cy) * 0.22;
+      cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+    document.querySelectorAll('a, button, .magnetic, input, select, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // Magnetic CTA
+    document.querySelectorAll('.magnetic').forEach(el => {
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - (r.left + r.width/2);
+        const y = e.clientY - (r.top + r.height/2);
+        el.style.transform = `translate(${x*0.15}px, ${y*0.25}px)`;
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+      });
+    });
+  }
+
+  // Reveal
+  if (!reduced) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = ((i % 6) * 0.05) + 's';
+      io.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+
+  // Counter
+  const easeOut = (t) => 1 - Math.pow(1 - t, 4);
+  const animateCount = (el) => {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const isFloat = !Number.isInteger(target);
+    const dur = 1400;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const v = easeOut(t) * target;
+      el.textContent = (isFloat ? v.toFixed(1) : Math.round(v)) + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if (!reduced) {
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { animateCount(e.target); cio.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+  } else {
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const t = parseFloat(el.dataset.count);
+      el.textContent = (Number.isInteger(t) ? t : t.toFixed(1)) + (el.dataset.suffix || '');
+    });
+  }
+
+  // Process progress bar
+  const steps = document.querySelectorAll('.process-step');
+  const progress = document.getElementById('processProgress');
+  if (steps.length && progress && !reduced){
+    const pio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.intersectionRatio > 0.4){
+          const idx = parseInt(e.target.dataset.step, 10);
+          progress.style.width = (idx * 25) + '%';
+          steps.forEach(s => s.querySelector('.process-week').classList.remove('active'));
+          e.target.querySelector('.process-week').classList.add('active');
+        }
+      });
+    }, { threshold: [0.4, 0.7] });
+    steps.forEach(s => pio.observe(s));
+  }
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const a = item.querySelector('.faq-a');
+      const open = item.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-item').forEach(it => {
+        it.setAttribute('aria-expanded','false');
+        it.querySelector('.faq-a').style.maxHeight = '0px';
+      });
+      if (!open) {
+        item.setAttribute('aria-expanded','true');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Form
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.form-submit');
+    const original = btn.innerHTML;
+    btn.classList.add('sent');
+    btn.innerHTML = 'Brief odeslán ✓';
+    setTimeout(() => {
+      btn.classList.remove('sent');
+      btn.innerHTML = original;
+      form.reset();
+    }, 2500);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+## Kontext
+
+Elegant Dog's Barber je psí salon v Brně. Klientela stabilní, ale akvizice nových rezervací stála hodně a Meta kampaně se chovaly chaoticky. Pixel viděl jen zlomek konverzí (potvrzení rezervace v rezervačním systému neumělo posílat event), takže algoritmus optimalizoval na čemkoliv, co dokázal změřit, ne na reálné rezervace.
+
+## Co jsme zkusili
+
+Začali jsme trackingem:
+
+- Setup pixelu + CAPI proti rezervačnímu systému
+- Custom event „booking_completed" se skutečnou hodnotou objednávky
+- Server-side události pro out-of-browser konverze (telefon, walk-in)
+
+Struktura kampaní se přestavěla podle nákupního cyklu — prospect, retarget, loyalty. Pro kreativu jsme natočili sérii before/after videí přímo v salonu, krátké formáty 9:16 pro Reels, statické 1:1 pro feed.
+
+## Výsledek
+
+Za 60 dní:
+
+- ROAS: 3,2× oproti baseline
+- Rezervace: +118 %
+- Account má teď čistý event flow a klient vidí každou rezervaci v reportingu
+
+Kampaně dnes běží na fixní budget, ale poměr nákladů k tržbě je výrazně lepší. Když se přidá rozpočet, ROAS drží, protože kreativy se rotují a struktura zvládá nový traffic bez kanibalizace.
+
+## Co to dokazuje
+
+Lokální služba není „too small for Meta". Když tracking vidí konverze a kreativy mluví o tom, co klient reálně dělá (před / po, atmosféra v salonu, lidé za značkou), kampaně škálují i v jednom městě. Důležitější než velký rozpočet je čistá data architektura — bez té by ani sto tisíc měsíčně nevyrobilo stabilní ROAS.

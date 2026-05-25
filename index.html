@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hamr Labs — Performance marketing s AI rychlostí</title>
+<meta name="description" content="Česká AI marketingová agentura. Meta Ads, lead generation, AI obsah a audit. CPL pokles o 64 % za 60 dní. Pracujeme s e-shopy a službami v ČR." />
+<meta property="og:title" content="Hamr Labs — Performance marketing s AI rychlostí" />
+<meta property="og:description" content="Meta Ads, lead generation, AI obsah a audit pro firmy, které měří všechno." />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="cs_CZ" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* ---------- Design Tokens ---------- */
+:root{
+  /* Color */
+  --ink:        #0F0F10;
+  --ink-2:      #1A1A1C;
+  --paper:      #FAFAF7;
+  --paper-2:    #F2F0EA;
+  --paper-3:    #E9E6DE;
+  --rule:       #DDD9CF;
+  --rule-2:     #C8C3B5;
+  --muted:      #6E6B65;
+  --muted-2:    #908C85;
+  --accent:     #FF4D2E;       /* vermilion — single accent */
+  --accent-ink: #1A0D08;
+  --accent-bg:  #FFE9E2;       /* warm tint for highlights */
+
+  /* Typography */
+  --font-display: 'Instrument Serif', 'Times New Roman', serif;
+  --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Scale */
+  --hero-display: clamp(56px, 9.5vw, 142px);
+  --h2:           clamp(40px, 5.5vw, 84px);
+  --h3:           clamp(22px, 2vw, 28px);
+  --body:         17px;
+  --lead:         clamp(19px, 1.5vw, 22px);
+
+  /* Layout */
+  --container:    1280px;
+  --gutter:       clamp(20px, 4vw, 48px);
+  --section-y:    clamp(80px, 12vw, 160px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans);font-size:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"ss01","ss02","cv11";overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:transparent;color:inherit;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+::selection{background:var(--accent);color:var(--paper)}
+
+/* ---------- Container ---------- */
+.container{max-width:var(--container);margin:0 auto;padding:0 var(--gutter);width:100%}
+.container-wide{max-width:1480px;margin:0 auto;padding:0 var(--gutter);width:100%}
+
+/* ---------- Typography Primitives ---------- */
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:500;
+}
+.eyebrow .num{color:var(--ink);font-weight:600;margin-right:6px}
+.eyebrow-bar{display:inline-flex;align-items:center;gap:14px}
+.eyebrow-bar::before{content:"";width:28px;height:1px;background:var(--ink)}
+
+h1,h2,h3,h4,h5,h6{margin:0;font-weight:400}
+h1.display, h2.display{
+  font-family:var(--font-display);
+  font-weight:400;
+  letter-spacing:-0.02em;
+  line-height:0.94;
+  font-feature-settings:"ss01";
+}
+h1.display{font-size:var(--hero-display)}
+h2.display{font-size:var(--h2);line-height:0.98}
+h3.section-h{font-family:var(--font-sans);font-size:var(--h3);font-weight:500;letter-spacing:-0.01em;line-height:1.2}
+
+.lead{font-size:var(--lead);color:var(--muted);line-height:1.5;max-width:62ch}
+.italic{font-style:italic;font-family:var(--font-display);font-weight:400}
+
+.accent{color:var(--accent)}
+.accent-marker{
+  background-image:linear-gradient(180deg, transparent 62%, var(--accent-bg) 62%);
+  background-repeat:no-repeat;
+  padding:0 0.05em;
+}
+
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-sans);font-size:15px;font-weight:500;letter-spacing:-0.005em;
+  padding:14px 22px;
+  border-radius:2px;
+  transition:transform .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+  white-space:nowrap;
+}
+.btn-primary{background:var(--ink);color:var(--paper);}
+.btn-primary:hover{background:var(--accent);color:var(--paper)}
+.btn-primary .arrow{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.btn-primary:hover .arrow{transform:translateX(4px)}
+.btn-secondary{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn-secondary:hover{background:var(--ink);color:var(--paper)}
+.btn-accent{background:var(--accent);color:var(--paper)}
+.btn-accent:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost{padding:8px 0;border-bottom:1px solid currentColor;border-radius:0}
+
+/* ---------- Navigation ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(250,250,247,0.85);
+  backdrop-filter:saturate(180%) blur(8px);
+  border-bottom:1px solid transparent;
+  transition:border-color .25s ease, background .25s ease;
+}
+.nav.scrolled{border-bottom-color:var(--rule);background:var(--paper)}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--gutter);
+  max-width:var(--container);margin:0 auto;
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-sans);font-weight:600;font-size:16px;letter-spacing:-0.01em}
+.brand-mark{
+  width:28px;height:28px;
+  background:var(--ink);color:var(--paper);
+  display:grid;place-items:center;
+  font-family:var(--font-mono);font-size:13px;font-weight:600;
+  border-radius:1px;
+}
+.nav-links{display:flex;gap:32px;align-items:center;font-size:14px;font-weight:500}
+.nav-links a{color:var(--ink);transition:color .15s ease;position:relative;padding:6px 0}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{margin-left:0}
+
+.menu-toggle{display:none;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid var(--ink);border-radius:2px}
+.menu-toggle span{display:block;width:18px;height:1.5px;background:var(--ink);position:relative}
+.menu-toggle span::before,.menu-toggle span::after{content:"";position:absolute;left:0;width:18px;height:1.5px;background:var(--ink);transition:transform .2s ease}
+.menu-toggle span::before{top:-6px}
+.menu-toggle span::after{top:6px}
+
+.drawer{
+  position:fixed;inset:0;background:var(--paper);
+  z-index:200;padding:24px var(--gutter);
+  transform:translateY(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+}
+.drawer.open{transform:translateY(0)}
+.drawer-top{display:flex;align-items:center;justify-content:space-between}
+.drawer-close{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--ink);border-radius:2px}
+.drawer-links{margin-top:auto;margin-bottom:auto;display:flex;flex-direction:column;gap:8px}
+.drawer-links a{font-family:var(--font-display);font-size:48px;line-height:1;letter-spacing:-0.02em}
+.drawer-links a:hover{color:var(--accent)}
+.drawer-foot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted);font-family:var(--font-mono)}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:calc(var(--section-y) + 60px) 0 var(--section-y);
+  position:relative;
+  border-bottom:1px solid var(--rule);
+}
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:48px;
+  align-items:end;
+}
+.hero-eyebrow{margin-bottom:36px}
+.hero-headline{
+  margin-bottom:32px;
+  max-width:18ch;
+}
+.hero-headline .line-2{display:block;color:var(--muted)}
+.hero-headline .strike{
+  position:relative;display:inline-block;
+}
+.hero-headline .strike::after{
+  content:"";position:absolute;
+  left:-2px;right:-2px;top:54%;height:6px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform 1s cubic-bezier(.65,0,.35,1) .8s;
+}
+.loaded .hero-headline .strike::after{transform:scaleX(1)}
+.hero-lead{margin-bottom:40px;max-width:54ch}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:0}
+
+.hero-meta{
+  margin-top:80px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr) auto;
+  gap:48px;
+  align-items:start;
+  padding-top:36px;
+  border-top:1px solid var(--rule);
+}
+.metric{display:flex;flex-direction:column;gap:6px}
+.metric-num{
+  font-family:var(--font-mono);
+  font-size:clamp(40px, 5.5vw, 64px);
+  font-weight:500;
+  line-height:1;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+}
+.metric-num .sup{font-size:0.5em;vertical-align:super;color:var(--muted);margin-left:2px}
+.metric-label{font-size:13px;color:var(--muted);max-width:18ch;line-height:1.4}
+
+.live-card{
+  border:1px solid var(--rule);
+  padding:24px;
+  background:var(--paper);
+  display:flex;flex-direction:column;gap:14px;
+  min-width:260px;
+}
+.live-card-head{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted)}
+.live-dot{display:inline-flex;align-items:center;gap:8px;color:var(--ink)}
+.live-dot::before{content:"";width:8px;height:8px;background:var(--accent);border-radius:50%;animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(0.85)}}
+.live-card-rows{display:flex;flex-direction:column;gap:10px;font-family:var(--font-mono);font-size:13px}
+.live-card-row{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:10px;border-bottom:1px dashed var(--rule)}
+.live-card-row:last-child{border-bottom:0;padding-bottom:0}
+.live-card-row .v{font-size:18px;font-weight:600;color:var(--ink)}
+.live-card-row .v.up{color:var(--accent)}
+
+/* ---------- Marquee divider ---------- */
+.marquee{
+  border-bottom:1px solid var(--rule);
+  padding:18px 0;
+  overflow:hidden;
+}
+.marquee-track{
+  display:flex;gap:60px;
+  white-space:nowrap;
+  font-family:var(--font-display);font-size:32px;letter-spacing:-0.01em;
+  animation:marq 38s linear infinite;
+  color:var(--ink);
+}
+.marquee-track .dot{color:var(--accent)}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- Section structure ---------- */
+section{position:relative}
+.section-pad{padding:var(--section-y) 0}
+.section-head{
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:48px;
+  align-items:end;
+  margin-bottom:80px;
+}
+.section-head .eyebrow{margin-bottom:24px}
+.section-head .lead{margin-top:24px}
+
+/* ---------- Services (2x2 editorial grid) ---------- */
+.services-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--rule);
+  border-left:1px solid var(--rule);
+}
+.service{
+  padding:48px 40px 40px;
+  border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:24px;
+  position:relative;
+  transition:background .25s ease;
+}
+.service:hover{background:var(--paper-2)}
+.service:hover .service-num{color:var(--accent)}
+.service-num{
+  font-family:var(--font-mono);font-size:13px;font-weight:500;color:var(--muted);
+  letter-spacing:0.06em;
+  transition:color .25s ease;
+}
+.service-name{font-family:var(--font-display);font-size:clamp(34px, 4vw, 52px);line-height:1;letter-spacing:-0.015em}
+.service-desc{color:var(--muted);max-width:46ch;font-size:16px;line-height:1.55}
+.service-tag{
+  margin-top:auto;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);
+  padding-top:24px;border-top:1px solid var(--rule);
+  align-self:flex-start;width:100%;
+  justify-content:space-between;
+}
+.service-tag .label{color:var(--muted)}
+
+/* ---------- Process (timeline) ---------- */
+.process-grid{
+  display:grid;grid-template-columns:repeat(4, 1fr);
+  gap:0;
+  border-top:1px solid var(--rule);
+}
+.process-step{
+  padding:48px 28px 40px 0;
+  display:flex;flex-direction:column;gap:20px;
+  border-right:1px solid var(--rule);
+  position:relative;
+}
+.process-step:last-child{border-right:0}
+.process-step::before{
+  content:"";position:absolute;top:-1px;left:0;
+  width:0;height:2px;background:var(--accent);
+  transition:width .5s ease;
+}
+.process-step.active::before{width:60%}
+.process-week{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.process-step.active .process-week{color:var(--accent)}
+.process-step:not(:first-child){padding-left:28px}
+.process-name{font-family:var(--font-display);font-size:clamp(30px, 3vw, 44px);line-height:0.98;letter-spacing:-0.02em}
+.process-desc{color:var(--muted);font-size:15px;line-height:1.55;max-width:30ch}
+.process-list{list-style:none;padding:0;margin:auto 0 0;display:flex;flex-direction:column;gap:6px;font-size:13px;font-family:var(--font-mono);color:var(--ink)}
+.process-list li{display:flex;align-items:baseline;gap:10px;padding:4px 0;border-bottom:1px dashed var(--rule)}
+.process-list li:last-child{border-bottom:0}
+.process-list li::before{content:"→";color:var(--muted);font-family:var(--font-sans)}
+
+/* ---------- About ---------- */
+.about{background:var(--paper-2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.pillars{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+.pillar{
+  padding:32px 0;border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:auto 1fr;gap:32px;
+}
+.pillar-num{font-family:var(--font-mono);font-size:13px;color:var(--muted);font-weight:500;padding-top:6px}
+.pillar-name{font-family:var(--font-display);font-size:clamp(26px, 2.6vw, 36px);line-height:1.05;letter-spacing:-0.02em;margin-bottom:10px}
+.pillar-desc{color:var(--muted);max-width:42ch}
+.about-side{display:flex;flex-direction:column;gap:32px}
+.mascot{
+  border:1px solid var(--ink);padding:24px;background:var(--paper);
+  display:flex;gap:20px;align-items:flex-start;
+}
+.mascot-icon{
+  width:48px;height:48px;background:var(--ink);color:var(--paper);
+  display:grid;place-items:center;border-radius:50%;
+  font-family:var(--font-mono);font-size:14px;font-weight:600;flex-shrink:0;
+}
+.mascot-content h4{font-family:var(--font-mono);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px}
+.mascot-content .sub{font-size:15px;color:var(--ink);margin-bottom:8px;font-weight:500}
+.mascot-content .desc{font-size:14px;color:var(--muted);line-height:1.55}
+.about-copy p{margin:0 0 18px;font-size:17px;line-height:1.6;color:var(--ink)}
+.about-copy p:last-child{margin-bottom:0}
+.pullquote{
+  margin:40px 0;padding:24px 0;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  font-family:var(--font-display);font-size:clamp(24px, 2.4vw, 34px);line-height:1.2;letter-spacing:-0.02em;
+}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.badge{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--rule-2);border-radius:2px;color:var(--ink);
+}
+.badge.solid{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ---------- Case studies (DARK section for contrast) ---------- */
+.cases{background:var(--ink);color:var(--paper)}
+.cases .eyebrow{color:var(--muted-2)}
+.cases .eyebrow .num{color:var(--paper)}
+.cases .eyebrow-bar::before{background:var(--paper)}
+.cases .lead{color:var(--muted-2)}
+.cases-list{
+  border-top:1px solid #2A2A2C;
+}
+.case{
+  display:grid;grid-template-columns:120px 1fr 1fr 200px;gap:48px;
+  padding:40px 0;
+  border-bottom:1px solid #2A2A2C;
+  align-items:center;
+  transition:background .25s ease;
+}
+.case:hover{background:#15151700}
+.case-num{font-family:var(--font-mono);font-size:13px;color:var(--muted-2);letter-spacing:0.06em}
+.case-name{font-family:var(--font-display);font-size:clamp(28px, 3vw, 42px);line-height:1;letter-spacing:-0.02em}
+.case-name .tag{display:block;font-family:var(--font-mono);font-size:12px;color:var(--muted-2);letter-spacing:0.08em;text-transform:uppercase;margin-top:8px;font-weight:400;font-style:normal}
+.case-desc{color:var(--muted-2);font-size:15px;line-height:1.55;max-width:42ch}
+.case-result{text-align:right}
+.case-result-num{font-family:var(--font-mono);font-size:clamp(32px, 3.8vw, 48px);font-weight:500;line-height:1;color:var(--accent);letter-spacing:-0.02em}
+.case-result-label{font-size:11px;font-family:var(--font-mono);letter-spacing:0.06em;text-transform:uppercase;color:var(--muted-2);margin-top:8px}
+
+/* ---------- FAQ ---------- */
+.faq-list{border-top:1px solid var(--rule)}
+.faq-item{border-bottom:1px solid var(--rule)}
+.faq-q{
+  width:100%;text-align:left;
+  padding:28px 0;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:24px;
+  font-family:var(--font-display);font-size:clamp(22px, 2vw, 30px);line-height:1.2;letter-spacing:-0.015em;
+  color:var(--ink);
+  transition:color .15s ease;
+}
+.faq-q:hover{color:var(--accent)}
+.faq-chev{font-family:var(--font-mono);font-size:14px;flex-shrink:0;transition:transform .3s ease;color:var(--muted);margin-top:6px}
+.faq-item[aria-expanded="true"] .faq-chev{transform:rotate(45deg);color:var(--accent)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--muted);font-size:17px;line-height:1.6}
+.faq-a-inner{padding:0 0 28px;max-width:64ch}
+
+/* ---------- Contact ---------- */
+.contact{background:var(--paper-2);border-top:1px solid var(--rule)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.contact-left h2{margin-bottom:24px}
+.contact-left .lead{margin-bottom:32px}
+.contact-info{display:flex;flex-direction:column;gap:18px;padding-top:24px;border-top:1px solid var(--rule)}
+.contact-info-row{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:8px 0}
+.contact-info-row .k{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.contact-info-row .v{font-size:16px;color:var(--ink)}
+.contact-info-row .v a:hover{color:var(--accent)}
+
+.form{display:flex;flex-direction:column;gap:18px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field label{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.field input, .field select, .field textarea{
+  background:var(--paper);
+  border:1px solid var(--rule);
+  border-radius:2px;
+  padding:14px 16px;
+  font-size:15px;
+  color:var(--ink);
+  transition:border-color .18s ease, background .18s ease;
+}
+.field textarea{resize:vertical;min-height:120px;font-family:var(--font-sans)}
+.field input:focus, .field select:focus, .field textarea:focus{outline:none;border-color:var(--ink)}
+.field input::placeholder, .field textarea::placeholder{color:var(--muted-2)}
+.form-submit{margin-top:6px;align-self:flex-start}
+.form-submit.sent{background:var(--accent);pointer-events:none}
+
+/* ---------- Footer ---------- */
+.footer{background:var(--ink);color:var(--paper);padding:80px 0 32px}
+.footer .eyebrow{color:var(--muted-2)}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+  padding-bottom:64px;border-bottom:1px solid #2A2A2C;
+}
+.footer-brand{display:flex;flex-direction:column;gap:18px;max-width:36ch}
+.footer-brand .brand-mark{background:var(--paper);color:var(--ink)}
+.footer-brand p{color:var(--muted-2);font-size:15px;line-height:1.55;margin:0}
+.footer-col h5{font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted-2);margin-bottom:18px;font-weight:500}
+.footer-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-size:15px}
+.footer-col a:hover{color:var(--accent)}
+.footer-meta{display:flex;justify-content:space-between;align-items:center;padding-top:32px;font-family:var(--font-mono);font-size:12px;letter-spacing:0.04em;color:var(--muted-2)}
+.footer-mark{
+  font-family:var(--font-display);font-size:clamp(80px, 16vw, 220px);
+  letter-spacing:-0.04em;line-height:0.85;
+  color:var(--paper);
+  margin:40px 0 -10px;
+  padding-top:32px;border-top:1px solid #2A2A2C;
+}
+
+/* ---------- Reveal animation ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px){
+  .hero-meta{grid-template-columns:1fr 1fr;gap:32px}
+  .live-card{grid-column:1/-1;margin-top:24px}
+  .services-grid{grid-template-columns:1fr}
+  .service{border-right:0}
+  .process-grid{grid-template-columns:1fr 1fr;gap:0}
+  .process-step{border-right:0;border-bottom:1px solid var(--rule);padding:32px 0}
+  .process-step:nth-child(odd){padding-right:24px;border-right:1px solid var(--rule)}
+  .process-step:nth-child(even){padding-left:24px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .case{grid-template-columns:60px 1fr 140px;gap:24px}
+  .case-desc{grid-column:2/4;grid-row:2;margin-top:-8px}
+  .contact-grid{grid-template-columns:1fr;gap:48px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .footer-brand{grid-column:1/-1}
+  .section-head{grid-template-columns:1fr;gap:16px}
+}
+@media (max-width: 640px){
+  .nav-links{display:none}
+  .menu-toggle{display:flex}
+  .nav-cta{display:none}
+  .hero-meta{grid-template-columns:1fr;gap:24px}
+  .hero-ctas .btn{flex:1;justify-content:center}
+  .process-grid{grid-template-columns:1fr}
+  .process-step{border-right:0!important;padding:32px 0!important}
+  .case{grid-template-columns:1fr;gap:12px;padding:32px 0}
+  .case-result{text-align:left}
+  .case-desc{grid-column:auto;grid-row:auto;margin-top:0}
+  .form-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-meta{flex-direction:column;gap:12px;text-align:center}
+  .drawer-links a{font-size:36px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="Hamr Labs domů">
+      <span class="brand-mark">HL</span>
+      <span>Hamr Labs</span>
+    </a>
+    <nav class="nav-links" aria-label="Hlavní navigace">
+      <a href="#sluzby">Služby</a>
+      <a href="#proces">Proces</a>
+      <a href="#o-nas">O nás</a>
+      <a href="#pripadovky">Případovky</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#kontakt" class="btn btn-accent nav-cta">Kontakt</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="drawer">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-top">
+    <a href="#top" class="brand">
+      <span class="brand-mark">HL</span>
+      <span>Hamr Labs</span>
+    </a>
+    <button class="drawer-close" id="drawerClose" aria-label="Zavřít menu">✕</button>
+  </div>
+  <nav class="drawer-links" aria-label="Mobilní navigace">
+    <a href="#sluzby">Služby</a>
+    <a href="#proces">Proces</a>
+    <a href="#o-nas">O nás</a>
+    <a href="#pripadovky">Případovky</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontakt" class="accent">Kontakt →</a>
+  </nav>
+  <div class="drawer-foot">
+    <span>Hamr Labs · 2026</span>
+    <span>Česká republika</span>
+  </div>
+</aside>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow eyebrow-bar reveal">
+      <span class="eyebrow">AI marketing agency · Česká republika</span>
+    </div>
+
+    <h1 class="display hero-headline reveal">
+      Přivedeme ti
+      zákazníky.
+      <span class="line-2">Ne jen <span class="strike">lajky.</span></span>
+    </h1>
+
+    <p class="lead hero-lead reveal">
+      Meta reklamy, lead generation a AI obsah pro firmy, které chtějí výsledky —
+      ne omáčku.
+    </p>
+
+    <div class="hero-ctas reveal">
+      <a href="#kontakt" class="btn btn-primary">
+        Chci výsledky <span class="arrow">→</span>
+      </a>
+      <a href="#pripadovky" class="btn btn-secondary">Ukázky práce</a>
+    </div>
+
+    <div class="hero-meta reveal">
+      <div class="metric">
+        <span class="metric-num"><span class="sup">−</span><span data-count="64">0</span><span class="sup">%</span></span>
+        <span class="metric-label">Průměrný pokles CPL u našich klientů</span>
+      </div>
+      <div class="metric">
+        <span class="metric-num"><span data-count="60">0</span> dní</span>
+        <span class="metric-label">Do prvních měřitelných výsledků</span>
+      </div>
+      <div class="metric">
+        <span class="metric-num"><span data-count="3" data-suffix="×">0</span></span>
+        <span class="metric-label">Průměrné ROAS po 90 dnech</span>
+      </div>
+
+      <div class="live-card">
+        <div class="live-card-head">
+          <span class="live-dot">Live výsledky</span>
+          <span>Q1 / 26</span>
+        </div>
+        <div class="live-card-rows">
+          <div class="live-card-row">
+            <span>CPL pokles · 60 dní</span>
+            <span class="v">−64 %</span>
+          </div>
+          <div class="live-card-row">
+            <span>ROAS Q1</span>
+            <span class="v">3.2×</span>
+          </div>
+          <div class="live-card-row">
+            <span>Leads / měsíc</span>
+            <span class="v up">+184 %</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MARQUEE ===================== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Meta Ads</span><span class="dot">·</span>
+    <span>Lead Generation</span><span class="dot">·</span>
+    <span>AI Obsah</span><span class="dot">·</span>
+    <span>Performance Marketing</span><span class="dot">·</span>
+    <span>Audit & Strategie</span><span class="dot">·</span>
+    <span>Hamr Labs</span><span class="dot">·</span>
+    <span>Meta Ads</span><span class="dot">·</span>
+    <span>Lead Generation</span><span class="dot">·</span>
+    <span>AI Obsah</span><span class="dot">·</span>
+    <span>Performance Marketing</span><span class="dot">·</span>
+    <span>Audit & Strategie</span><span class="dot">·</span>
+    <span>Hamr Labs</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- ===================== SLUŽBY ===================== -->
+<section class="section-pad" id="sluzby">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-bar"><span class="eyebrow"><span class="num">01</span> Co děláme</span></div>
+        <h2 class="display section-h2" style="margin-top:24px">Naše služby.</h2>
+      </div>
+      <p class="lead reveal">
+        Čtyři disciplíny. Jeden cíl — <em class="italic">měřitelný růst.</em>
+        Žádné měsíční reporty, kde se hraje na barvičky.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <article class="service reveal">
+        <div class="service-num">01</div>
+        <h3 class="service-name">Meta Ads</h3>
+        <p class="service-desc">Kampaně na Facebooku a Instagramu od struktury přes kreativy až po škálování. Pixel, server-side události, tracking od piky.</p>
+        <div class="service-tag">
+          <span class="label">Disciplína</span>
+          <span>Performance</span>
+        </div>
+      </article>
+
+      <article class="service reveal">
+        <div class="service-num">02</div>
+        <h3 class="service-name">Lead Generation</h3>
+        <p class="service-desc">Systémy na získávání kvalifikovaných leadů. Data místo dojmů. CRM napojení, scoring, follow-up workflow.</p>
+        <div class="service-tag">
+          <span class="label">Disciplína</span>
+          <span>Pipeline</span>
+        </div>
+      </article>
+
+      <article class="service reveal">
+        <div class="service-num">03</div>
+        <h3 class="service-name">AI Obsah</h3>
+        <p class="service-desc">Kreativy, karusely, copy a videa s AI — rychleji, s přesným brand hlasem. Lidská kontrola, ne autopilot.</p>
+        <div class="service-tag">
+          <span class="label">Disciplína</span>
+          <span>Creative</span>
+        </div>
+      </article>
+
+      <article class="service reveal">
+        <div class="service-num">04</div>
+        <h3 class="service-name">Audit & Strategie</h3>
+        <p class="service-desc">Kompletní audit Meta účtu. Najdeme co nefunguje, navrhneme co bude. PDF report + 60min walk-through.</p>
+        <div class="service-tag">
+          <span class="label">Disciplína</span>
+          <span>Strategy</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCES ===================== -->
+<section class="section-pad" id="proces" style="background:var(--paper-2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-bar"><span class="eyebrow"><span class="num">02</span> Proces</span></div>
+        <h2 class="display section-h2" style="margin-top:24px">Jak pracujeme.</h2>
+      </div>
+      <p class="lead reveal">
+        Čtyři týdny od podpisu k prvním optimalizovaným kampaním.
+        <em class="italic">Žádný kouř, žádné PowerPointy navíc.</em>
+      </p>
+    </div>
+
+    <div class="process-grid">
+      <article class="process-step reveal" data-step="1">
+        <span class="process-week">Týden 01</span>
+        <h3 class="process-name">Onboarding</h3>
+        <p class="process-desc">Briefing, přístupy do Business Manageru, nastavení projektu a komunikačních kanálů. Definujeme očekávání a KPI.</p>
+        <ul class="process-list">
+          <li>Onboarding call (60 min)</li>
+          <li>Audit přístupů a domén</li>
+          <li>Setup tracking stacku</li>
+          <li>Brand & tone přehled</li>
+        </ul>
+      </article>
+
+      <article class="process-step reveal" data-step="2">
+        <span class="process-week">Týden 02</span>
+        <h3 class="process-name">Průzkum</h3>
+        <p class="process-desc">Analýza účtu, konkurence a unit economics. Vychází z čísel, ne z domněnek. Výstupem je strategická mapa.</p>
+        <ul class="process-list">
+          <li>Account audit (12 měsíců)</li>
+          <li>Competitor benchmark</li>
+          <li>Unit economics & LTV</li>
+          <li>Strategy deck</li>
+        </ul>
+      </article>
+
+      <article class="process-step reveal" data-step="3">
+        <span class="process-week">Týden 03</span>
+        <h3 class="process-name">Setup</h3>
+        <p class="process-desc">Tvorba kreativ, nastavení kampaní, tracking a server-side události. Vše napojené, vše měřené, vše připravené k testování.</p>
+        <ul class="process-list">
+          <li>Kreativy & varianty</li>
+          <li>Kampaně + audiences</li>
+          <li>Pixel + CAPI</li>
+          <li>Reporting dashboard</li>
+        </ul>
+      </article>
+
+      <article class="process-step reveal" data-step="4">
+        <span class="process-week">Týden 04+</span>
+        <h3 class="process-name">Výsledky</h3>
+        <p class="process-desc">Reporty, weekly optimalizace, škálování vítězných kreativ a struktur. Tým je v Slacku — odpovídáme v hodinách, ne dnech.</p>
+        <ul class="process-list">
+          <li>Weekly call & report</li>
+          <li>Creative refresh</li>
+          <li>Škálování vítězů</li>
+          <li>Slack support</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== O NÁS ===================== -->
+<section class="section-pad about" id="o-nas">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-bar"><span class="eyebrow"><span class="num">03</span> O nás</span></div>
+        <h2 class="display section-h2" style="margin-top:24px">Hamr Labs.</h2>
+      </div>
+      <p class="lead reveal">
+        Malý tým performance marketérů a inženýrů, kteří uvěřili, že AI nezmění marketing tím,
+        že nahradí lidi — ale tím, že kvalitní práci umožní dělat <em class="italic">rychleji a transparentněji.</em>
+      </p>
+    </div>
+
+    <div class="about-grid">
+      <div class="pillars reveal">
+        <article class="pillar">
+          <span class="pillar-num">01</span>
+          <div>
+            <h3 class="pillar-name">Přímý, ne drzý.</h3>
+            <p class="pillar-desc">Říkáme co si myslíme. Čísla, ne vzduch. Když něco nefunguje, řekneme to první.</p>
+          </div>
+        </article>
+        <article class="pillar">
+          <span class="pillar-num">02</span>
+          <div>
+            <h3 class="pillar-name">Technologický, ne technický.</h3>
+            <p class="pillar-desc">AI a data používáme k zjednodušení života klienta. Bez žargonu, bez vyhýbavých termínů.</p>
+          </div>
+        </article>
+        <article class="pillar">
+          <span class="pillar-num">03</span>
+          <div>
+            <h3 class="pillar-name">Sebejistý, ne nafoukaný.</h3>
+            <p class="pillar-desc">Výsledky mluví za sebe. Naše práce je dělat čísla — ne se prezentovat.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="about-side reveal">
+        <div class="about-copy">
+          <p>Pracujeme s e-shopy, službami a místními firmami v Česku. Bez „balíčků za 9 990 Kč", bez sklepových reportů, bez slibů, které nejdou splnit.</p>
+          <p>Vše, co děláme, je vidět v Business Manageru a v reportingu, ke kterému máte přístup <em class="italic">24 hodin denně.</em></p>
+        </div>
+
+        <blockquote class="pullquote">
+          „CPL kleslo o 64 %. Za 60 dní. Přestali jsme střílet naslepo."
+        </blockquote>
+
+        <div class="mascot">
+          <div class="mascot-icon">AI</div>
+          <div class="mascot-content">
+            <h4>HAMR.AI</h4>
+            <div class="sub">Náš interní asistent</div>
+            <div class="desc">Trénovaný na všech našich kampaních. Pomáhá nám hledat patterny, které člověk přehlédne.</div>
+          </div>
+        </div>
+
+        <div class="badges">
+          <span class="badge solid">Meta Business Partner</span>
+          <span class="badge">AI-Powered</span>
+          <span class="badge">Czech Republic</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PŘÍPADOVKY ===================== -->
+<section class="section-pad cases" id="pripadovky">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-bar"><span class="eyebrow"><span class="num">04</span> Případovky</span></div>
+        <h2 class="display section-h2" style="margin-top:24px;color:var(--paper)">Tři aktuální projekty.</h2>
+      </div>
+      <p class="lead reveal">
+        Bez vybarvených grafů a fiktivních metrik —
+        <em class="italic">všechno z Business Manageru.</em>
+      </p>
+    </div>
+
+    <div class="cases-list">
+      <article class="case reveal">
+        <span class="case-num">01</span>
+        <h3 class="case-name italic">Flach s.r.o.<span class="tag">Stavebnictví · Olomoucký kraj</span></h3>
+        <p class="case-desc">Rebuild Meta Ads kampaně. Nové kreativy, regionální targeting a tracking od piky. Klient přestal platit za leady mimo svozovou oblast.</p>
+        <div class="case-result">
+          <div class="case-result-num">−58 %</div>
+          <div class="case-result-label">Cost per lead · 90 dní</div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <span class="case-num">02</span>
+        <h3 class="case-name italic">Elegant Dog's Barber<span class="tag">Psí grooming · Brno</span></h3>
+        <p class="case-desc">Setup Pixelu, server-side události a struktura kampaní pro lokální službu. Z chaotické historie čistý profil, který škáluje.</p>
+        <div class="case-result">
+          <div class="case-result-num">+3.2×</div>
+          <div class="case-result-label">ROAS vs. baseline</div>
+        </div>
+      </article>
+
+      <article class="case reveal">
+        <span class="case-num">03</span>
+        <h3 class="case-name italic">Klub moderního psa<span class="tag">E-shop · ČR + SK</span></h3>
+        <p class="case-desc">AI audit, PDF report s konkrétními doporučeními a navazující Python/pandas analýza historických dat. Implementace v dalším sprintu.</p>
+        <div class="case-result">
+          <div class="case-result-num">+41 %</div>
+          <div class="case-result-label">Konverzní poměr e-shopu</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="section-pad" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div class="reveal">
+        <div class="eyebrow eyebrow-bar"><span class="eyebrow"><span class="num">05</span> FAQ</span></div>
+        <h2 class="display section-h2" style="margin-top:24px">Časté dotazy.</h2>
+      </div>
+      <p class="lead reveal">
+        Pět věcí, na které se ptá většina klientů ještě před prvním callem.
+        Pokud nenajdete odpověď, <em class="italic">napište nám do DM.</em>
+      </p>
+    </div>
+
+    <div class="faq-list reveal">
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-controls="faq-1">
+          <span>Jak rychle uvidíme výsledky?</span>
+          <span class="faq-chev">＋</span>
+        </button>
+        <div class="faq-a" id="faq-1">
+          <div class="faq-a-inner">
+            První signály z účtu typicky 7–14 dní po spuštění kampaní. Stabilní snížení CPL a růst ROAS pak v horizontu 30–60 dní, kdy už máme dostatek dat na optimalizaci a škálování vítězných kreativ.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-controls="faq-2">
+          <span>S jakým minimálním rozpočtem pracujete?</span>
+          <span class="faq-chev">＋</span>
+        </button>
+        <div class="faq-a" id="faq-2">
+          <div class="faq-a-inner">
+            Doporučený mediální rozpočet startuje na 30 000 Kč / měsíc, abychom měli statisticky relevantní data pro testování. Pod tuto hranici typicky nedoporučujeme začínat — výsledky by byly nečitelné.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-controls="faq-3">
+          <span>Zahrnuje spolupráce i tvorbu obsahu?</span>
+          <span class="faq-chev">＋</span>
+        </button>
+        <div class="faq-a" id="faq-3">
+          <div class="faq-a-inner">
+            Ano. Kreativy, statické vizuály, karusely i video formáty děláme in-house s podporou AI nástrojů. Pracujeme s vaším brand voicem a vizuálním systémem, ne proti nim.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-controls="faq-4">
+          <span>Jak probíhá onboarding?</span>
+          <span class="faq-chev">＋</span>
+        </button>
+        <div class="faq-a" id="faq-4">
+          <div class="faq-a-inner">
+            První týden: briefing, audit přístupů, nastavení tracking stacku a sdílených dokumentů. Druhý týden: hluboká analýza účtu, konkurence a unit economics. Třetí: setup kampaní a kreativ. Detail najdete v sekci „Jak pracujeme".
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item" aria-expanded="false">
+        <button class="faq-q" aria-controls="faq-5">
+          <span>Jak reportujete výsledky?</span>
+          <span class="faq-chev">＋</span>
+        </button>
+        <div class="faq-a" id="faq-5">
+          <div class="faq-a-inner">
+            Týdenní krátký report v Loomu nebo Slacku + měsíční reportingový dashboard s KPI, do kterého máte přístup 24/7. Žádné 30stránkové PDF, které nikdo nečte.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KONTAKT ===================== -->
+<section class="section-pad contact" id="kontakt">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="eyebrow eyebrow-bar reveal"><span class="eyebrow"><span class="num">06</span> Kontakt</span></div>
+        <h2 class="display section-h2 reveal" style="margin-top:24px;margin-bottom:24px">
+          Napiš do DM.
+          <span style="color:var(--muted);display:block">Odpovíme do 24 hodin.</span>
+        </h2>
+        <p class="lead reveal">
+          Stručný brief stačí. Pošli firmu, rozpočet a co řešíš —
+          vrátíme ti návrh, jak na to bychom šli my.
+        </p>
+
+        <div class="contact-info reveal">
+          <div class="contact-info-row">
+            <span class="k">Instagram</span>
+            <span class="v"><a href="https://instagram.com/hamrlabs" target="_blank" rel="noopener">@hamrlabs ↗</a></span>
+          </div>
+          <div class="contact-info-row">
+            <span class="k">Facebook</span>
+            <span class="v"><a href="https://facebook.com/HamrLabs" target="_blank" rel="noopener">/HamrLabs ↗</a></span>
+          </div>
+          <div class="contact-info-row">
+            <span class="k">Response time</span>
+            <span class="v">&lt; 24 hodin</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="form reveal" id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Jméno *</label>
+            <input id="name" name="name" type="text" placeholder="Jan Novák" required>
+          </div>
+          <div class="field">
+            <label for="company">Firma</label>
+            <input id="company" name="company" type="text" placeholder="Hamr Labs s.r.o.">
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">E-mail *</label>
+          <input id="email" name="email" type="email" placeholder="jan@firma.cz" required>
+        </div>
+        <div class="field">
+          <label for="interest">Zájem o</label>
+          <select id="interest" name="interest">
+            <option>Meta Ads</option>
+            <option>Lead Generation</option>
+            <option>AI Obsah</option>
+            <option>Kompletní spolupráce</option>
+            <option>Audit Meta účtu</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Zpráva</label>
+          <textarea id="message" name="message" placeholder="Pár vět o tom, co řešíš a jaký je rozpočet."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary form-submit">
+          Odeslat zprávu <span class="arrow">→</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <span class="brand-mark">HL</span>
+          <span>Hamr Labs</span>
+        </div>
+        <p>AI marketing agentura. Meta Ads, lead generation a AI obsah pro firmy, které měří všechno.</p>
+        <div class="badges">
+          <span class="badge" style="border-color:#2A2A2C;color:var(--paper)">Meta Business Partner</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Web</h5>
+        <ul>
+          <li><a href="#sluzby">Služby</a></li>
+          <li><a href="#proces">Proces</a></li>
+          <li><a href="#pripadovky">Případovky</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Social</h5>
+        <ul>
+          <li><a href="https://instagram.com/hamrlabs" target="_blank" rel="noopener">Instagram ↗</a></li>
+          <li><a href="https://facebook.com/HamrLabs" target="_blank" rel="noopener">Facebook ↗</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Kontakt</h5>
+        <ul>
+          <li>Česká republika</li>
+          <li>&lt; 24 h response</li>
+          <li><a href="#kontakt">Napsat DM →</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-mark" aria-hidden="true">Hamr&nbsp;Labs</div>
+
+    <div class="footer-meta">
+      <span>© 2026 Hamr Labs · Česká republika</span>
+      <span>Brand v1.0 · 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Mark loaded for hero accent strike
+  requestAnimationFrame(() => document.body.classList.add('loaded'));
+
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Drawer
+  const drawer = document.getElementById('drawer');
+  const menuToggle = document.getElementById('menuToggle');
+  const drawerClose = document.getElementById('drawerClose');
+  const openDrawer = () => { drawer.classList.add('open'); drawer.setAttribute('aria-hidden','false'); menuToggle.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden'; };
+  const closeDrawer = () => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden','true'); menuToggle.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+  menuToggle.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+  // Reveal observer
+  if (!reduced) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = ((i % 6) * 0.06) + 's';
+      io.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+  }
+
+  // Counter animation
+  const easeOut = (t) => 1 - Math.pow(1 - t, 4);
+  const animateCount = (el) => {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const isFloat = !Number.isInteger(target);
+    const dur = 1400;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const v = easeOut(t) * target;
+      el.textContent = (isFloat ? v.toFixed(1) : Math.round(v)) + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if (!reduced) {
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { animateCount(e.target); cio.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+  } else {
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const t = parseFloat(el.dataset.count);
+      el.textContent = (Number.isInteger(t) ? t : t.toFixed(1)) + (el.dataset.suffix || '');
+    });
+  }
+
+  // Process step active
+  const steps = document.querySelectorAll('.process-step');
+  if (steps.length && !reduced) {
+    const pio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.intersectionRatio > 0.4) {
+          steps.forEach(s => s.classList.remove('active'));
+          e.target.classList.add('active');
+        }
+      });
+    }, { threshold: [0.4, 0.7] });
+    steps.forEach(s => pio.observe(s));
+  }
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const a = item.querySelector('.faq-a');
+      const open = item.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-item').forEach(it => {
+        it.setAttribute('aria-expanded','false');
+        it.querySelector('.faq-a').style.maxHeight = '0px';
+      });
+      if (!open) {
+        item.setAttribute('aria-expanded','true');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // Form
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.form-submit');
+    const original = btn.innerHTML;
+    btn.classList.add('sent');
+    btn.innerHTML = 'Odesláno ✓';
+    setTimeout(() => {
+      btn.classList.remove('sent');
+      btn.innerHTML = original;
+      form.reset();
+    }, 2500);
+  });
+})();
+</script>
+</body>
+</html>
