@@ -3743,3 +3743,375 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* =====================================================
+   MOBILE RESPONSIVE PASS (≤ 768px)
+   ===================================================== */
+
+/* iOS quirks — body uses dynamic viewport + safe-area insets */
+@supports (height: 100dvh) {
+  body {
+    min-height: 100dvh;
+  }
+}
+
+/* Touch target floor — all interactive elements ≥ 44px on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  a.cta-button,
+  .nav-link,
+  .nav-drawer-link,
+  .funnel-switch-option,
+  .funnel-nav-button,
+  .carousel-arrow {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Global container — tighter side padding */
+  .container-ultra {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* iOS no-zoom — all text inputs must be ≥16px */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  /* ===== NAV PILL — mobile sizing ===== */
+  .nav-pill {
+    /* Stay full-width on mobile, no shrunk pill animation */
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-pill--scrolled {
+    max-width: 100%;
+    transform: none;
+    border-radius: 0;
+  }
+  .nav-pill__inner,
+  .nav-pill__inner--scrolled {
+    height: 60px;
+    padding: 0 16px;
+  }
+  .nav-logo {
+    padding: 4px 12px 4px 4px;
+    gap: 8px;
+  }
+  .nav-logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Drawer respects safe area inset top + bottom */
+  .nav-drawer {
+    top: 60px;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .nav-drawer__inner {
+    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+  }
+  .nav-drawer-link {
+    font-size: 20px;
+    padding: 14px 0;
+  }
+
+  /* ===== HERO ===== */
+  .hero-section {
+    padding-top: max(80px, env(safe-area-inset-top));
+    padding-bottom: 48px;
+    min-height: auto;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .hero-h1 {
+    font-size: clamp(40px, 10vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .hero-text-col-content {
+    padding-left: 16px;
+  }
+  /* Hide social sidebar on mobile — links live in footer */
+  .hero-social-sidebar {
+    display: none;
+  }
+  /* Live results card — slimmer padding, smaller min-height */
+  .live-results-card {
+    min-height: 420px;
+  }
+  /* Hero buttons stack full-width */
+  .hero-cta-row,
+  .hero-text-col-content .flex.flex-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .hero-text-col-content .flex.flex-wrap > a,
+  .hero-text-col-content .flex.flex-wrap > button {
+    width: 100%;
+  }
+  /* Giant bg text — smaller so it doesn't overflow horribly */
+  .bg-text-giant {
+    font-size: clamp(96px, 32vw, 200px) !important;
+    bottom: -3vw !important;
+    right: -4vw !important;
+  }
+
+  /* ===== SECTION DIVIDERS / PADDING ===== */
+  .section-pad {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  /* ===== SERVICES — single column ===== */
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  .service-item {
+    padding: 24px 20px;
+  }
+
+  /* ===== CASE STUDIES ===== */
+  .case-studies-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  .case-studies-h2 {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+  /* Hide carousel arrows — drag/swipe on touch */
+  .case-studies-arrows,
+  .carousel-arrow {
+    display: none;
+  }
+  /* Slides ~85% width with peek on right */
+  .carousel-slide {
+    flex: 0 0 85% !important;
+    min-width: 0;
+  }
+  .carousel-viewport {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .case-card {
+    padding: 20px;
+  }
+
+  /* Case modal — full-width with safe area */
+  .case-modal {
+    width: calc(100% - 24px);
+    max-height: calc(100dvh - 32px);
+    border-radius: 24px;
+    padding: 24px 20px;
+  }
+  .case-modal-stats {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  /* ===== PROCESS ===== */
+  .process-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+  .process-h2 {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+  /* Journey curve — kill aspect ratio so steps stack vertically */
+  .process-journey {
+    aspect-ratio: auto !important;
+    padding-bottom: 40px;
+  }
+  .process-journey-svg {
+    display: none;
+  }
+  .process-journey-content {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    text-align: left !important;
+  }
+  .process-journey-content:last-child {
+    border-bottom: none;
+  }
+  .process-journey-dot {
+    position: relative !important;
+    flex-shrink: 0;
+    margin: 0;
+  }
+  /* Trust bar stacks vertical */
+  .trust-bar {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+  .trust-bar-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* ===== ABOUT ===== */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px;
+  }
+  .about-h2 {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+  /* Photo collage — shrink + center */
+  .photo-collage {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  /* Stats 1-col stack on small mobile, 3-col stays workable down to 380px */
+  .about-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .about-stat-tile {
+    padding: 20px;
+  }
+  .about-stat-value {
+    font-size: 28px;
+  }
+  /* Badges wrap */
+  .about-badges {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ===== FAQ — single column ===== */
+  .faq-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+  .faq-h2 {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+  .faq-flip-card-wrapper,
+  .faq-screenshot-card {
+    min-height: 200px;
+  }
+  .faq-card-question {
+    font-size: 16px;
+  }
+  .faq-card-answer {
+    font-size: 14px;
+  }
+
+  /* ===== FOOTER CTA ===== */
+  .footer-cta h2,
+  footer h2 {
+    font-size: clamp(32px, 8vw, 48px) !important;
+  }
+  /* CTA buttons stack full-width */
+  footer .flex.flex-wrap.items-center.justify-center {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+  footer .flex.flex-wrap.items-center.justify-center > button {
+    width: 100%;
+  }
+  /* Footer columns stack — handled by md:grid-cols-3 already */
+
+  /* ===== FUNNEL MODAL ===== */
+  .funnel-backdrop {
+    padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    align-items: flex-start;
+  }
+  .funnel-container {
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 32px);
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+  .funnel-close {
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+  }
+  /* Switch — shorter labels could be needed, keep tight */
+  .funnel-switch {
+    margin-top: 4px;
+  }
+  .funnel-switch-option {
+    padding: 10px 12px;
+    font-size: 12px;
+    min-height: 44px;
+  }
+  /* Choice grids 1-col */
+  .funnel-step-choices,
+  .funnel-step-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+  /* Split layout (calendar step) — stack */
+  .funnel-step--split {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+  /* Calendar — slimmer slots */
+  .funnel-calendar-grid {
+    gap: 6px;
+  }
+  .funnel-calendar-slot {
+    padding: 10px 6px;
+    font-size: 13px;
+    min-height: 44px;
+  }
+  /* Nav buttons */
+  .funnel-nav {
+    gap: 8px;
+  }
+  .funnel-nav-button {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 13px;
+    min-height: 44px;
+  }
+  /* Success padding */
+  .funnel-success {
+    padding: 32px 16px;
+  }
+}
+
+/* Small phones (≤ 380px) — extra tight */
+@media (max-width: 380px) {
+  .container-ultra {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .hero-h1 {
+    font-size: clamp(36px, 11vw, 48px);
+  }
+  .nav-logo span {
+    font-size: 14px;
+  }
+}
+
