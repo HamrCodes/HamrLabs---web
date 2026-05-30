@@ -31,7 +31,7 @@ const sans = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hamrlabs.cz"),
   title: {
-    default: "Hamr Labs — AI marketing pro české firmy",
+    default: "Hamr Labs — Marketing nové generace",
     template: "%s — Hamr Labs",
   },
   description:
@@ -41,15 +41,15 @@ export const metadata: Metadata = {
     locale: "cs_CZ",
     url: "https://hamrlabs.cz",
     siteName: "Hamr Labs",
-    title: "Hamr Labs — AI marketing pro české firmy",
+    title: "Hamr Labs — Marketing nové generace",
     description:
       "Meta reklamy, lead generation a AI obsah pro firmy, které měří všechno.",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hamr Labs",
-    description: "AI marketing pro české firmy",
+    title: "Hamr Labs — Marketing nové generace",
+    description: "Marketing nové generace pro české firmy",
     images: ["/og.png"],
   },
   robots: {

@@ -441,7 +441,54 @@ body {
   background: rgba(255, 255, 255, 0.04);
 }
 
-/* Hamburger button (mobile) */
+/* Active section — live highlight as user scrolls */
+.nav-link--active {
+  color: var(--accent);
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(0, 240, 255, 0.25);
+}
+.nav-link--active:hover {
+  background: rgba(0, 240, 255, 0.12);
+}
+
+/* ===========================================
+   PRIMARY CTA — cyan fill (user override of CLAUDE.md 5.2)
+   =========================================== */
+.btn-primary-cyan {
+  background: var(--accent);
+  color: var(--bg);
+  border: 1px solid var(--accent);
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.18),
+    0 8px 24px -8px rgba(0, 240, 255, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.btn-primary-cyan:hover {
+  background: var(--bg);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 12px 32px -8px rgba(0, 240, 255, 0.4),
+    inset 0 0 0 1px rgba(0, 240, 255, 0.3);
+}
+.btn-primary-cyan:active {
+  transform: translateY(0);
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.55),
+    0 4px 12px -4px rgba(0, 240, 255, 0.4);
+}
+.btn-primary-cyan:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Hamburger button (mobile only) */
 .nav-hamburger {
   display: inline-flex;
   align-items: center;
@@ -459,6 +506,12 @@ body {
 .nav-hamburger:hover {
   border-color: var(--accent);
   background: rgba(255, 255, 255, 0.04);
+}
+
+@media (min-width: 768px) {
+  .nav-hamburger {
+    display: none;
+  }
 }
 
 /* ===========================================
@@ -517,6 +570,11 @@ body {
 
 .nav-drawer-link:hover {
   color: var(--accent);
+}
+
+.nav-drawer-link--active {
+  color: var(--accent);
+  border-bottom-color: rgba(0, 240, 255, 0.4);
 }
 
 .nav-drawer-cta {
@@ -1935,6 +1993,31 @@ body {
   border-color: rgba(0, 240, 255, 0.18);
 }
 
+/* Meta Business Partner official badge variant — white background for badge contrast */
+.photo-card-frame--meta {
+  background: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(8px, 1.6vw, 18px) clamp(12px, 2.2vw, 24px);
+}
+.photo-card:hover .photo-card-frame--meta {
+  border-color: rgba(0, 240, 255, 0.45);
+  box-shadow:
+    0 32px 80px -20px rgba(0, 0, 0, 0.7),
+    0 0 60px -20px var(--lg-shadow-glow),
+    inset 0 1px 1px var(--lg-inset-top);
+}
+.achievement-meta-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
 .photo-card:hover .photo-card-frame--glass {
   border-color: rgba(0, 240, 255, 0.4);
   background: linear-gradient(
@@ -2095,7 +2178,38 @@ body {
 .about-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Meta Business Partner official badge — white asset on dark page,
+   wrapped in a subtle rounded card so it sits naturally next to pills */
+.meta-partner-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 4px 14px -4px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.meta-partner-badge:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 18px -4px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(0, 240, 255, 0.4),
+    0 0 24px -6px rgba(0, 240, 255, 0.35);
+}
+.meta-partner-badge img {
+  height: 100%;
+  width: auto;
+  display: block;
+  object-fit: contain;
 }
 
 /* ============ About stats grid (4 liquid glass tiles) ============ */
@@ -2545,7 +2659,9 @@ body {
   width: 100%;
   max-width: 720px;
   max-height: 85vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   border-radius: 36px;
   background: linear-gradient(
     145deg,
@@ -2567,6 +2683,61 @@ body {
   transition:
     transform 500ms cubic-bezier(0.34, 1.4, 0.64, 1),
     opacity 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scrollable content wrapper — overflow lives here, not on .case-modal */
+.case-modal-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.case-modal-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.case-modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.case-modal-scroll::-webkit-scrollbar-thumb {
+  background: var(--rule-strong);
+  border-radius: 3px;
+}
+
+/* Sticky footer bar — always visible, full-width CTA */
+.case-modal-footer {
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 4;
+  padding: 16px clamp(24px, 4vw, 40px) clamp(20px, 3vw, 28px);
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0) 0%,
+    rgba(10, 10, 10, 0.85) 40%,
+    rgba(10, 10, 10, 0.95) 100%
+  );
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 -8px 24px -8px rgba(0, 0, 0, 0.4);
+}
+.case-modal-footer::before {
+  /* Subtle cyan glow on the top hairline */
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 240, 255, 0.4),
+    transparent
+  );
+  pointer-events: none;
 }
 
 .case-modal-backdrop--open .case-modal {
@@ -2593,16 +2764,7 @@ body {
   z-index: 1;
 }
 
-.case-modal::-webkit-scrollbar {
-  width: 6px;
-}
-.case-modal::-webkit-scrollbar-track {
-  background: transparent;
-}
-.case-modal::-webkit-scrollbar-thumb {
-  background: var(--rule-strong);
-  border-radius: 3px;
-}
+/* Legacy scrollbar rules — overflow moved to .case-modal-scroll, kept blank for diff clarity */
 
 /* Specular rim highlight (Apple signature) */
 .case-modal-rim {
@@ -2801,29 +2963,40 @@ body {
 }
 
 .case-modal-cta {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 28px;
-  width: fit-content;
+  width: 100%;
+  padding: 16px 28px;
   font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--bg);
-  background: var(--fg);
-  border: 1px solid var(--fg);
+  background: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: 999px;
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.18),
+    0 8px 24px -8px rgba(0, 240, 255, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   text-decoration: none;
 }
 
 .case-modal-cta:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 40px -8px var(--accent-glow);
+  background: var(--bg);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 12px 32px -8px rgba(0, 240, 255, 0.4),
+    inset 0 0 0 1px rgba(0, 240, 255, 0.3);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3804,6 +3977,8 @@ body {
   .nav-pill__inner--scrolled {
     height: 60px;
     padding: 0 16px;
+    /* Logo flushed left; hamburger floats centered via absolute position */
+    justify-content: flex-start;
   }
   .nav-logo {
     padding: 4px 12px 4px 4px;
@@ -3813,6 +3988,13 @@ body {
     width: 28px;
     height: 28px;
   }
+  /* Hamburger absolutely centered in nav bar */
+  .nav-hamburger {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   /* Drawer respects safe area inset top + bottom */
   .nav-drawer {
@@ -3820,49 +4002,88 @@ body {
     padding-bottom: env(safe-area-inset-bottom);
   }
   .nav-drawer__inner {
-    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+    padding: 32px 20px calc(24px + env(safe-area-inset-bottom));
+    align-items: center;
+  }
+  /* Drawer link list centered horizontally */
+  .nav-drawer__inner > .flex.flex-col {
+    width: 100%;
+    align-items: center;
   }
   .nav-drawer-link {
     font-size: 20px;
-    padding: 14px 0;
+    padding: 16px 0;
+    text-align: center;
+    width: 100%;
+  }
+  .nav-drawer-cta {
+    width: 100%;
+    max-width: 320px;
   }
 
-  /* ===== HERO ===== */
+  /* ===== HERO — mobile reorder (text → video → CTA) ===== */
   .hero-section {
-    padding-top: max(80px, env(safe-area-inset-top));
+    padding-top: max(24px, env(safe-area-inset-top));
     padding-bottom: 48px;
     min-height: auto;
   }
+  /* Flatten wrapper so children participate in hero-grid directly */
+  .hero-text-col,
+  .hero-text-col-content {
+    display: contents;
+  }
+  .hero-text-col-accent {
+    display: none;
+  }
+  /* Grid becomes a centered vertical column */
   .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+  /* Explicit ordering: eyebrow → h1 → subhead → video → CTA */
+  .hero-eyebrow {
+    order: 1;
   }
   .hero-h1 {
-    font-size: clamp(40px, 10vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
+    order: 2;
+    font-size: clamp(26px, 7vw, 38px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0;
   }
-  .hero-text-col-content {
-    padding-left: 16px;
+  .hero-subhead {
+    order: 3;
+    max-width: 420px;
+    margin: 0 auto;
+    font-size: 15px;
+  }
+  .live-results-card {
+    order: 4;
+    width: 100%;
+    min-height: 360px;
+    margin-top: 12px;
+  }
+  .hero-cta-row {
+    order: 5;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    margin-top: 4px;
+  }
+  .hero-cta-row > a,
+  .hero-cta-row > button {
+    width: 100%;
+  }
+  .hero-cta-row > a > button {
+    width: 100%;
   }
   /* Hide social sidebar on mobile — links live in footer */
   .hero-social-sidebar {
     display: none;
-  }
-  /* Live results card — slimmer padding, smaller min-height */
-  .live-results-card {
-    min-height: 420px;
-  }
-  /* Hero buttons stack full-width */
-  .hero-cta-row,
-  .hero-text-col-content .flex.flex-wrap {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .hero-text-col-content .flex.flex-wrap > a,
-  .hero-text-col-content .flex.flex-wrap > button {
-    width: 100%;
   }
   /* Giant bg text — smaller so it doesn't overflow horribly */
   .bg-text-giant {
@@ -3918,7 +4139,16 @@ body {
     width: calc(100% - 24px);
     max-height: calc(100dvh - 32px);
     border-radius: 24px;
+  }
+  .case-modal-content {
     padding: 24px 20px;
+  }
+  .case-modal-footer {
+    padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  }
+  .case-modal-cta {
+    padding: 14px 24px;
+    font-size: 12px;
   }
   .case-modal-stats {
     grid-template-columns: 1fr !important;
@@ -3933,32 +4163,121 @@ body {
   .process-h2 {
     font-size: clamp(32px, 8vw, 44px);
   }
-  /* Journey curve — kill aspect ratio so steps stack vertically */
+  /* Journey curve — kill aspect ratio so steps stack as glowing glass cards */
   .process-journey {
     aspect-ratio: auto !important;
-    padding-bottom: 40px;
+    padding-bottom: 0;
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px !important;
   }
   .process-journey-svg {
     display: none;
   }
-  .process-journey-content {
-    position: static !important;
+  /* Hide background watermark numbers — too busy in card layout */
+  .process-journey-number {
+    display: none;
+  }
+  /* Each step = liquid-glass card with cyan rim glow */
+  .process-journey-step {
+    position: relative !important;
     transform: none !important;
+    left: auto !important;
+    top: auto !important;
     width: 100% !important;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--rule);
-    text-align: left !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--rule);
+    box-shadow:
+      0 8px 28px -10px rgba(0, 0, 0, 0.55),
+      0 0 32px -16px rgba(0, 240, 255, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+    opacity: 1 !important;
   }
-  .process-journey-content:last-child {
-    border-bottom: none;
+  .process-journey-step::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 240, 255, 0.35) 0%,
+      rgba(0, 240, 255, 0.05) 40%,
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
+  .process-journey-step:active {
+    border-color: rgba(0, 240, 255, 0.4);
+    box-shadow:
+      0 12px 36px -10px rgba(0, 0, 0, 0.6),
+      0 0 48px -12px rgba(0, 240, 255, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  /* Dot — smaller, no big glow halo on mobile */
   .process-journey-dot {
     position: relative !important;
     flex-shrink: 0;
     margin: 0;
+  }
+  .process-journey-dot-glow {
+    width: 56px !important;
+    height: 56px !important;
+    opacity: 0.5 !important;
+    animation: none !important;
+  }
+  .process-journey-dot-sphere {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .process-journey-dot-icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  /* Content — left-aligned, flush with dot */
+  .process-journey-content {
+    position: static !important;
+    transform: none !important;
+    width: auto !important;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 !important;
+    border: none !important;
+    text-align: left !important;
+  }
+  .process-journey-week {
+    font-size: 11px !important;
+  }
+  .process-journey-title {
+    font-size: 18px !important;
+    margin: 2px 0 0 !important;
+  }
+  .process-journey-description {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    margin-top: 4px !important;
   }
   /* Trust bar stacks vertical */
   .trust-bar {
@@ -4108,7 +4427,7 @@ body {
     padding-right: 16px;
   }
   .hero-h1 {
-    font-size: clamp(36px, 11vw, 48px);
+    font-size: clamp(24px, 6.8vw, 32px);
   }
   .nav-logo span {
     font-size: 14px;

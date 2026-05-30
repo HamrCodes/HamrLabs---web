@@ -1,7 +1,6 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { CheckCircle2 } from "lucide-react";
 
 export function PhotoCollage() {
   return (
@@ -48,23 +47,19 @@ export function PhotoCollage() {
         </div>
       </div>
 
-      {/* Achievement card — liquid glass cyan, bottom-right, rotate -1deg */}
+      {/* Achievement card — official Meta Business Partner badge, bottom-right, rotate -1deg */}
       <div
         className="photo-card photo-card--achievement"
         style={{ "--rotate": "-1deg", "--z": "4" } as CSSProperties}
       >
-        <div className="photo-card-frame photo-card-frame--glass">
-          <div className="achievement-card-inner">
-            <CheckCircle2
-              className="achievement-icon"
-              strokeWidth={1.5}
-              aria-hidden
-            />
-            <div className="achievement-content">
-              <span className="achievement-label">Meta Business Partner</span>
-              <span className="achievement-sublabel">Ověřeno · 2024</span>
-            </div>
-          </div>
+        <div className="photo-card-frame photo-card-frame--meta">
+          <img
+            src="/meta-partner.png"
+            alt="Meta Business Partner"
+            className="achievement-meta-img"
+            width={826}
+            height={412}
+          />
         </div>
       </div>
     </div>

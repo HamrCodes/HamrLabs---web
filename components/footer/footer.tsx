@@ -86,7 +86,7 @@ export function Footer() {
                 height={48}
                 className="w-12 h-12 object-contain"
               />
-              <span className="font-display text-xl text-fg leading-none">
+              <span className="font-display text-xl text-accent leading-none">
                 Hamr Labs
               </span>
             </div>
@@ -159,7 +159,14 @@ export function Footer() {
         <div className="border-t border-rule">
           <div className="container-ultra py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 font-mono text-xs uppercase tracking-widest text-fg-subtle">
             <span>© 2026 Hamr Labs · Česká republika</span>
-            <span>Brand Guidelines v1.0 · 2026</span>
+            <a
+              href="https://matyastpn.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-accent transition-colors"
+            >
+              Made by matyastpn
+            </a>
           </div>
         </div>
       </footer>

@@ -84,7 +84,14 @@ export function AboutSection() {
 
             <div className="about-badges">
               <span className="reveal" style={{ transitionDelay: "560ms" }}>
-                <Badge variant="pill">Meta Business Partner</Badge>
+                <span className="meta-partner-badge" aria-label="Meta Business Partner">
+                  <img
+                    src="/meta-partner.png"
+                    alt="Meta Business Partner"
+                    width={120}
+                    height={60}
+                  />
+                </span>
               </span>
               <span className="reveal" style={{ transitionDelay: "620ms" }}>
                 <Badge variant="pill">AI-Powered</Badge>

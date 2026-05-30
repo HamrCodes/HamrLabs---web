@@ -6,7 +6,7 @@ export function HeroLeft() {
       <div className="hero-text-col-accent" aria-hidden="true" />
       <div className="hero-text-col-content">
         {/* Eyebrow */}
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-fg-muted">
+        <p className="hero-eyebrow font-mono text-xs uppercase tracking-[0.2em] text-fg-muted">
           Tomáš Hamerník · Marketing Specialist
         </p>
 
@@ -17,13 +17,13 @@ export function HeroLeft() {
         </h1>
 
         {/* Subhead */}
-        <p className="font-sans text-base md:text-lg leading-relaxed text-fg-muted max-w-[480px]">
+        <p className="hero-subhead font-sans text-base md:text-lg leading-relaxed text-fg-muted max-w-[480px]">
           Meta reklamy, lead generation a AI obsah pro firmy, které chtějí
           výsledky, ne omáčku.
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="hero-cta-row flex flex-wrap items-center gap-4">
           <a href="#kontakt">
             <Button variant="primary">Chci výsledky →</Button>
           </a>

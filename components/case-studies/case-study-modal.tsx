@@ -75,69 +75,71 @@ export function CaseStudyModal({ caseStudy, onClose }: Props) {
           <X className="w-5 h-5" strokeWidth={1.5} />
         </button>
 
-        <div className="case-modal-content">
-          {/* Header */}
-          <div className="case-modal-header">
-            <span className="case-modal-label">CASE {caseStudy.caseNumber}</span>
-            <h2 id="case-modal-title" className="case-modal-title">
-              {caseStudy.client}
-            </h2>
-            <p className="case-modal-industry">{caseStudy.industry}</p>
-          </div>
+        <div className="case-modal-scroll">
+          <div className="case-modal-content">
+            {/* Header */}
+            <div className="case-modal-header">
+              <span className="case-modal-label">CASE {caseStudy.caseNumber}</span>
+              <h2 id="case-modal-title" className="case-modal-title">
+                {caseStudy.client}
+              </h2>
+              <p className="case-modal-industry">{caseStudy.industry}</p>
+            </div>
 
-          <div className="case-modal-divider" />
+            <div className="case-modal-divider" />
 
-          {/* Stats grid */}
-          <div className="case-modal-stats">
-            {caseStudy.stats.map((stat) => (
-              <div key={stat.label} className="case-modal-stat">
-                <span className="case-modal-stat-value">{stat.value}</span>
-                <span className="case-modal-stat-label">{stat.label}</span>
-              </div>
-            ))}
-          </div>
+            {/* Stats grid */}
+            <div className="case-modal-stats">
+              {caseStudy.stats.map((stat) => (
+                <div key={stat.label} className="case-modal-stat">
+                  <span className="case-modal-stat-value">{stat.value}</span>
+                  <span className="case-modal-stat-label">{stat.label}</span>
+                </div>
+              ))}
+            </div>
 
-          {/* Sections */}
-          {caseStudy.isPlaceholder ? (
-            <section className="case-modal-section">
-              <h3 className="case-modal-section-heading">
-                Detailní case study připravujeme
-              </h3>
-              <p className="case-modal-section-body">{caseStudy.context}</p>
-            </section>
-          ) : (
-            <>
+            {/* Sections */}
+            {caseStudy.isPlaceholder ? (
               <section className="case-modal-section">
-                <h3 className="case-modal-section-heading">Kontext</h3>
+                <h3 className="case-modal-section-heading">
+                  Detailní case study připravujeme
+                </h3>
                 <p className="case-modal-section-body">{caseStudy.context}</p>
               </section>
+            ) : (
+              <>
+                <section className="case-modal-section">
+                  <h3 className="case-modal-section-heading">Kontext</h3>
+                  <p className="case-modal-section-body">{caseStudy.context}</p>
+                </section>
 
-              <section className="case-modal-section">
-                <h3 className="case-modal-section-heading">Jak to fungovalo</h3>
-                <p className="case-modal-section-body">
-                  {caseStudy.howItWorked}
-                </p>
-                {caseStudy.bullets && caseStudy.bullets.length > 0 && (
-                  <ul className="case-modal-bullets">
-                    {caseStudy.bullets.map((bullet) => (
-                      <li key={bullet} className="case-modal-bullet">
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
+                <section className="case-modal-section">
+                  <h3 className="case-modal-section-heading">Jak to fungovalo</h3>
+                  <p className="case-modal-section-body">
+                    {caseStudy.howItWorked}
+                  </p>
+                  {caseStudy.bullets && caseStudy.bullets.length > 0 && (
+                    <ul className="case-modal-bullets">
+                      {caseStudy.bullets.map((bullet) => (
+                        <li key={bullet} className="case-modal-bullet">
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
 
-              <section className="case-modal-section">
-                <h3 className="case-modal-section-heading">Co to dokazuje</h3>
-                <p className="case-modal-section-body">{caseStudy.proof}</p>
-              </section>
-            </>
-          )}
+                <section className="case-modal-section">
+                  <h3 className="case-modal-section-heading">Co to dokazuje</h3>
+                  <p className="case-modal-section-body">{caseStudy.proof}</p>
+                </section>
+              </>
+            )}
+          </div>
+        </div>
 
-          <div className="case-modal-divider" />
-
-          {/* CTA */}
+        {/* Sticky CTA bar — full width, always visible */}
+        <div className="case-modal-footer">
           <a href="#kontakt" onClick={onClose} className="case-modal-cta">
             Mám podobný case →
           </a>

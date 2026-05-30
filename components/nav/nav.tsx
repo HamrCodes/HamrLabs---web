@@ -9,14 +9,15 @@ import { Button } from "@/components/ui/button";
 const links = [
   { label: "Služby", href: "#sluzby" },
   { label: "Moje výsledky", href: "#moje-vysledky" },
-  { label: "Proces", href: "#proces" },
   { label: "O mně", href: "#o-mne" },
+  { label: "Proces", href: "#proces" },
   { label: "FAQ", href: "#faq" },
 ];
 
 export function Nav() {
   const scrolled = useScroll(10);
   const [open, setOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState<string>("");
 
   // Lock body scroll when drawer open
   useEffect(() => {
@@ -47,6 +48,43 @@ export function Nav() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Live-track active section via IntersectionObserver
+  useEffect(() => {
+    const sections = links
+      .map((l) => document.querySelector(l.href))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    // Track visibility ratio per section, pick the most visible
+    const visibilityMap = new Map<string, number>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          visibilityMap.set(entry.target.id, entry.intersectionRatio);
+        }
+        let bestId = "";
+        let bestRatio = 0;
+        for (const [id, ratio] of visibilityMap) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        }
+        setActiveHref(bestRatio > 0 ? `#${bestId}` : "");
+      },
+      {
+        // Multiple thresholds so we get fine-grained ratio updates as user scrolls
+        threshold: [0, 0.15, 0.3, 0.5, 0.7, 0.9, 1],
+        rootMargin: "-72px 0px -40% 0px",
+      },
+    );
+
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       <header
@@ -72,7 +110,7 @@ export function Nav() {
               width={40}
               height={40}
             />
-            <span className="font-display text-base text-fg leading-none">
+            <span className="font-display text-base text-accent leading-none">
               Hamr Labs
             </span>
           </a>
@@ -80,7 +118,15 @@ export function Nav() {
           {/* CENTER: Links (desktop only) */}
           <div className="hidden md:flex items-center gap-1">
             {links.map((link) => (
-              <a key={link.href} href={link.href} className="nav-link">
+              <a
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "nav-link",
+                  activeHref === link.href && "nav-link--active",
+                )}
+                aria-current={activeHref === link.href ? "page" : undefined}
+              >
                 {link.label}
               </a>
             ))}
@@ -89,7 +135,7 @@ export function Nav() {
           {/* RIGHT: KONTAKT (desktop) */}
           <a href="#kontakt" className="hidden md:inline-flex">
             <Button variant="primary" className="px-5 py-2.5 text-xs">
-              Kontakt
+              Připraven začít?
             </Button>
           </a>
 
@@ -127,7 +173,11 @@ export function Nav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="nav-drawer-link"
+                className={cn(
+                  "nav-drawer-link",
+                  activeHref === link.href && "nav-drawer-link--active",
+                )}
+                aria-current={activeHref === link.href ? "page" : undefined}
               >
                 {link.label}
               </a>
@@ -139,7 +189,7 @@ export function Nav() {
             className="nav-drawer-cta"
           >
             <Button variant="primary" className="w-full py-4 text-sm">
-              Kontakt
+              Připraven začít?
             </Button>
           </a>
         </div>
