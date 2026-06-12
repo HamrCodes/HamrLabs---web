@@ -67,7 +67,7 @@ export function ProcessSection() {
               kouř, žádné PowerPointy navíc.
             </p>
             <a href="#kontakt" className="process-cta">
-              <span>Domluvit úvodní call</span>
+              <span>Domluvit úvodní hovor</span>
               <ArrowRight
                 className="w-4 h-4"
                 strokeWidth={2}

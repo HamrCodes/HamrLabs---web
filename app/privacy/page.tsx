@@ -25,9 +25,9 @@ export default function PrivacyPage() {
           stranami. Pokud chcete data smazat, napište na{" "}
           <a
             className="text-accent underline underline-offset-4"
-            href="mailto:hamr@hamrlabs.cz"
+            href="mailto:tomas.hammernik@gmail.com"
           >
-            hamr@hamrlabs.cz
+            tomas.hammernik@gmail.com
           </a>
           .
         </p>

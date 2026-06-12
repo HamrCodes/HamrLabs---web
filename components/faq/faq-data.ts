@@ -13,6 +13,8 @@ export interface ScreenshotCard {
   metricValue: string;
   metricLabel: string;
   caption: string;
+  /** Real screenshot asset (path in /public); placeholder shown when absent */
+  image?: string;
 }
 
 export type FaqGridItem = FaqCard | ScreenshotCard;
@@ -28,9 +30,10 @@ export const faqItems: FaqGridItem[] = [
   },
   {
     type: "screenshot",
-    metricValue: "−58%",
-    metricLabel: "Cost per lead",
-    caption: "Flach s.r.o. · Stavebnictví",
+    metricValue: "582",
+    metricLabel: "Získaných kandidátů během 2 měsíců",
+    caption: "GDR Work · Nábor",
+    image: "/faq-gdrwork.png",
   },
   {
     type: "faq",
@@ -41,16 +44,18 @@ export const faqItems: FaqGridItem[] = [
   },
   {
     type: "screenshot",
-    metricValue: "+3,2×",
-    metricLabel: "ROAS",
-    caption: "Elegant Dog's · Služby",
+    metricValue: "2M+",
+    metricLabel: "Zobrazení",
+    caption: "Namontuj si · Služby",
+    image: "/faq-namontujsi.png",
   },
   // Row 2: SHOT → FAQ → SHOT → FAQ
   {
     type: "screenshot",
-    metricValue: "+184%",
-    metricLabel: "Kvalifikované leady",
-    caption: "Klub moderního psa · E-commerce",
+    metricValue: "165",
+    metricLabel: "Poptávek za 165 Kč/ks",
+    caption: "Service Estate · Reality",
+    image: "/faq-serviceestate.png",
   },
   {
     type: "faq",
@@ -61,9 +66,10 @@ export const faqItems: FaqGridItem[] = [
   },
   {
     type: "screenshot",
-    metricValue: "+62%",
-    metricLabel: "Víkendové rezervace",
-    caption: "Lokální gastro · Brno",
+    metricValue: "265",
+    metricLabel: "Získaných poptávek za 14 dní",
+    caption: "Bez dluhů · Finance",
+    image: "/faq-bezdluhu.png",
   },
   {
     type: "faq",

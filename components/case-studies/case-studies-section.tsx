@@ -61,7 +61,7 @@ export function CaseStudiesSection() {
                 Moje výsledky
               </h2>
               <p className="case-studies-lead">
-                Devět projektů. Bez vybarvených grafů a fiktivních metrik,
+                Sedm projektů. Bez vybarvených grafů a fiktivních metrik,
                 všechno z Business Manageru.
               </p>
             </div>

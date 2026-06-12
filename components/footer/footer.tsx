@@ -11,7 +11,7 @@ type Branch = "call" | "message";
 const navLinks = [
   { href: "#sluzby", label: "Služby" },
   { href: "#moje-vysledky", label: "Moje výsledky" },
-  { href: "#proces", label: "Jak pracuji" },
+  { href: "#proces", label: "Proces" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -27,8 +27,8 @@ const socialLinks = [
     Icon: Facebook,
   },
   {
-    href: "mailto:hamr@hamrlabs.cz",
-    label: "hamr@hamrlabs.cz",
+    href: "mailto:tomas.hammernik@gmail.com",
+    label: "tomas.hammernik@gmail.com",
     Icon: Mail,
   },
 ];
@@ -59,7 +59,7 @@ export function Footer() {
               <MagneticButton
                 as="button"
                 onClick={() => openFunnel("call")}
-                className="glass rounded-full px-8 py-4 font-mono text-sm font-semibold uppercase tracking-wider text-fg"
+                className="btn-primary-cyan rounded-full px-8 py-4 font-mono text-sm font-semibold uppercase tracking-wider"
               >
                 Domluvit hovor →
               </MagneticButton>
@@ -94,6 +94,12 @@ export function Footer() {
               AI marketing. Meta reklamy, lead generation a AI obsah pro firmy,
               které měří všechno.
             </p>
+            {/* Company info — TODO: replace placeholders with real data */}
+            <div className="flex flex-col gap-1 font-mono text-xs text-fg-subtle">
+              <span>Tomáš Hamerník · Hamr Labs</span>
+              <span>IČO: [DOPLNIT IČO]</span>
+              <span>Sídlo: [DOPLNIT ADRESU]</span>
+            </div>
             {/* TODO: replace with official Meta Business Partner badge */}
             <Badge variant="pill" className="w-fit bg-bg-elevated">
               Meta Business Partner
@@ -152,6 +158,14 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            <a
+              href="https://matyastpn.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 font-mono text-xs uppercase tracking-widest text-fg-subtle hover:text-accent transition-colors"
+            >
+              Made by matyastpn
+            </a>
           </div>
         </div>
 
@@ -159,14 +173,26 @@ export function Footer() {
         <div className="border-t border-rule">
           <div className="container-ultra py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3 font-mono text-xs uppercase tracking-widest text-fg-subtle">
             <span>© 2026 Hamr Labs · Česká republika</span>
-            <a
-              href="https://matyastpn.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-accent transition-colors"
-            >
-              Made by matyastpn
-            </a>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <a
+                href="/privacy"
+                className="hover:text-accent transition-colors"
+              >
+                Ochrana údajů
+              </a>
+              <a
+                href="/obchodni-podminky"
+                className="hover:text-accent transition-colors"
+              >
+                Obchodní podmínky
+              </a>
+              <a
+                href="/cookies"
+                className="hover:text-accent transition-colors"
+              >
+                Cookies
+              </a>
+            </div>
           </div>
         </div>
       </footer>

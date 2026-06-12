@@ -11,11 +11,13 @@ export function PhotoCollage() {
         style={{ "--rotate": "-2deg", "--z": "2" } as CSSProperties}
       >
         <div className="photo-card-frame">
-          {/* TODO: replace with portrait photo of Tomáš */}
-          <div className="photo-card-placeholder">
-            <span className="photo-card-label">Foto Tomáš</span>
-            <span className="photo-card-sublabel">Portrét</span>
-          </div>
+          <img
+            src="/tomas-portrait.jpg"
+            alt="Tomáš Hamerník"
+            className="photo-card-image"
+            width={900}
+            height={1200}
+          />
         </div>
       </div>
 
@@ -33,17 +35,19 @@ export function PhotoCollage() {
         </div>
       </div>
 
-      {/* Photo 3 — screenshot, bottom-left, rotate +1deg */}
+      {/* Photo 3 — campaign result screenshot (LAFT Rekonstrukce, Meta Ads), bottom-left, rotate +1deg */}
       <div
         className="photo-card photo-card--result"
         style={{ "--rotate": "1deg", "--z": "1" } as CSSProperties}
       >
         <div className="photo-card-frame">
-          {/* TODO: replace with Meta Business Manager screenshot (anonymized) */}
-          <div className="photo-card-placeholder">
-            <span className="photo-card-label">Výsledek kampaně</span>
-            <span className="photo-card-sublabel">Meta Business</span>
-          </div>
+          <img
+            src="/campaign-result.png"
+            alt="Výsledek kampaně: LAFT Rekonstrukce — 1 703 287 zobrazení, 454 leadů, 526 Kč za lead"
+            className="photo-card-image photo-card-image--contain"
+            width={1500}
+            height={1125}
+          />
         </div>
       </div>
 

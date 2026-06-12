@@ -35,7 +35,7 @@ export function FaqSection() {
             className="faq-lead reveal"
             style={{ transitionDelay: "160ms" }}
           >
-            Tři otázky, na které se ptá většina klientů ještě před prvním
+            Čtyři otázky, na které se ptá většina klientů ještě před prvním
             callem. Vedle nich výsledky z Business Manageru.
           </p>
         </div>
@@ -56,6 +56,7 @@ export function FaqSection() {
                 metricValue={item.metricValue}
                 metricLabel={item.metricLabel}
                 caption={item.caption}
+                image={item.image}
                 index={idx}
               />
             ),

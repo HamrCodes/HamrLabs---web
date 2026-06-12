@@ -76,6 +76,16 @@ export function CaseStudyModal({ caseStudy, onClose }: Props) {
         </button>
 
         <div className="case-modal-scroll">
+          {/* Top screenshot — edge-to-edge above content */}
+          {caseStudy.image && (
+            <div className="case-modal-image">
+              <img
+                src={caseStudy.image}
+                alt={caseStudy.imageAlt ?? caseStudy.client}
+              />
+            </div>
+          )}
+
           <div className="case-modal-content">
             {/* Header */}
             <div className="case-modal-header">
@@ -140,6 +150,14 @@ export function CaseStudyModal({ caseStudy, onClose }: Props) {
 
         {/* Sticky CTA bar — full width, always visible */}
         <div className="case-modal-footer">
+          {!caseStudy.isPlaceholder && (
+            <a
+              href={`/pripadovky/${caseStudy.slug}`}
+              className="case-modal-detail-link"
+            >
+              Celá case study →
+            </a>
+          )}
           <a href="#kontakt" onClick={onClose} className="case-modal-cta">
             Mám podobný case →
           </a>

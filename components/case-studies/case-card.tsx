@@ -14,12 +14,20 @@ export function CaseCard({ caseStudy, onClick }: Props) {
       {/* Specular rim highlight */}
       <span className="case-card-rim" aria-hidden="true" />
 
-      {/* Screenshot placeholder */}
-      {/* TODO: replace with case-specific Meta Ads / dashboard screenshot */}
+      {/* Screenshot — real asset when available, placeholder otherwise */}
       <div className="case-card-screenshot">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fg-subtle">
-          Meta Ads screenshot
-        </span>
+        {caseStudy.image ? (
+          <img
+            src={caseStudy.image}
+            alt={caseStudy.imageAlt ?? caseStudy.client}
+            className="case-card-screenshot-img"
+            loading="lazy"
+          />
+        ) : (
+          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fg-subtle">
+            Meta Ads screenshot
+          </span>
+        )}
       </div>
 
       <div className="case-card-content">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Audiowide, Space_Grotesk, Inter } from "next/font/google";
 import { LiquidGlassSVG } from "@/components/ui/liquid-glass-svg";
+import { CookieBar } from "@/components/ui/cookie-bar";
 import "./globals.css";
 
 // Audiowide — Display / Hero / H1 / H2 / H3 (brand manual)
@@ -44,13 +45,12 @@ export const metadata: Metadata = {
     title: "Hamr Labs — Marketing nové generace",
     description:
       "Meta reklamy, lead generation a AI obsah pro firmy, které měří všechno.",
-    images: [{ url: "/og.png", width: 1200, height: 630 }],
+    // og:image is provided by app/opengraph-image.tsx (dynamic)
   },
   twitter: {
     card: "summary_large_image",
     title: "Hamr Labs — Marketing nové generace",
     description: "Marketing nové generace pro české firmy",
-    images: ["/og.png"],
   },
   robots: {
     index: true,
@@ -78,7 +78,7 @@ const jsonLd = {
       "@id": "https://hamrlabs.cz/#org",
       name: "Hamr Labs",
       url: "https://hamrlabs.cz",
-      logo: "https://hamrlabs.cz/og.png",
+      logo: "https://hamrlabs.cz/logo.png",
       founder: { "@id": "https://hamrlabs.cz/#tomas" },
       areaServed: "CZ",
       sameAs: [
@@ -141,6 +141,7 @@ export default function RootLayout({
           Přeskočit na obsah
         </a>
         {children}
+        <CookieBar />
       </body>
     </html>
   );

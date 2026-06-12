@@ -15,5 +15,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       priority: 0.3,
     },
+    {
+      url: "https://hamrlabs.cz/obchodni-podminky",
+      lastModified: now,
+      priority: 0.3,
+    },
+    {
+      url: "https://hamrlabs.cz/cookies",
+      lastModified: now,
+      priority: 0.3,
+    },
   ];
 }
