@@ -94,11 +94,11 @@ export function Footer() {
               AI marketing. Meta reklamy, lead generation a AI obsah pro firmy,
               které měří všechno.
             </p>
-            {/* Company info — TODO: replace placeholders with real data */}
+            {/* Company info */}
             <div className="flex flex-col gap-1 font-mono text-xs text-fg-subtle">
-              <span>Tomáš Hamerník · Hamr Labs</span>
-              <span>IČO: [DOPLNIT IČO]</span>
-              <span>Sídlo: [DOPLNIT ADRESU]</span>
+              <span>Hamr Labs s.r.o.</span>
+              <span>IČO: 29675855</span>
+              <span>Kaprova 42/14, Staré Město, 110 00 Praha 1</span>
             </div>
             {/* TODO: replace with official Meta Business Partner badge */}
             <Badge variant="pill" className="w-fit bg-bg-elevated">

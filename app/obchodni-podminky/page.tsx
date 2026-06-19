@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const sections = [
   {
     heading: "1. Základní ustanovení",
-    body: "Tyto obchodní podmínky upravují vztah mezi poskytovatelem služeb Tomášem Hamerníkem, podnikajícím pod značkou Hamr Labs (IČO: [DOPLNIT IČO], sídlo: [DOPLNIT ADRESU]), dále jen „poskytovatel“, a objednatelem služeb, dále jen „klient“.",
+    body: "Tyto obchodní podmínky upravují vztah mezi poskytovatelem služeb, společností Hamr Labs s.r.o., IČO 29675855, se sídlem Kaprova 42/14, Staré Město, 110 00 Praha 1, zapsanou v obchodním rejstříku vedeném Městským soudem v Praze, oddíl C, vložka 450163, zastoupenou jednatelem Tomášem Hamerníkem, dále jen „poskytovatel“, a objednatelem služeb, dále jen „klient“.",
   },
   {
     heading: "2. Předmět služeb",
@@ -18,7 +18,7 @@ const sections = [
   },
   {
     heading: "3. Cena a platební podmínky",
-    body: "Cena služeb se sjednává individuálně podle rozsahu spolupráce a výše spravovaného mediálního rozpočtu. Faktury jsou splatné do [DOPLNIT POČET] dní od vystavení. Mediální rozpočet (platby reklamním platformám) hradí klient přímo, není součástí odměny poskytovatele.",
+    body: "Cena služeb se sjednává individuálně podle rozsahu spolupráce a výše spravovaného mediálního rozpočtu. Faktury jsou splatné do 14 dní od vystavení. Mediální rozpočet (platby reklamním platformám) hradí klient přímo, není součástí odměny poskytovatele.",
   },
   {
     heading: "4. Práva a povinnosti",
@@ -26,7 +26,7 @@ const sections = [
   },
   {
     heading: "5. Trvání a ukončení spolupráce",
-    body: "Spolupráce se sjednává na dobu neurčitou, pokud není dohodnuto jinak. Kterákoliv strana může spolupráci ukončit písemnou výpovědí s výpovědní lhůtou [DOPLNIT DÉLKU LHŮTY]. Bez výpovědních lhůt, pokud je tak sjednáno v individuální smlouvě.",
+    body: "Spolupráce se sjednává na dobu neurčitou, pokud není dohodnuto jinak. Bez výpovědní lhůty: kterákoliv strana může spolupráci ukončit písemně ke konci kalendářního měsíce. Práva a povinnosti vzniklé do dne ukončení tím nejsou dotčeny.",
   },
   {
     heading: "6. Důvěrnost",
@@ -34,7 +34,7 @@ const sections = [
   },
   {
     heading: "7. Závěrečná ustanovení",
-    body: "Právní vztahy neupravené těmito podmínkami se řídí právním řádem České republiky, zejména občanským zákoníkem. Tyto podmínky nabývají účinnosti dnem [DOPLNIT DATUM].",
+    body: "Právní vztahy neupravené těmito podmínkami se řídí právním řádem České republiky, zejména občanským zákoníkem. Tyto podmínky nabývají účinnosti dnem 12. června 2026.",
   },
 ];
 
@@ -50,7 +50,7 @@ export default function TermsPage() {
           Obchodní podmínky
         </h1>
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-fg-subtle mb-12">
-          Platné od [DOPLNIT DATUM]
+          Platné od 12. června 2026
         </p>
 
         {sections.map((s) => (

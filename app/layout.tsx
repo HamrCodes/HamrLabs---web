@@ -77,10 +77,23 @@ const jsonLd = {
       "@type": "Organization",
       "@id": "https://hamrlabs.cz/#org",
       name: "Hamr Labs",
+      legalName: "Hamr Labs s.r.o.",
       url: "https://hamrlabs.cz",
       logo: "https://hamrlabs.cz/logo.png",
       founder: { "@id": "https://hamrlabs.cz/#tomas" },
       areaServed: "CZ",
+      identifier: {
+        "@type": "PropertyValue",
+        propertyID: "ICO",
+        value: "29675855",
+      },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Kaprova 42/14",
+        addressLocality: "Praha",
+        postalCode: "110 00",
+        addressCountry: "CZ",
+      },
       sameAs: [
         "https://instagram.com/hamrlabs",
         "https://facebook.com/HamrLabs",

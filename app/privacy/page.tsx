@@ -16,9 +16,10 @@ export default function PrivacyPage() {
           Ochrana osobních údajů
         </h1>
         <p className="font-sans text-lg text-fg leading-relaxed mb-6">
-          Hamr Labs (Tomáš Hamerník, IČO doplníme) zpracovává osobní údaje
-          zaslané přes kontaktní formulář pouze za účelem zodpovězení dotazu a
-          případného navázání obchodního vztahu.
+          Správcem osobních údajů je společnost Hamr Labs s.r.o., IČO 29675855,
+          se sídlem Kaprova 42/14, Staré Město, 110 00 Praha 1. Osobní údaje
+          zaslané přes kontaktní formulář zpracovává pouze za účelem zodpovězení
+          dotazu a případného navázání obchodního vztahu.
         </p>
         <p className="font-sans text-base text-fg-muted leading-relaxed mb-6">
           Údaje neukládám do CRM bez Vašeho souhlasu a nesdílím je s třetími
@@ -32,7 +33,7 @@ export default function PrivacyPage() {
           .
         </p>
         <p className="font-mono text-xs uppercase tracking-[0.15em] text-fg-subtle mt-12">
-          Poslední aktualizace: 2026-05
+          Poslední aktualizace: 12. června 2026
         </p>
       </main>
       <Footer />
