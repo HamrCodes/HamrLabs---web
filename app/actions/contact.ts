@@ -54,7 +54,7 @@ export async function submitFunnel(
   const replyTo = submission.answers.email;
   const name = submission.answers.name || "Neznámý";
   const branchLabel =
-    submission.branch === "call" ? "Domluvit hovor" : "Napsat zprávu";
+    submission.branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým";
 
   try {
     const resend = new Resend(apiKey);

@@ -56,6 +56,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  verification: {
+    other: {
+      "facebook-domain-verification": "w4hto3wk1utlxj39ypdnw7hsdr84tx",
+    },
+  },
 };
 
 const jsonLd = {

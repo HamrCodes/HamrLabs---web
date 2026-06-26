@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type KeyboardEvent } from "react";
-import { ArrowLeftRight } from "lucide-react";
+import { ArrowLeftRight, RotateCw } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +45,9 @@ export function FaqFlipCard({
         <div className="faq-flip-card-inner">
           {/* FRONT */}
           <div className="faq-flip-card-face faq-flip-card-face--front">
+            <span className="faq-flip-badge" aria-hidden="true">
+              <RotateCw className="w-3.5 h-3.5" strokeWidth={2} />
+            </span>
             <div className="faq-card-icon-wrapper">
               <Icon
                 className="faq-card-icon"
@@ -69,6 +72,9 @@ export function FaqFlipCard({
 
           {/* BACK */}
           <div className="faq-flip-card-face faq-flip-card-face--back">
+            <span className="faq-flip-badge" aria-hidden="true">
+              <RotateCw className="w-3.5 h-3.5" strokeWidth={2} />
+            </span>
             <span className="faq-card-back-label">Odpověď</span>
             <p className="faq-card-answer">{answer}</p>
             <div className="faq-card-flip-hint">

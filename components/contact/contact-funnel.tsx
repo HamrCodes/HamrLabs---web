@@ -160,7 +160,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
                   aria-hidden
                   focusable={false}
                 />
-                <span>Domluvit hovor</span>
+                <span>Nezávazná konzultace</span>
               </button>
               <button
                 type="button"
@@ -178,7 +178,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
                   aria-hidden
                   focusable={false}
                 />
-                <span>Napsat zprávu</span>
+                <span>Kontaktovat tým</span>
               </button>
             </div>
 
