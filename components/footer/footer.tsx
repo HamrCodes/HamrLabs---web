@@ -13,6 +13,7 @@ const navLinks = [
   { href: "#moje-vysledky", label: "Moje výsledky" },
   { href: "#proces", label: "Proces" },
   { href: "#faq", label: "FAQ" },
+  { href: "/blog", label: "Blog" },
 ];
 
 const socialLinks = [
@@ -158,14 +159,6 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <a
-              href="https://matyastpn.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 font-mono text-xs uppercase tracking-widest text-fg-subtle hover:text-accent transition-colors"
-            >
-              Made by matyastpn
-            </a>
           </div>
         </div>
 
