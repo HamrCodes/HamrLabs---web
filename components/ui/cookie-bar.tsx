@@ -52,11 +52,16 @@ export function CookieBar() {
       aria-label="Souhlas s cookies"
     >
       <div className="cookie-bar__inner">
+        <img
+          src="/cookie-neon.png"
+          alt=""
+          aria-hidden="true"
+          className="cookie-bar__icon"
+          width={44}
+          height={44}
+        />
         <p className="cookie-bar__text">
-          <span className="cookie-bar__emoji" aria-hidden="true">
-            🍪
-          </span>
-          Používáme sušenky 🍪 pro lepší poskytování našich služeb.{" "}
+          Používáme sušenky pro lepší poskytování našich služeb.{" "}
           <a href="/cookies" className="cookie-bar__link">
             Více o cookies
           </a>
