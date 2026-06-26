@@ -7,7 +7,11 @@ import { faqItems } from "./faq-data";
 import { useScrollReveal } from "@/lib/hooks/use-scroll-reveal";
 
 export function FaqSection() {
-  const ref = useScrollReveal<HTMLElement>({ threshold: 0.1 });
+  // Trigger early: reveal as soon as the section approaches the viewport
+  const ref = useScrollReveal<HTMLElement>({
+    threshold: 0,
+    rootMargin: "0px 0px 15% 0px",
+  });
 
   return (
     <section

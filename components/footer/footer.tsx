@@ -9,10 +9,10 @@ import { ContactFunnel } from "@/components/contact/contact-funnel";
 type Branch = "call" | "message";
 
 const navLinks = [
-  { href: "#sluzby", label: "Služby" },
-  { href: "#moje-vysledky", label: "Moje výsledky" },
-  { href: "#proces", label: "Proces" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#sluzby", label: "Služby" },
+  { href: "/#moje-vysledky", label: "Moje výsledky" },
+  { href: "/#proces", label: "Proces" },
+  { href: "/#faq", label: "FAQ" },
   { href: "/blog", label: "Blog" },
 ];
 

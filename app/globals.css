@@ -4074,18 +4074,38 @@ body {
   box-shadow:
     0 16px 48px -12px rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  animation: cookie-bar-in 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Poppy spring entrance */
+  animation: cookie-bar-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes cookie-bar-in {
-  from {
+@keyframes cookie-bar-pop {
+  0% {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(40px) scale(0.9);
   }
-  to {
+  60% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-4px) scale(1.01);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cookie-bar__emoji {
+  font-size: 18px;
+  line-height: 1;
+  margin-right: 2px;
+  display: inline-block;
+  animation: cookie-wiggle 2.4s ease-in-out infinite;
+}
+
+@keyframes cookie-wiggle {
+  0%, 92%, 100% { transform: rotate(0deg); }
+  94% { transform: rotate(-12deg); }
+  96% { transform: rotate(10deg); }
+  98% { transform: rotate(-6deg); }
 }
 
 .cookie-bar__text {
@@ -4163,7 +4183,8 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .cookie-bar__inner {
+  .cookie-bar__inner,
+  .cookie-bar__emoji {
     animation: none;
   }
   .animate-pulse-dot,
@@ -4573,16 +4594,24 @@ body {
   }
 
   /* ===== ABOUT ===== */
+  /* Tighten the gap between Moje výsledky and the photo on mobile */
+  .case-studies-section {
+    padding-bottom: 40px;
+  }
+  .about-section {
+    padding-top: 36px;
+    padding-bottom: 56px;
+  }
   .about-grid {
     grid-template-columns: 1fr !important;
-    gap: 32px;
+    gap: 28px;
   }
   .about-h2 {
     font-size: clamp(32px, 8vw, 44px);
   }
-  /* Photo collage — shrink + center */
+  /* Photo collage — smaller + center on mobile */
   .photo-collage {
-    max-width: 320px;
+    max-width: 240px;
     margin: 0 auto;
   }
   /* Stats 1-col stack on small mobile, 3-col stays workable down to 380px */
@@ -4644,27 +4673,45 @@ body {
     padding-bottom: max(16px, env(safe-area-inset-bottom));
     align-items: flex-start;
   }
+  /* Compact the whole funnel so a step fits the screen without scrolling */
   .funnel-container {
     width: 100%;
     max-width: 100%;
-    max-height: calc(100dvh - 32px);
-    padding: 24px 20px;
+    max-height: calc(100dvh - 24px);
+    gap: 14px;
     border-radius: 24px;
   }
   .funnel-close {
-    top: 12px;
-    right: 12px;
-    width: 44px;
-    height: 44px;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
   }
   /* Switch — shorter labels could be needed, keep tight */
   .funnel-switch {
-    margin-top: 4px;
+    margin-top: 0;
   }
   .funnel-switch-option {
-    padding: 10px 12px;
+    padding: 9px 12px;
     font-size: 12px;
-    min-height: 44px;
+    min-height: 40px;
+  }
+  .funnel-step {
+    padding: 20px 18px;
+    gap: 16px;
+    border-radius: 20px;
+  }
+  .funnel-step-heading {
+    font-size: clamp(18px, 5vw, 22px);
+  }
+  .funnel-step-subheading {
+    font-size: 13px;
+  }
+  .funnel-step-questions {
+    gap: 14px;
+  }
+  .funnel-choice-card {
+    padding: 12px 14px;
   }
   /* Choice grids 1-col */
   .funnel-step-choices,

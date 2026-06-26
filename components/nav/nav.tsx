@@ -6,18 +6,19 @@ import { cn } from "@/lib/utils";
 import { useScroll } from "@/components/ui/use-scroll";
 import { Button } from "@/components/ui/button";
 
+// Anchors are absolute (/#id) so they work from sub-pages (blog, legal) too.
 const links = [
-  { label: "Služby", href: "#sluzby" },
-  { label: "Moje výsledky", href: "#moje-vysledky" },
-  { label: "O mně", href: "#o-mne" },
-  { label: "Proces", href: "#proces" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Služby", id: "sluzby" },
+  { label: "Moje výsledky", id: "moje-vysledky" },
+  { label: "O mně", id: "o-mne" },
+  { label: "Proces", id: "proces" },
+  { label: "FAQ", id: "faq" },
 ];
 
 export function Nav() {
   const scrolled = useScroll(10);
   const [open, setOpen] = useState(false);
-  const [activeHref, setActiveHref] = useState<string>("");
+  const [activeId, setActiveId] = useState<string>("");
 
   // Lock body scroll when drawer open
   useEffect(() => {
@@ -48,10 +49,10 @@ export function Nav() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Live-track active section via IntersectionObserver
+  // Live-track active section via IntersectionObserver (homepage only)
   useEffect(() => {
     const sections = links
-      .map((l) => document.querySelector(l.href))
+      .map((l) => document.getElementById(l.id))
       .filter((el): el is HTMLElement => el !== null);
 
     if (sections.length === 0) return;
@@ -72,7 +73,7 @@ export function Nav() {
             bestId = id;
           }
         }
-        setActiveHref(bestRatio > 0 ? `#${bestId}` : "");
+        setActiveId(bestRatio > 0 ? bestId : "");
       },
       {
         // Multiple thresholds so we get fine-grained ratio updates as user scrolls
@@ -101,8 +102,8 @@ export function Nav() {
             scrolled && "nav-pill__inner--scrolled",
           )}
         >
-          {/* LEFT: Logo */}
-          <a href="#hero" className="nav-logo" aria-label="Hamr Labs domů">
+          {/* LEFT: Logo — always returns to homepage */}
+          <a href="/" className="nav-logo" aria-label="Hamr Labs domů">
             <img
               src="/logo.png"
               alt="Hamr Labs"
@@ -119,13 +120,13 @@ export function Nav() {
           <div className="hidden md:flex items-center gap-1">
             {links.map((link) => (
               <a
-                key={link.href}
-                href={link.href}
+                key={link.id}
+                href={`/#${link.id}`}
                 className={cn(
                   "nav-link",
-                  activeHref === link.href && "nav-link--active",
+                  activeId === link.id && "nav-link--active",
                 )}
-                aria-current={activeHref === link.href ? "page" : undefined}
+                aria-current={activeId === link.id ? "page" : undefined}
               >
                 {link.label}
               </a>
@@ -133,7 +134,7 @@ export function Nav() {
           </div>
 
           {/* RIGHT: KONTAKT (desktop) */}
-          <a href="#kontakt" className="hidden md:inline-flex">
+          <a href="/#kontakt" className="hidden md:inline-flex">
             <Button variant="primary" className="px-5 py-2.5 text-xs">
               Připraven začít?
             </Button>
@@ -170,21 +171,21 @@ export function Nav() {
           <div className="flex flex-col">
             {links.map((link) => (
               <a
-                key={link.href}
-                href={link.href}
+                key={link.id}
+                href={`/#${link.id}`}
                 onClick={() => setOpen(false)}
                 className={cn(
                   "nav-drawer-link",
-                  activeHref === link.href && "nav-drawer-link--active",
+                  activeId === link.id && "nav-drawer-link--active",
                 )}
-                aria-current={activeHref === link.href ? "page" : undefined}
+                aria-current={activeId === link.id ? "page" : undefined}
               >
                 {link.label}
               </a>
             ))}
           </div>
           <a
-            href="#kontakt"
+            href="/#kontakt"
             onClick={() => setOpen(false)}
             className="nav-drawer-cta"
           >

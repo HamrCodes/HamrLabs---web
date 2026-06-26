@@ -53,7 +53,10 @@ export function CookieBar() {
     >
       <div className="cookie-bar__inner">
         <p className="cookie-bar__text">
-          Web používá cookies pro analytiku a měření kampaní.{" "}
+          <span className="cookie-bar__emoji" aria-hidden="true">
+            🍪
+          </span>
+          Používáme sušenky 🍪 pro lepší poskytování našich služeb.{" "}
           <a href="/cookies" className="cookie-bar__link">
             Více o cookies
           </a>
