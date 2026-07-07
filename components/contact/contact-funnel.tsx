@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { callBranchSteps, messageBranchSteps } from "./funnel-data";
 import { FunnelStep } from "./funnel-step";
 import { submitFunnel } from "@/app/actions/contact";
+import { trackMetaEvent } from "@/lib/meta-track-client";
 
 const BOOKED_KEY = "hamr-booked-slots";
 
@@ -89,6 +90,24 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
     if (branch === "call" && answers.slot) {
       persistBookedSlot(answers.slot);
     }
+
+    // Meta: Lead covers every funnel submission, plus the branch-specific
+    // event (Schedule for a booked call, Contact for a written message).
+    // Deduplicated with the server-side Conversions API via a shared event ID.
+    const contactData = { email: answers.email, phone: answers.phone };
+    trackMetaEvent("Lead", {
+      ...contactData,
+      customData: {
+        content_name:
+          branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým",
+      },
+    });
+    if (branch === "call" && answers.slot) {
+      trackMetaEvent("Schedule", contactData);
+    } else if (branch === "message") {
+      trackMetaEvent("Contact", contactData);
+    }
+
     try {
       await submitFunnel({ branch, answers });
     } catch (err) {

@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer/footer";
 import { Badge } from "@/components/ui/badge";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { Button } from "@/components/ui/button";
+import { CaseStudyViewTracker } from "@/components/case-studies/case-study-view-tracker";
 import { caseStudies, getCaseStudy } from "@/lib/case-studies";
 
 export function generateStaticParams() {
@@ -45,6 +46,7 @@ export default async function CaseStudyPage({
 
   return (
     <>
+      <CaseStudyViewTracker slug={cs.slug} title={cs.client} />
       <Nav />
       <main id="main" className="relative">
         {/* Hero header */}

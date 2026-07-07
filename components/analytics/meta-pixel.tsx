@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { hasMarketingConsent, onConsentChange } from "@/lib/cookie-consent";
-
-const PIXEL_ID = "542651738099283";
+import { META_PIXEL_ID as PIXEL_ID } from "@/lib/meta-pixel-config";
 
 declare global {
   interface Window {
