@@ -1,35 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-const CONSENT_KEY = "hamr-cookie-consent";
-
-type Consent = "all" | "necessary";
-
-function readConsent(): Consent | null {
-  try {
-    const raw = localStorage.getItem(CONSENT_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as { value: Consent; expires: number };
-    if (Date.now() > parsed.expires) {
-      localStorage.removeItem(CONSENT_KEY);
-      return null;
-    }
-    return parsed.value;
-  } catch {
-    return null;
-  }
-}
-
-function saveConsent(value: Consent) {
-  try {
-    // 12 months validity
-    const expires = Date.now() + 365 * 24 * 60 * 60 * 1000;
-    localStorage.setItem(CONSENT_KEY, JSON.stringify({ value, expires }));
-  } catch {
-    /* ignore */
-  }
-}
+import { readConsent, saveConsent, type Consent } from "@/lib/cookie-consent";
 
 export function CookieBar() {
   const [visible, setVisible] = useState(false);

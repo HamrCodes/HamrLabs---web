@@ -20,8 +20,8 @@ const cookieGroups = [
   },
   {
     heading: "Marketingové cookies",
-    body: "Umožňují měřit výkon reklamních kampaní a zobrazovat relevantní reklamy na platformách Meta. Nasazujeme je jen s Vaším souhlasem.",
-    items: ["[DOPLNIT: Meta Pixel po nasazení]"],
+    body: "Umožňují měřit výkon reklamních kampaní a zobrazovat relevantní reklamy na platformách Meta. Nasazujeme je jen s Vaším souhlasem: pokud zvolíte „Jen nezbytné“, Meta Pixel se vůbec nenačte.",
+    items: ["Meta Pixel: měření výkonu reklamních kampaní na Facebooku a Instagramu"],
   },
 ];
 

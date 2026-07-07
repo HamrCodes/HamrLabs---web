@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Audiowide, Space_Grotesk, Inter } from "next/font/google";
 import { LiquidGlassSVG } from "@/components/ui/liquid-glass-svg";
 import { CookieBar } from "@/components/ui/cookie-bar";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import "./globals.css";
 
 // Audiowide — Display / Hero / H1 / H2 / H3 (brand manual)
@@ -160,6 +161,7 @@ export default function RootLayout({
         </a>
         {children}
         <CookieBar />
+        <MetaPixel />
       </body>
     </html>
   );
