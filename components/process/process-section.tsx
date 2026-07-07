@@ -78,9 +78,10 @@ export function ProcessSection() {
 
           <ProcessJourney steps={steps} />
         </div>
-
-        <ProcessTrustBar />
       </div>
+
+      {/* Full-bleed trust bar — spans the whole viewport width */}
+      <ProcessTrustBar />
     </section>
   );
 }

@@ -50,22 +50,6 @@ export function PhotoCollage() {
           />
         </div>
       </div>
-
-      {/* Achievement card — official Meta Business Partner badge, bottom-right, rotate -1deg */}
-      <div
-        className="photo-card photo-card--achievement"
-        style={{ "--rotate": "-1deg", "--z": "4" } as CSSProperties}
-      >
-        <div className="photo-card-frame photo-card-frame--meta">
-          <img
-            src="/meta-partner.png"
-            alt="Meta Business Partner"
-            className="achievement-meta-img"
-            width={826}
-            height={412}
-          />
-        </div>
-      </div>
     </div>
   );
 }

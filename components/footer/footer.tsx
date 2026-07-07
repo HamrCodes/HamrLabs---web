@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Instagram, Facebook, Mail } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
-import { Badge } from "@/components/ui/badge";
 import { ContactFunnel } from "@/components/contact/contact-funnel";
 
 type Branch = "call" | "message";
@@ -101,10 +100,6 @@ export function Footer() {
               <span>IČO: 29675855</span>
               <span>Kaprova 42/14, Staré Město, 110 00 Praha 1</span>
             </div>
-            {/* TODO: replace with official Meta Business Partner badge */}
-            <Badge variant="pill" className="w-fit bg-bg-elevated">
-              Meta Business Partner
-            </Badge>
           </div>
 
           {/* Navigation */}

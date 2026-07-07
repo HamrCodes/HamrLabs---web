@@ -958,10 +958,14 @@ body {
 @media (min-width: 768px) {
   .trust-bar {
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 40px;
-    padding: 18px 32px;
+    gap: 24px;
+    /* Full-bleed band: 100% viewport width, items hug left/right edges */
+    padding: 20px clamp(24px, 5vw, 96px);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
   }
 }
 
@@ -4581,11 +4585,13 @@ body {
     line-height: 1.5 !important;
     margin-top: 4px !important;
   }
-  /* Trust bar stacks vertical */
+  /* Trust bar stacks vertical (full-bleed, so add side gutters + radius) */
   .trust-bar {
     flex-direction: column;
     gap: 16px;
     padding: 20px;
+    margin: 40px 20px 0;
+    border-radius: 16px;
   }
   .trust-bar-item {
     width: 100%;
