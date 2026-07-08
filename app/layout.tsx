@@ -46,12 +46,20 @@ export const metadata: Metadata = {
     title: "Hamr Labs — Marketing nové generace",
     description:
       "Meta reklamy, lead generation a AI obsah pro firmy, které měří všechno.",
-    // og:image is provided by app/opengraph-image.tsx (dynamic)
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Hamr Labs — Přivedu ti zákazníky. Ne jen lajky.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Hamr Labs — Marketing nové generace",
     description: "Marketing nové generace pro české firmy",
+    images: ["/og.png"],
   },
   robots: {
     index: true,

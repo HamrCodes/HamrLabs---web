@@ -1,0 +1,35 @@
+# Hamr Labs — Active24 classic hosting (Apache)
+# This file is copied into the static export root by the deploy workflow.
+
+RewriteEngine On
+RewriteBase /
+
+# Canonical: force https + non-www (hamrlabs.cz), single-hop redirect.
+# metadataBase and JSON-LD across the app already assume this canonical form.
+RewriteCond %{HTTP_HOST} ^www\.hamrlabs\.cz$ [NC,OR]
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://hamrlabs.cz/$1 [L,R=301]
+
+# Static export's generated 404 page for any unmatched path
+ErrorDocument 404 /404.html
+
+# Defensive MIME types in case the host's default map is stale
+<IfModule mod_mime.c>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# Next.js fingerprints filenames under _next/static, so these are safe to
+# cache aggressively. Everything else gets a conservative default.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 month"
+</IfModule>

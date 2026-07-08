@@ -22,8 +22,10 @@ export default function PrivacyPage() {
           dotazu a případného navázání obchodního vztahu.
         </p>
         <p className="font-sans text-base text-fg-muted leading-relaxed mb-6">
-          Údaje neukládám do CRM bez Vašeho souhlasu a nesdílím je s třetími
-          stranami. Pokud chcete data smazat, napište na{" "}
+          Odeslání kontaktního formuláře zpracovává služba Web3Forms (doručení
+          zprávy e-mailem), a to výhradně za tímto účelem. Údaje neukládám do
+          CRM bez Vašeho souhlasu a nesdílím je s dalšími třetími stranami.
+          Pokud chcete data smazat, napište na{" "}
           <a
             className="text-accent underline underline-offset-4"
             href="mailto:tomas.hammernik@gmail.com"
@@ -33,7 +35,7 @@ export default function PrivacyPage() {
           .
         </p>
         <p className="font-mono text-xs uppercase tracking-[0.15em] text-fg-subtle mt-12">
-          Poslední aktualizace: 12. června 2026
+          Poslední aktualizace: 8. července 2026
         </p>
       </main>
       <Footer />

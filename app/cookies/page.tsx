@@ -16,14 +16,13 @@ const cookieGroups = [
   {
     heading: "Analytické cookies",
     body: "Pomáhají pochopit, jak návštěvníci web používají: které stránky čtou, odkud přichází a kde web opouští. Data jsou anonymizovaná a slouží výhradně ke zlepšování webu. Nasazujeme je jen s Vaším souhlasem.",
-    items: ["[DOPLNIT: Vercel Analytics / Plausible po nasazení]"],
+    items: ["Aktuálně nenasazeno."],
   },
   {
     heading: "Marketingové cookies",
     body: "Umožňují měřit výkon reklamních kampaní a zobrazovat relevantní reklamy na platformách Meta. Nasazujeme je jen s Vaším souhlasem: pokud zvolíte „Jen nezbytné“, nic z tohoto se nenačte ani neodešle.",
     items: [
       "Meta Pixel: měření výkonu reklamních kampaní na Facebooku a Instagramu",
-      "Meta Conversions API: doplňkové server-side měření klíčových akcí (odeslání formuláře, domluvení hovoru), odolnější vůči blokování cookies",
     ],
   },
 ];

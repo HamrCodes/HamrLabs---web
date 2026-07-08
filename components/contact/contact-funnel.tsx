@@ -5,7 +5,7 @@ import { X, ArrowLeft, ArrowRight, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { callBranchSteps, messageBranchSteps } from "./funnel-data";
 import { FunnelStep } from "./funnel-step";
-import { submitFunnel } from "@/app/actions/contact";
+import { submitFunnel } from "@/lib/submit-funnel";
 import { trackMetaEvent } from "@/lib/meta-track-client";
 
 const BOOKED_KEY = "hamr-booked-slots";
@@ -91,21 +91,16 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       persistBookedSlot(answers.slot);
     }
 
-    // Meta: Lead covers every funnel submission, plus the branch-specific
-    // event (Schedule for a booked call, Contact for a written message).
-    // Deduplicated with the server-side Conversions API via a shared event ID.
-    const contactData = { email: answers.email, phone: answers.phone };
+    // Meta Pixel: Lead covers every funnel submission, plus the
+    // branch-specific event (Schedule for a booked call, Contact for a
+    // written message).
     trackMetaEvent("Lead", {
-      ...contactData,
-      customData: {
-        content_name:
-          branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým",
-      },
+      content_name: branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým",
     });
     if (branch === "call" && answers.slot) {
-      trackMetaEvent("Schedule", contactData);
+      trackMetaEvent("Schedule");
     } else if (branch === "message") {
-      trackMetaEvent("Contact", contactData);
+      trackMetaEvent("Contact");
     }
 
     try {

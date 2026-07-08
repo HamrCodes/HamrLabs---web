@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { caseStudies } from "@/lib/case-studies";
 import { blogPosts } from "@/lib/blog";
 
+// Required for `output: "export"` — bakes the sitemap once at build time.
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [

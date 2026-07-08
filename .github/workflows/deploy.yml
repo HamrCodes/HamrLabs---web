@@ -1,0 +1,54 @@
+name: Deploy to Active24
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies (lockfile-exact)
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build static export
+        run: npm run build
+        env:
+          NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+
+      # Hard gate: if the build didn't produce a real export, stop before
+      # anything ships. Never publish a broken/partial site.
+      - name: Verify export output
+        run: |
+          test -f out/index.html
+          test -f out/.htaccess
+          test -f out/404.html
+          echo "Export looks complete: $(find out -type f | wc -l) files"
+
+      - name: Deploy to Active24 (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ACTIVE24_FTP_HOST }}
+          username: ${{ secrets.ACTIVE24_FTP_USERNAME }}
+          password: ${{ secrets.ACTIVE24_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./out/
+          server-dir: ${{ vars.ACTIVE24_FTP_REMOTE_DIR || '/' }}
+          # Our filenames under _next/ are content-hashed per build, so old
+          # hashes never get overwritten by new ones — without a clean sync
+          # they'd accumulate forever. The repo is the single source of
+          # truth for what should exist on the host.
+          dangerous-clean-slate: true
