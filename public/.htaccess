@@ -4,6 +4,10 @@
 RewriteEngine On
 RewriteBase /
 
+# Serve the static export's index.html (WebSupport/Apache defaults to
+# index.php first, which would otherwise shadow our homepage).
+DirectoryIndex index.html
+
 # Canonical: force https + non-www (hamrlabs.cz), single-hop redirect.
 # metadataBase and JSON-LD across the app already assume this canonical form.
 RewriteCond %{HTTP_HOST} ^www\.hamrlabs\.cz$ [NC,OR]

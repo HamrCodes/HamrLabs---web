@@ -5,6 +5,13 @@ on:
     branches: [main]
   workflow_dispatch: {}
 
+# Host and document root are not secrets (the host is just the public domain,
+# /web is Active24's standard docroot). Only the FTP username + password and
+# the Web3Forms key are real secrets, kept in repo Settings -> Secrets.
+env:
+  FTP_HOST: hamrlabs.cz
+  FTP_REMOTE_DIR: /web/
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -38,17 +45,17 @@ jobs:
           test -f out/404.html
           echo "Export looks complete: $(find out -type f | wc -l) files"
 
-      - name: Deploy to Active24 (FTP)
+      - name: Deploy to Active24 (FTPS)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.ACTIVE24_FTP_HOST }}
+          server: ${{ env.FTP_HOST }}
           username: ${{ secrets.ACTIVE24_FTP_USERNAME }}
           password: ${{ secrets.ACTIVE24_FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./out/
-          server-dir: ${{ vars.ACTIVE24_FTP_REMOTE_DIR || '/' }}
-          # Our filenames under _next/ are content-hashed per build, so old
-          # hashes never get overwritten by new ones — without a clean sync
-          # they'd accumulate forever. The repo is the single source of
-          # truth for what should exist on the host.
+          server-dir: ${{ env.FTP_REMOTE_DIR }}
+          # The FTP account is jailed to /hamrlabs.cz and this uploads only into
+          # /web, so the other two domains on this hosting are untouchable.
+          # Content-hashed _next/static filenames would otherwise pile up over
+          # time, so mirror-delete keeps /web an exact copy of the build.
           dangerous-clean-slate: true
