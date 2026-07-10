@@ -14,6 +14,11 @@ RewriteCond %{HTTP_HOST} ^www\.hamrlabs\.cz$ [NC,OR]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://hamrlabs.cz/$1 [L,R=301]
 
+# Legacy blog slugs (early placeholder posts) -> current SEO articles.
+Redirect 301 /blog/kolik-stoji-lead-z-meta-ads/ https://hamrlabs.cz/blog/kolik-leadu-potrebuji/
+Redirect 301 /blog/boostovani-prispevku-neni-reklama/ https://hamrlabs.cz/blog/boostovani-vs-lead-gen/
+Redirect 301 /blog/conversions-api-a-pixel/ https://hamrlabs.cz/blog/conversions-api-pro-sluzby/
+
 # Static export's generated 404 page for any unmatched path
 ErrorDocument 404 /404.html
 

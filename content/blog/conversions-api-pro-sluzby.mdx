@@ -1,0 +1,122 @@
+Conversions API se skoro vždy vysvětluje na e-shopu. Košík, nákup, hodnota objednávky. Jenže služby košík nemají. Mají poptávky a formuláře. V tomto textu Vám ukážu, jak nastavit CAPI pro lead gen web, jaké události měřit a proč je to jinak než u e-shopu.
+
+Krátká odpověď. Conversions API pro služby neměří nákup, ale poptávku. Klíčové události jsou odeslaný formulář, telefonát a rezervace, tedy Lead. Události posílá z Vašeho serveru přímo Metě, nezávisle na prohlížeči. Nastavení je jednodušší než u e-shopu, protože sledujete míň typů akcí.
+
+## Proč se CAPI vysvětluje jen na e-shopech
+
+Většina návodů počítá s košíkem a objednávkou. E-shop má jasné události. Zobrazení produktu, přidání do košíku, nákup, hodnota v korunách. Meta pro ně má hotové názvy a pole.
+
+Poptávkový web tuhle stavbu nemá. Nikdo nic nekupuje online. Místo objednávky je odeslaný formulář. Místo tržby je hodnota zakázky, kterou znáte až později. E-shopová šablona sem prostě nesedí.
+
+Poptávkový web je web, jehož cílem je získat kontakt, ne prodat online. Řemeslník, advokát, klinika, stavební firma. Návštěvník nechá poptávku, obchod se dohodne offline. Konverze je kontakt, ne platba.
+
+Za osm let jsem viděl spoustu účtů služeb, které měly nastavené e-shopové události. Měřily zobrazení produktu, který neexistoval. Data byla k ničemu. Stačilo přenastavit měření na poptávky a čísla dostala smysl.
+
+## Co je Conversions API a proč ho služby potřebují
+
+Conversions API je serverové rozhraní, které posílá konverzní události z Vašeho serveru přímo Metě. Nezávisle na prohlížeči. U služeb funguje stejně jako u e-shopu, jen měří jiné akce.
+
+Proč to služby potřebují? Ze stejného důvodu jako kdokoli jiný. Prohlížeče omezují cookies a sledování. Samotný Pixel v prohlížeči tak část konverzí ztratí. U poptávek to bolí dvakrát, protože každá jedna poptávka má velkou hodnotu.
+
+Server-side tracking je označení pro měření, které posílá data ze serveru, ne z prohlížeče. Blokátor ho nevypne. Nastavení prohlížeče ho nezkrátí. Proto přes něj projde i signál, který by jinak zmizel.
+
+U služeb je objem poptávek nižší než objem nákupů v e-shopu. O to víc záleží na každé z nich. Když Vám z deseti poptávek Pixel nahlásí sedm, algoritmus se učí ze sedmi. Conversions API zbylé tři vrátí zpět.
+
+Jak přesně Pixel a server spolupracují, rozebírám v textu [Conversions API a Pixel](/blog/conversions-api-pro-sluzby). Tady se soustředím na to, co je u služeb jiné.
+
+## Jaké události měřit na poptávkovém webu
+
+Základní událost je Lead, tedy odeslaná poptávka. To je Vaše hlavní konverze. Všechno ostatní jsou pomocné signály, které vedou k ní.
+
+Typická sada událostí pro službu vypadá takhle.
+
+| Událost | Co znamená | Kdy ji poslat |
+| --- | --- | --- |
+| ViewContent | Zobrazení klíčové stránky | Návštěva stránky služby |
+| Lead | Odeslaná poptávka | Odeslání formuláře |
+| Contact | Telefonát nebo e-mail | Kliknutí na číslo, hovor |
+| Schedule | Rezervace termínu | Objednání schůzky |
+| CompleteRegistration | Dokončená registrace | Založení účtu, přihlášení |
+
+Hlavní váhu nese Lead. Ostatní události pomáhají algoritmu pochopit cestu, ale rozhodující je odeslaná poptávka. Na ni optimalizujete kampaně.
+
+Nemusíte měřit všech pět. Vyberte ty, které na Vašem webu opravdu nastávají. Když nemáte rezervační kalendář, Schedule vynecháte. Míň událostí, zato čistých, je lepší než hromada prázdných.
+
+Pozor na jednu věc. Neposílejte jako Lead každé kliknutí. Lead je odeslaná poptávka, ne návštěva stránky. Když událost nafouknete, algoritmus se učí ze špatných dat a cílí mimo.
+
+## Jak nastavit CAPI setup pro služby
+
+CAPI setup pro službu má tři fáze. Napojení serveru na Metu, definice událostí a předání parametrů pro párování. Projdeme je po pořádku.
+
+Postupujte v těchto krocích:
+
+1. Propojte web s Metou přes Conversions API, přímo nebo přes nástroj správy značek.
+2. Určete hlavní událost Lead a přiřaďte ji k odeslání formuláře.
+3. Doplňte pomocné události, které na webu nastávají, třeba Contact.
+4. K události přidejte parametry, e-mail a telefon v hashované podobě.
+5. Zapněte deduplikaci, ať se Lead z Pixelu a serveru nepočítá dvakrát.
+6. Otestujte v Business Manageru, jestli události chodí a párují se.
+
+Parametry jsou to, co u služeb rozhoduje. E-mail a telefon z formuláře pošlete Metě v zašifrované podobě. Meta podle nich spáruje poptávku s konkrétním člověkem. Čím víc parametrů, tím lepší párování.
+
+Deduplikace je pojistka proti dvojímu počítání. Když stejnou poptávku pošle Pixel i server, Meta je díky společnému identifikátoru spojí do jedné. Bez ní byste měřili dvakrát a čísla by lhala.
+
+Základní napojení zvládnete přes doplňky bez programování. Čistý setup s dobrým párováním a deduplikací už chce zkušenost. U poptávek, kde má každý lead velkou hodnotu, se přesnost vyplatí.
+
+## Proč je to jinak než u e-shopu
+
+Hlavní rozdíl je hodnota konverze. E-shop zná tržbu hned, v okamžiku nákupu. Služba zná hodnotu zakázky až po jednání, někdy za týdny. Do události Lead proto v e-shopovém smyslu žádnou tržbu nedáte.
+
+Druhý rozdíl je počet událostí. E-shop měří dlouhou cestu košíkem. Služba měří pár kroků k poptávce. Nastavení je tím pádem jednodušší, sledujete míň typů akcí.
+
+Třetí rozdíl je optimalizace. E-shop často optimalizuje na hodnotu nákupu. Služba optimalizuje na poptávku a její kvalitu. Cílem není nejlevnější lead, ale lead, který se mění na zakázku.
+
+Rozdíly shrnuje tabulka.
+
+| Hledisko | E-shop | Poptávkový web |
+| --- | --- | --- |
+| Hlavní událost | Nákup | Lead |
+| Hodnota konverze | Známá hned | Známá později |
+| Počet událostí | Vyšší | Nižší |
+| Optimalizace na | Hodnotu nákupu | Poptávku a kvalitu |
+| Náročnost setupu | Vyšší | Nižší |
+
+Z tabulky plyne dobrá zpráva. Pro služby je Conversions API jednodušší, ne složitější. Míň událostí, jasnější cíl. Stačí je nastavit správně.
+
+## Jak poznat, že měření poptávek funguje
+
+První kontrola je počet. Porovnejte poptávky ve schránce s událostmi Lead v Business Manageru. Když čísla zhruba sedí, měření běží. Když se rozcházejí, něco chybí.
+
+Druhá kontrola je párování. Podívejte se na event match quality, tedy skóre, jak dobře Meta páruje události s lidmi. Čím víc parametrů posíláte, tím vyšší skóre. Nízké skóre znamená, že chybí e-mail nebo telefon.
+
+Třetí kontrola je deduplikace. Ověřte, že se stejná poptávka nepočítá dvakrát. Když čísla v Metě náhle přeskočí realitu, dvojí počítání je první podezřelý.
+
+Čistý konverzní signál má u služeb velkou váhu. Meta systém Andromeda z roku 2026 klade na kvalitu signálu velký důraz (Zdroj: [Logical Position](https://www.logicalposition.com/blog/the-2026-paid-social-playbook)). Čím čistší poptávky mu pošlete, tím přesněji najde další lidi, kteří poptají.
+
+Uvedu to na číslech z praxe. Ve spravovaných účtech Hamr Labs držím pokles CPL o 38 % a průměrné ROAS 3,2×, přes 5 milionů korun spravovaných rozpočtů. Server-side měření poptávek je jeden z důvodů, proč čísla drží. Bez čistých dat by cena poptávky rostla.
+
+Proč samotný Pixel část poptávek nevidí a kolik dat vrací server, rozebírám v textu [proč Pixel podhodnocuje konverze](/blog/pixel-podhodnocuje-konverze). U poptávkových webů platí ten problém dvojnásob.
+
+## Časté dotazy
+
+### Potřebuje poptávkový web Conversions API, když nemá e-shop
+
+Ano, dokonce víc než e-shop. Prohlížeče omezují sledování, takže Pixel část poptávek ztratí. U služeb má každá poptávka velkou hodnotu, takže i pár chybějících leadů bolí. Conversions API je posílá ze serveru a vrací zpět. Andromeda navíc odměňuje čistý konverzní signál přesnějším cílením.
+
+### Jakou událost mám u služby použít místo nákupu
+
+Hlavní událost je Lead, tedy odeslaná poptávka. To je u služby obdoba nákupu. K ní přidáte pomocné události podle webu, třeba Contact pro telefonát nebo Schedule pro rezervaci termínu. Neposílejte jako Lead každé kliknutí. Lead je odeslaný formulář, ne návštěva stránky.
+
+### Jak do události Lead dostanu hodnotu zakázky
+
+Přesnou hodnotu u služby v okamžiku poptávky neznáte, poznáte ji až po jednání. Většinou proto na Lead optimalizujete bez tržby a hodnotu doplníte později přes offline konverze. Klíčové je posílat s poptávkou e-mail a telefon v zašifrované podobě, aby Meta lead správně spárovala a cílila přesně.
+
+### Zvládnu CAPI setup pro služby sám
+
+Základní napojení jde přes doplňky bez programování. Definici hlavní události Lead a jednoduché parametry zvládnete sami. Náročnější je deduplikace a čisté párování přes e-mail a telefon, aby se poptávka nepočítala dvakrát. U leadů s velkou hodnotou se přesnost vyplatí, proto nastavení často stojí za svěření odborníkovi.
+
+## Shrnutí a další krok
+
+Conversions API pro služby neměří košík, ale poptávku. Hlavní událost je Lead, k ní pár pomocných signálů podle webu. Nastavení je jednodušší než u e-shopu, protože sledujete míň akcí. Rozhoduje párování přes e-mail a telefon a čistá deduplikace.
+
+Nechte si měření poptávek nastavit tak, aby žádná neutekla. Ozvěte se přes [hamrlabs.cz](https://hamrlabs.cz) a projdeme Váš poptávkový web spolu. Než se rozhodnete, přečtěte si pilíř [reklama na Facebooku pro firmy](/blog/reklama-na-facebooku-pro-firmy), text [Conversions API a Pixel](/blog/conversions-api-pro-sluzby) a [proč Pixel podhodnocuje konverze](/blog/pixel-podhodnocuje-konverze).

@@ -21,12 +21,16 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.excerpt,
+    keywords: post.keywords,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
       title: post.title,
       description: post.excerpt,
+      url: `https://hamrlabs.cz/blog/${post.slug}`,
       publishedTime: post.date,
+      authors: ["Tomáš Hamerník"],
+      section: post.tag,
     },
   };
 }
@@ -53,8 +57,25 @@ export default async function BlogPostPage({
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    author: { "@type": "Person", name: "Tomáš Hamerník" },
-    publisher: { "@type": "Organization", name: "Hamr Labs" },
+    dateModified: post.date,
+    inLanguage: "cs-CZ",
+    articleSection: post.tag,
+    keywords: post.keywords.join(", "),
+    image: "https://hamrlabs.cz/og.png",
+    url: `https://hamrlabs.cz/blog/${post.slug}`,
+    author: {
+      "@type": "Person",
+      name: "Tomáš Hamerník",
+      url: "https://hamrlabs.cz",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Hamr Labs",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://hamrlabs.cz/logo.png",
+      },
+    },
     mainEntityOfPage: `https://hamrlabs.cz/blog/${post.slug}`,
   };
 

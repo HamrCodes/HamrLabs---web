@@ -7,12 +7,13 @@ import { ContactFunnel } from "@/components/contact/contact-funnel";
 
 type Branch = "call" | "message";
 
+// Blog is intentionally NOT linked here — it lives only at /blog (direct URL
+// + sitemap for search engines), hidden from the site's visible navigation.
 const navLinks = [
   { href: "/#sluzby", label: "Služby" },
   { href: "/#moje-vysledky", label: "Moje výsledky" },
   { href: "/#proces", label: "Proces" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/blog", label: "Blog" },
 ];
 
 const socialLinks = [

@@ -1,0 +1,111 @@
+Pixel podhodnocuje konverze skoro na každém účtu. Ne kvůli chybě v nastavení. Kvůli tomu, kde běží. Pixel žije v prohlížeči, a prohlížeč dnes měření omezuje. V tomto textu Vám vysvětlím, proč část konverzí chybí a jak ji Conversions API vrací zpět.
+
+Krátká odpověď. Pixel je kód v prohlížeči a prohlížeče blokují cookies, skripty a sledování. Část akcí se tak k Metě nedostane. Chybějící konverze doplní server-side měření přes Conversions API, které posílá události z Vašeho serveru. Kombinace obou zdrojů dá přesnější měření konverzí.
+
+## Co je Pixel a proč sám nestačí
+
+Pixel je kus kódu, který měří akce na Vašem webu a hlásí je Metě. Sedí v prohlížeči návštěvníka. Když někdo odešle formulář nebo koupí, Pixel to zaznamená a pošle. Zní to spolehlivě. Není.
+
+Problém je závislost na prohlížeči. Pixel funguje jen tehdy, když se skript načte a smí odeslat data. To dnes neplatí vždy. Blokátory reklam ho vypnou. Přísné nastavení prohlížeče ho zkrátí. A tím vzniká ztráta dat.
+
+Ztráta dat znamená rozdíl mezi tím, co se na webu stalo, a tím, co Meta vidí. Reálně proběhne víc konverzí, než kolik Pixel nahlásí. Rozhodujete se pak podle neúplného čísla.
+
+Za osm let v oboru jsem tenhle rozdíl viděl u většiny účtů, které jely jen na Pixel. Kampaň vydělávala víc, než ukazoval přehled. Majitel si myslel, že reklama sotva vychází. Ve skutečnosti chyběla data, ne výsledky.
+
+## Proč Pixel podhodnocuje konverze
+
+Hlavní důvod je jednoduchý. Prohlížeče dnes omezují cookies a sledování napříč weby. Pixel se o cookies opírá, takže část signálu ztratí. To není teorie, to je nastavení, se kterým prohlížeče přicházejí samy.
+
+Přidejte k tomu iOS. Od verze 14.5 zavedl Apple souhlas se sledováním v aplikacích. Kdo souhlas nedá, u toho měření přes prohlížeč slábne. A takových uživatelů jsou miliony.
+
+Pak jsou tu blokátory. Rozšíření proti reklamám často vypnou i Pixel. Uživatel o tom neví, Vy taky ne. Konverze proběhne, hlášení nepřijde.
+
+Poslední kámen je délka cesty. Člověk klikne na reklamu na mobilu, koupí za tři dny na počítači. Pixel v prohlížeči tyhle dva kroky spojí jen těžko. Konverze spadne mimo, i když nastala.
+
+Dohromady to dává jedno. Samotný Pixel v prohlížeči vidí jen část toho, co se stalo. Chybějící konverze nejsou drama, jsou daň za způsob, jak měření v prohlížeči funguje.
+
+## Jak Conversions API vrací chybějící data
+
+Conversions API je serverové rozhraní, které posílá konverzní události z Vašeho serveru přímo Metě. Nezávisle na prohlížeči. Tím obejde blokátory i omezení cookies, protože data neputují přes prohlížeč návštěvníka.
+
+Rozdíl je zásadní. Pixel měří v prohlížeči, Conversions API měří na serveru. Server žádný blokátor nevypne. Server nemá cookies závislé na nastavení prohlížeče. Proto se přes něj dostane i to, co Pixel ztratí.
+
+Nejde o náhradu, jde o doplnění. Nejlepší výsledek dává kombinace obou. Pixel chytí to, co jde přes prohlížeč. Conversions API dohlásí zbytek ze serveru. Meta pak obě události spáruje do jedné.
+
+Server-side měření je označení pro tenhle přístup. Konverzní signál posíláte ze svého systému, ne z prohlížeče. Výsledkem je přesnější měření konverzí a stabilnější data, na kterých staví optimalizace kampaní.
+
+Kombinaci Pixelu a serveru rozebírám podrobně v textu [Conversions API a Pixel](/blog/conversions-api-pro-sluzby). Tam najdete, jak spolu oba zdroje spolupracují a co který měří.
+
+## Proč na kvalitě signálu záleží víc než dřív
+
+Čistý konverzní signál posílá algoritmus lepším směrem. Meta se z konverzí učí, koho oslovit dál. Když data chybí, učí se z půlky. Rozhoduje na základě neúplného obrazu.
+
+To platí čím dál víc. Meta systém Andromeda z roku 2026 klade na kvalitu konverzního signálu velký důraz (Zdroj: [Logical Position](https://www.logicalposition.com/blog/the-2026-paid-social-playbook)). Čím čistší data mu pošlete, tím přesněji cílí. Špatná data znamenají dražší poptávky.
+
+Kvalitu spárování ukazuje event match quality. Je to skóre, jak dobře Meta páruje Vaše události s konkrétními lidmi. Čím víc parametrů pošlete, tím vyšší skóre. Vyšší skóre znamená přesnější cílení.
+
+Conversions API tady pomáhá dvakrát. Vrátí chybějící konverze a zároveň dodá parametry pro lepší párování. Event match quality vyroste, cílení se zpřesní. To se pak projeví na ceně poptávky.
+
+Uvedu to na číslech z praxe. Ve spravovaných účtech Hamr Labs držím pokles CPL o 38 % a průměrné ROAS 3,2×. Kus toho výsledku stojí právě na server-side měření. Bez čistých dat by čísla byla horší.
+
+## Jak poznat, že Vám chybí konverze
+
+První signál je nesoulad. Web hlásí víc objednávek nebo poptávek, než ukazuje Meta. Když se čísla rozcházejí trvale, část konverzí Vám padá mimo.
+
+Druhý signál je nízké event match quality. Když je skóre slabé, Meta páruje málo událostí. To znamená, že řada konverzí dorazí bez kontextu nebo vůbec.
+
+Třetí signál je jistota naopak. Když měříte jen Pixelem, chybějící konverze prostě nevidíte. Nevíte, o kolik přicházíte, protože přehled ukazuje jen to, co prošlo. Slepé místo se schová samo.
+
+Postupujte v těchto krocích:
+
+1. Porovnejte konverze z webu s konverzemi v Meta přehledu.
+2. Zkontrolujte event match quality v Business Manageru.
+3. Ověřte, jestli běží Conversions API, nebo jen Pixel.
+4. Když jede jen Pixel, nasaďte server-side měření.
+5. Po pár týdnech znovu porovnejte čísla.
+
+Když jsou oba zdroje aktivní, rozdíl mezi webem a Metou se zmenší. Ne na nulu, ale na míru, se kterou se dá pracovat.
+
+## Kdy stačí Pixel a kdy potřebujete server
+
+Pixel sám může stačit na úplném začátku. Když teprve testujete a jde o malý rozpočet, přesnost dat tolik nebolí. Data ale budou neúplná, počítejte s tím.
+
+Server-side měření začne dávat smysl ve chvíli, kdy do reklamy dáváte peníze, na kterých Vám záleží. Čím větší rozpočet, tím dražší jsou chybějící konverze. Slepé místo se násobí útratou.
+
+Rozdíl podle situace shrnuje tabulka.
+
+| Situace | Samotný Pixel | Pixel plus Conversions API |
+| --- | --- | --- |
+| Malý testovací rozpočet | Stačí na start | Není nutné hned |
+| Rostoucí útrata | Data začnou chybět | Doporučené |
+| Delší cesta k nákupu | Konverze padají mimo | Zachytí víc kroků |
+| Poptávkový web | Slabý signál | Přesnější měření |
+| Kvalita signálu pro Andromedu | Nižší | Vyšší |
+
+Z tabulky plyne jasný závěr. Čím víc na reklamě záleží, tím dřív potřebujete server. Pixel jako jediný zdroj je pojistka jen na začátku.
+
+Jak nastavit měření pro služby a poptávky, kde nejsou e-shop události, popisuju v textu [Conversions API pro služby](/blog/conversions-api-pro-sluzby). Tam řeším formuláře a poptávky, ne košík.
+
+## Časté dotazy
+
+### Znamená to, že mám Pixel vypnout
+
+Ne. Pixel nechte běžet dál a přidejte k němu Conversions API. Oba zdroje se doplňují, ne nahrazují. Pixel chytí signál z prohlížeče, server dohlásí zbytek. Meta obě události spáruje do jedné, takže se konverze nepočítají dvakrát. Nejlepší data dává kombinace.
+
+### O kolik konverzí kvůli Pixelu přicházím
+
+Přesné číslo Vám nikdo nezaručí, liší se účet od účtu. Záleží na podílu uživatelů s blokátory, na iOS a na délce nákupní cesty. Rozdíl poznáte tak, že porovnáte konverze z webu s konverzemi v Meta přehledu. Po nasazení serveru se ten rozdíl zmenší.
+
+### Co je event match quality a proč ho řešit
+
+Event match quality je skóre, jak dobře Meta páruje Vaše konverzní události s konkrétními lidmi. Čím víc parametrů pošlete, tím vyšší skóre a přesnější cílení. Conversions API skóre zvedá, protože dodá víc dat ze serveru. Vyšší skóre pak snižuje cenu poptávky.
+
+### Zvládnu nasazení Conversions API sám
+
+Základní nasazení jde přes doplňky a napojení bez programování. Kvalitní setup s dobrým párováním už ale chce zkušenost, ať data sedí a nepočítají se dvakrát. Když Vám na přesnosti záleží, vyplatí se nastavení svěřit někomu, kdo měření dělá denně. Ušetříte čas i špatná data.
+
+## Shrnutí a další krok
+
+Pixel podhodnocuje konverze, protože žije v prohlížeči. Blokátory, cookies a iOS mu berou část signálu. Chybějící konverze nejsou chyba, jsou daň za měření v prohlížeči. Conversions API tuhle daň z velké části vrací zpět ze serveru.
+
+Nechte si měření nastavit tak, aby Vám data neutíkala. Ozvěte se přes [hamrlabs.cz](https://hamrlabs.cz) a projdeme Vaše měření spolu. Než se rozhodnete, přečtěte si pilíř [reklama na Facebooku pro firmy](/blog/reklama-na-facebooku-pro-firmy), text [Conversions API a Pixel](/blog/conversions-api-pro-sluzby) a [Conversions API pro služby](/blog/conversions-api-pro-sluzby).
