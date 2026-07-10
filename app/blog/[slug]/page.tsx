@@ -1,13 +1,32 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { Nav } from "@/components/nav/nav";
 import { Footer } from "@/components/footer/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/components/seo/json-ld";
 import { blogPosts, getBlogPost } from "@/lib/blog";
+import {
+  SITE_URL,
+  graph,
+  blogPostingNode,
+  breadcrumbNode,
+  faqPageNode,
+} from "@/lib/seo";
+import { parseFaq, wordCount } from "@/lib/faq-parser";
 
 export function generateStaticParams() {
   return blogPosts.map((p) => ({ slug: p.slug }));
+}
+
+function readMdx(slug: string): string {
+  try {
+    return readFileSync(join(process.cwd(), "content/blog", `${slug}.mdx`), "utf-8");
+  } catch {
+    return "";
+  }
 }
 
 export async function generateMetadata({
@@ -18,19 +37,36 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) return {};
+  const url = `${SITE_URL}/blog/${post.slug}`;
   return {
     title: post.title,
     description: post.excerpt,
     keywords: post.keywords,
-    alternates: { canonical: `/blog/${post.slug}` },
+    authors: [{ name: "Tomáš Hamerník", url: SITE_URL }],
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+      languages: {
+        "cs-CZ": `/blog/${post.slug}`,
+        "x-default": `/blog/${post.slug}`,
+      },
+    },
     openGraph: {
       type: "article",
       title: post.title,
       description: post.excerpt,
-      url: `https://hamrlabs.cz/blog/${post.slug}`,
+      url,
+      siteName: "Hamr Labs",
+      locale: "cs_CZ",
       publishedTime: post.date,
+      modifiedTime: post.date,
       authors: ["Tomáš Hamerník"],
       section: post.tag,
+      tags: post.keywords,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
     },
   };
 }
@@ -49,58 +85,66 @@ export default async function BlogPostPage({
   const post = getBlogPost(slug);
   if (!post) notFound();
 
+  const raw = readMdx(slug);
+  const faqs = parseFaq(raw);
+  const words = wordCount(raw);
   const { default: MDX } = await import(`@/content/blog/${slug}.mdx`);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt,
-    datePublished: post.date,
-    dateModified: post.date,
-    inLanguage: "cs-CZ",
-    articleSection: post.tag,
-    keywords: post.keywords.join(", "),
-    image: "https://hamrlabs.cz/og.png",
-    url: `https://hamrlabs.cz/blog/${post.slug}`,
-    author: {
-      "@type": "Person",
-      name: "Tomáš Hamerník",
-      url: "https://hamrlabs.cz",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "Hamr Labs",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://hamrlabs.cz/logo.png",
-      },
-    },
-    mainEntityOfPage: `https://hamrlabs.cz/blog/${post.slug}`,
-  };
+  const breadcrumbs = [
+    { name: "Domů", url: SITE_URL },
+    { name: "Blog", url: `${SITE_URL}/blog` },
+    { name: post.title, url: `${SITE_URL}/blog/${post.slug}` },
+  ];
+
+  const jsonLd = graph([
+    blogPostingNode({
+      title: post.title,
+      description: post.excerpt,
+      slug: post.slug,
+      datePublished: post.date,
+      section: post.tag,
+      keywords: post.keywords,
+      imageUrl: `${SITE_URL}/og.png`,
+      wordCount: words,
+    }),
+    breadcrumbNode(breadcrumbs),
+    ...(faqs.length ? [faqPageNode(faqs)] : []),
+  ]);
 
   return (
     <>
+      <JsonLd data={jsonLd} />
       <Nav />
       <main id="main" className="relative">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-
         {/* Header */}
-        <section
+        <header
           id="hero"
           className="relative pt-32 pb-12 md:pt-40 md:pb-16 border-b border-rule overflow-hidden"
         >
           <div className="absolute inset-0 aurora-bg opacity-60 pointer-events-none" />
           <div className="container-ultra relative max-w-3xl flex flex-col gap-6">
-            <a
-              href="/blog"
-              className="font-mono text-xs uppercase tracking-[0.15em] text-fg-muted hover:text-accent transition-colors w-fit"
+            {/* Visible breadcrumbs — mirror the BreadcrumbList schema */}
+            <nav
+              aria-label="Drobečková navigace"
+              className="font-mono text-xs uppercase tracking-[0.12em] text-fg-muted flex items-center gap-2 flex-wrap"
             >
-              ← Blog
-            </a>
+              <a href="/" className="hover:text-accent transition-colors">
+                Domů
+              </a>
+              <span aria-hidden className="text-fg-subtle">
+                /
+              </span>
+              <a href="/blog" className="hover:text-accent transition-colors">
+                Blog
+              </a>
+              <span aria-hidden className="text-fg-subtle">
+                /
+              </span>
+              <span className="text-fg-subtle normal-case tracking-normal truncate max-w-[60vw]">
+                {post.title}
+              </span>
+            </nav>
+
             <div className="flex items-center gap-3 flex-wrap">
               <Badge>{post.tag}</Badge>
               <span className="font-mono text-[10px] uppercase tracking-[0.15em] text-fg-subtle">
@@ -111,7 +155,7 @@ export default async function BlogPostPage({
               {post.title}
             </h1>
           </div>
-        </section>
+        </header>
 
         {/* Body */}
         <article className="container-ultra py-16 md:py-24 max-w-3xl">

@@ -1,8 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Audiowide, Space_Grotesk, Inter } from "next/font/google";
 import { LiquidGlassSVG } from "@/components/ui/liquid-glass-svg";
 import { CookieBar } from "@/components/ui/cookie-bar";
 import { MetaPixel } from "@/components/analytics/meta-pixel";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  graph,
+  organizationNode,
+  websiteNode,
+  personNode,
+  ORGANIZATION_ID,
+} from "@/lib/seo";
 import "./globals.css";
 
 // Audiowide — Display / Hero / H1 / H2 / H3 (brand manual)
@@ -38,6 +46,13 @@ export const metadata: Metadata = {
   },
   description:
     "Tomáš Hamerník: Meta reklamy, lead generation a AI obsah pro e-shopy a služby. CPL pokles o 64 % za 60 dní.",
+  alternates: {
+    canonical: "/",
+    languages: {
+      "cs-CZ": "/",
+      "x-default": "/",
+    },
+  },
   openGraph: {
     type: "website",
     locale: "cs_CZ",
@@ -64,87 +79,64 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    "max-image-preview": "large",
+    "max-snippet": -1,
+    "max-video-preview": -1,
   },
   verification: {
     other: {
       "facebook-domain-verification": "w4hto3wk1utlxj39ypdnw7hsdr84tx",
+      // TODO: add Google Search Console token (see SEO-README.md)
+      // "google-site-verification": "...",
     },
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Person",
-      "@id": "https://hamrlabs.cz/#tomas",
-      name: "Tomáš Hamerník",
-      jobTitle: "AI Performance Marketing Konzultant",
-      url: "https://hamrlabs.cz",
-      sameAs: [
-        "https://instagram.com/hamrlabs",
-        "https://facebook.com/HamrLabs",
-      ],
-      worksFor: { "@id": "https://hamrlabs.cz/#org" },
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://hamrlabs.cz/#org",
-      name: "Hamr Labs",
-      legalName: "Hamr Labs s.r.o.",
-      url: "https://hamrlabs.cz",
-      logo: "https://hamrlabs.cz/logo.png",
-      founder: { "@id": "https://hamrlabs.cz/#tomas" },
-      areaServed: "CZ",
-      identifier: {
-        "@type": "PropertyValue",
-        propertyID: "ICO",
-        value: "29675855",
-      },
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "Kaprova 42/14",
-        addressLocality: "Praha",
-        postalCode: "110 00",
-        addressCountry: "CZ",
-      },
-      sameAs: [
-        "https://instagram.com/hamrlabs",
-        "https://facebook.com/HamrLabs",
-      ],
-    },
-    {
-      "@type": "Service",
-      name: "Meta Ads",
-      provider: { "@id": "https://hamrlabs.cz/#org" },
-      areaServed: "CZ",
-      description:
-        "Kampaně na Facebooku a Instagramu od struktury přes kreativy až po škálování.",
-    },
-    {
-      "@type": "Service",
-      name: "Lead Generation",
-      provider: { "@id": "https://hamrlabs.cz/#org" },
-      areaServed: "CZ",
-      description:
-        "Systémy na získávání kvalifikovaných leadů. Data místo dojmů.",
-    },
-    {
-      "@type": "Service",
-      name: "AI Obsah",
-      provider: { "@id": "https://hamrlabs.cz/#org" },
-      areaServed: "CZ",
-      description: "Kreativy, karusely, copy a videa s AI podporou.",
-    },
-    {
-      "@type": "Service",
-      name: "Audit & Strategie",
-      provider: { "@id": "https://hamrlabs.cz/#org" },
-      areaServed: "CZ",
-      description: "Kompletní audit Meta účtu a strategická mapa kampaní.",
-    },
-  ],
+export const viewport: Viewport = {
+  themeColor: "#0A0A0A",
+  width: "device-width",
+  initialScale: 1,
 };
+
+const serviceNodes = [
+  {
+    "@type": "Service",
+    name: "Meta Ads",
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: "CZ",
+    description:
+      "Kampaně na Facebooku a Instagramu od struktury přes kreativy až po škálování.",
+  },
+  {
+    "@type": "Service",
+    name: "Lead Generation",
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: "CZ",
+    description:
+      "Systémy na získávání kvalifikovaných leadů. Data místo dojmů.",
+  },
+  {
+    "@type": "Service",
+    name: "AI Obsah",
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: "CZ",
+    description: "Kreativy, karusely, copy a videa s AI podporou.",
+  },
+  {
+    "@type": "Service",
+    name: "Audit & Strategie",
+    provider: { "@id": ORGANIZATION_ID },
+    areaServed: "CZ",
+    description: "Kompletní audit Meta účtu a strategická mapa kampaní.",
+  },
+];
+
+const siteJsonLd = graph([
+  organizationNode(),
+  websiteNode(),
+  personNode(),
+  ...serviceNodes,
+]);
 
 export default function RootLayout({
   children,
@@ -157,10 +149,7 @@ export default function RootLayout({
       className={`${display.variable} ${mono.variable} ${sans.variable}`}
     >
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={siteJsonLd} />
       </head>
       <body>
         <LiquidGlassSVG />
