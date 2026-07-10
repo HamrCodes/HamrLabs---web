@@ -17,6 +17,8 @@ export function PhotoCollage() {
             className="photo-card-image"
             width={900}
             height={1200}
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
@@ -47,6 +49,8 @@ export function PhotoCollage() {
             className="photo-card-image photo-card-image--contain"
             width={1500}
             height={1125}
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>

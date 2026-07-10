@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import Link from "next/link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -31,14 +32,26 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     strong: ({ children }) => (
       <strong className="font-semibold text-fg">{children}</strong>
     ),
-    a: ({ href, children }) => (
-      <a
-        href={href}
-        className="text-accent underline underline-offset-4 hover:opacity-80"
-      >
-        {children}
-      </a>
-    ),
+    a: ({ href, children }) => {
+      const url = typeof href === "string" ? href : "";
+      const isInternal = url.startsWith("/") && !url.startsWith("//");
+      const cls =
+        "text-accent underline underline-offset-4 hover:opacity-80";
+      // Internal links get client-side routing + prefetch via next/link;
+      // external links open safely in a new tab.
+      if (isInternal) {
+        return (
+          <Link href={url} className={cls}>
+            {children}
+          </Link>
+        );
+      }
+      return (
+        <a href={url} className={cls} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      );
+    },
     blockquote: ({ children }) => (
       <blockquote className="border-l-[3px] border-accent pl-6 py-2 font-mono italic text-lg text-fg my-6">
         {children}

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { caseStudies } from "@/lib/case-studies";
 import { blogPosts } from "@/lib/blog";
+import { SITE_URL } from "@/lib/seo";
 
 // Required for `output: "export"` — bakes the sitemap once at build time.
 export const dynamic = "force-static";
@@ -8,32 +9,36 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
-    { url: "https://hamrlabs.cz", lastModified: now, priority: 1.0 },
-    { url: "https://hamrlabs.cz/blog", lastModified: now, priority: 0.7 },
-    ...caseStudies.map((cs) => ({
-      url: `https://hamrlabs.cz/pripadovky/${cs.slug}`,
+    {
+      url: SITE_URL,
       lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${SITE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    ...caseStudies.map((cs) => ({
+      url: `${SITE_URL}/pripadovky/${cs.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...blogPosts.map((p) => ({
-      url: `https://hamrlabs.cz/blog/${p.slug}`,
+      url: `${SITE_URL}/blog/${p.slug}`,
       lastModified: new Date(p.date),
-      priority: 0.6,
+      changeFrequency: "monthly" as const,
+      // Pillar article ranks above the cluster.
+      priority: p.pillar ? 0.9 : 0.8,
     })),
-    {
-      url: "https://hamrlabs.cz/privacy",
+    ...["privacy", "obchodni-podminky", "cookies"].map((slug) => ({
+      url: `${SITE_URL}/${slug}`,
       lastModified: now,
+      changeFrequency: "yearly" as const,
       priority: 0.3,
-    },
-    {
-      url: "https://hamrlabs.cz/obchodni-podminky",
-      lastModified: now,
-      priority: 0.3,
-    },
-    {
-      url: "https://hamrlabs.cz/cookies",
-      lastModified: now,
-      priority: 0.3,
-    },
+    })),
   ];
 }
