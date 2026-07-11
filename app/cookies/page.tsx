@@ -15,8 +15,10 @@ const cookieGroups = [
   },
   {
     heading: "Analytické cookies",
-    body: "Pomáhají pochopit, jak návštěvníci web používají: které stránky čtou, odkud přichází a kde web opouští. Data jsou anonymizovaná a slouží výhradně ke zlepšování webu. Nasazujeme je jen s Vaším souhlasem.",
-    items: ["Aktuálně nenasazeno."],
+    body: "Pomáhají pochopit, jak návštěvníci web používají: které stránky čtou, odkud přichází a kde web opouští. Data slouží výhradně ke zlepšování webu. Nasazujeme je jen s Vaším souhlasem.",
+    items: [
+      "Microsoft Clarity: anonymní teplotní mapy a záznamy relací pro zlepšení použitelnosti webu",
+    ],
   },
   {
     heading: "Marketingové cookies",
