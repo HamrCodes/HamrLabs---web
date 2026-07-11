@@ -91,16 +91,23 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       persistBookedSlot(answers.slot);
     }
 
-    // Meta Pixel: Lead covers every funnel submission, plus the
-    // branch-specific event (Schedule for a booked call, Contact for a
-    // written message).
-    trackMetaEvent("Lead", {
-      content_name: branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým",
-    });
+    // Meta: Lead covers every funnel submission, plus the branch-specific
+    // event (Schedule for a booked call, Contact for a written message).
+    // email/phone go to the CAPI relay for server-side match quality; the
+    // relay hashes them before they reach Meta.
+    const userData = { email: answers.email, phone: answers.phone };
+    trackMetaEvent(
+      "Lead",
+      {
+        content_name:
+          branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým",
+      },
+      userData,
+    );
     if (branch === "call" && answers.slot) {
-      trackMetaEvent("Schedule");
+      trackMetaEvent("Schedule", undefined, userData);
     } else if (branch === "message") {
-      trackMetaEvent("Contact");
+      trackMetaEvent("Contact", undefined, userData);
     }
 
     try {
