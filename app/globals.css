@@ -4586,15 +4586,18 @@ body {
   }
   .hero-h1 {
     order: 2;
-    /* Sized so "Vaši zákazníci jsou na Facebooku." holds one line. */
-    font-size: clamp(15px, 5.1vw, 22px);
+    /* Sized so the headline breaks after "...jsou na", with
+       "Facebooku. Přivedu je k Vám." flowing onto the second line. */
+    font-size: clamp(19px, 6vw, 24px);
     line-height: 1.2;
     letter-spacing: -0.03em;
     margin: 0;
   }
-  /* Two halves flow into a single line on phones */
+  /* Whole headline flows inline on phones and wraps naturally as one
+     sentence, accent included. */
   .hero-h1-a,
-  .hero-h1-b {
+  .hero-h1-b,
+  .hero-h1-accent {
     display: inline;
   }
   /* Phone hero leads with headline + showreel; the eyebrow is dropped and the
@@ -5040,8 +5043,8 @@ body {
     padding-right: 16px;
   }
   .hero-h1 {
-    /* Keep "Vaši zákazníci jsou na Facebooku." on one line here too. */
-    font-size: clamp(13px, 4.9vw, 19px);
+    /* Same "...jsou na" break on small phones, a touch smaller. */
+    font-size: clamp(18px, 5.7vw, 21px);
   }
   .nav-logo span {
     font-size: 14px;
