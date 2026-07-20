@@ -89,7 +89,7 @@ export function CaseStudyModal({ caseStudy, onClose }: Props) {
           <div className="case-modal-content">
             {/* Header */}
             <div className="case-modal-header">
-              <span className="case-modal-label">CASE {caseStudy.caseNumber}</span>
+              <span className="case-modal-label">PROJEKT {caseStudy.caseNumber}</span>
               <h2 id="case-modal-title" className="case-modal-title">
                 {caseStudy.client}
               </h2>
@@ -112,7 +112,7 @@ export function CaseStudyModal({ caseStudy, onClose }: Props) {
             {caseStudy.isPlaceholder ? (
               <section className="case-modal-section">
                 <h3 className="case-modal-section-heading">
-                  Detailní case study připravujeme
+                  Detailní rozpad připravujeme
                 </h3>
                 <p className="case-modal-section-body">{caseStudy.context}</p>
               </section>

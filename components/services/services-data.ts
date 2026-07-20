@@ -1,4 +1,4 @@
-import { Target, Magnet, GraduationCap } from "lucide-react";
+import { Target, Magnet, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface Service {
@@ -10,20 +10,20 @@ export interface Service {
 export const services: Service[] = [
   {
     icon: Target,
-    title: "Meta Ads",
+    title: "Reklama na Facebooku a Instagramu",
     description:
-      "Kampaně na Facebooku a Instagramu od struktury přes kreativy až po škálování.",
+      "Vymyslím, spustím a denně hlídám Vaše reklamy. Od prvního vizuálu až po vyhodnocení, co skutečně vydělalo.",
   },
   {
     icon: Magnet,
-    title: "Lead Generation",
+    title: "Přísun poptávek",
     description:
-      "Systémy na získávání kvalifikovaných leadů. Data místo dojmů.",
+      "Postavím systém, který Vám každý týden nosí nové poptávky. U každé víte, kolik stála. Vy jen zvedáte telefon.",
   },
   {
-    icon: GraduationCap,
-    title: "Školení",
+    icon: Users,
+    title: "Nábor zaměstnanců",
     description:
-      "Workshopy o AI marketingu, Meta Ads a tvorbě obsahu na sociální sítě.",
+      "Kandidáti na řemeslné a výrobní pozice přes reklamu na Facebooku. Bez pracovních portálů a za zlomek jejich ceny.",
   },
 ];

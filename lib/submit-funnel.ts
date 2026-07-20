@@ -35,7 +35,7 @@ export async function submitFunnel(
   }
 
   const branchLabel =
-    submission.branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým";
+    submission.branch === "call" ? "Nezávazná konzultace" : "Napsat zprávu";
   const name = submission.answers.name || "Neznámý";
 
   const fields: Record<string, string> = {};

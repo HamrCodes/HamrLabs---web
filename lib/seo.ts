@@ -64,7 +64,7 @@ export function personNode() {
     "@type": "Person",
     "@id": PERSON_ID,
     name: AUTHOR_NAME,
-    jobTitle: "Konzultant výkonnostního marketingu",
+    jobTitle: "Specialista na reklamu na sociálních sítích",
     url: SITE_URL,
     worksFor: { "@id": ORGANIZATION_ID },
   };

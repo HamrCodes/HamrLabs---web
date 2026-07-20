@@ -24,28 +24,28 @@ export const faqItems: FaqGridItem[] = [
   {
     type: "faq",
     icon: Clock,
-    question: "Jak rychle uvidíte výsledky?",
+    question: "Jak rychle uvidím výsledky?",
     answer:
-      "První signály 7 až 14 dní po spuštění kampaní. Stabilní snížení CPL a růst ROAS v horizontu 30 až 60 dní.",
+      "První poptávky obvykle do 7 až 14 dnů od spuštění. Stabilní čísla a rozumnou cenu za poptávku doladíme během prvního až druhého měsíce.",
   },
   {
     type: "screenshot",
     metricValue: "582",
-    metricLabel: "Získaných kandidátů během 2 měsíců",
+    metricLabel: "získaných kandidátů za 2 měsíce",
     caption: "GDR Work · Nábor",
     image: "/faq-gdrwork.png",
   },
   {
     type: "faq",
     icon: Wallet,
-    question: "S jakým rozpočtem pracujete?",
+    question: "Kolik do reklamy musím dát?",
     answer:
-      "Doporučený mediální rozpočet startuje na 30 000 Kč měsíčně, abychom měli statisticky relevantní data.",
+      "Doporučuju začít s rozpočtem od 30 000 Kč měsíčně na samotnou reklamu. S menší částkou trvá déle, než se reklama rozjede a než jde poznat, co funguje.",
   },
   {
     type: "screenshot",
     metricValue: "2M+",
-    metricLabel: "Zobrazení",
+    metricLabel: "zobrazení reklam",
     caption: "Namontuj si · Služby",
     image: "/faq-namontujsi.png",
   },
@@ -53,29 +53,29 @@ export const faqItems: FaqGridItem[] = [
   {
     type: "screenshot",
     metricValue: "165",
-    metricLabel: "Poptávek za 165 Kč/ks",
+    metricLabel: "poptávek po 165 Kč",
     caption: "Service Estate · Reality",
     image: "/faq-serviceestate.png",
   },
   {
     type: "faq",
     icon: BarChart3,
-    question: "Jak reportujete výsledky?",
+    question: "Jak se dozvím, co reklama dělá?",
     answer:
-      "Týdenní krátký report v Loomu nebo Slacku plus měsíční dashboard s KPI, ke kterému máte přístup 24/7.",
+      "Každý týden Vám pošlu krátké video nebo zprávu s výsledky a dalším postupem. K číslům máte navíc přístup kdykoliv, 24 hodin denně.",
   },
   {
     type: "screenshot",
     metricValue: "265",
-    metricLabel: "Získaných poptávek za 14 dní",
+    metricLabel: "poptávek za 14 dní",
     caption: "Bez dluhů · Finance",
     image: "/faq-bezdluhu.png",
   },
   {
     type: "faq",
     icon: Sparkles,
-    question: "Zahrnuje to tvorbu obsahu?",
+    question: "Musím si dělat fotky a videa sám?",
     answer:
-      "Ano. Kreativy, vizuály, karusely i video formáty dělám in-house s podporou AI. Pracuji s Vaším brand voicem.",
+      "Ne. Vizuály, videa i texty do reklam vytvořím já, s pomocí AI a ve stylu Vaší firmy. Od Vás potřebuju jen základní podklady.",
   },
 ];

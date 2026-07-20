@@ -37,6 +37,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [sendFailed, setSendFailed] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const steps = branch === "call" ? callBranchSteps : messageBranchSteps;
   const currentStep = steps[stepIndex];
@@ -100,7 +102,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       "Lead",
       {
         content_name:
-          branch === "call" ? "Nezávazná konzultace" : "Kontaktovat tým",
+          branch === "call" ? "Nezávazná konzultace" : "Napsat zprávu",
       },
       userData,
     );
@@ -110,11 +112,23 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       trackMetaEvent("Contact", undefined, userData);
     }
 
+    // Only show the success screen if the message actually went out —
+    // otherwise the visitor thinks they reached us when they did not.
+    setSending(true);
+    setSendFailed(false);
+    let ok = false;
     try {
-      await submitFunnel({ branch, answers });
+      ({ ok } = await submitFunnel({ branch, answers }));
     } catch (err) {
       console.error("[funnel submit error]", err);
     }
+    setSending(false);
+
+    if (!ok) {
+      setSendFailed(true);
+      return;
+    }
+
     setSubmitted(true);
     setTimeout(() => {
       onClose();
@@ -199,7 +213,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
                   aria-hidden
                   focusable={false}
                 />
-                <span>Kontaktovat tým</span>
+                <span>Napsat zprávu</span>
               </button>
             </div>
 
@@ -250,10 +264,18 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
               <button
                 type="button"
                 onClick={handleNext}
-                disabled={!isStepComplete}
+                disabled={!isStepComplete || sending}
                 className="funnel-nav-button funnel-nav-button--next"
               >
-                <span>{isLastStep ? "Odeslat" : "Pokračovat"}</span>
+                <span>
+                  {!isLastStep
+                    ? "Pokračovat"
+                    : sending
+                      ? "Odesílám..."
+                      : branch === "call"
+                        ? "Odeslat a domluvit hovor"
+                        : "Odeslat zprávu"}
+                </span>
                 <ArrowRight
                   className="w-4 h-4"
                   strokeWidth={2}
@@ -262,6 +284,24 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
                 />
               </button>
             </div>
+
+            {isLastStep && (
+              <>
+                {sendFailed && (
+                  <p className="funnel-error" role="alert">
+                    Něco se pokazilo. Zkuste to prosím znovu, nebo mi napište
+                    rovnou na{" "}
+                    <a href="mailto:tomas.hammernik@gmail.com">
+                      tomas.hammernik@gmail.com
+                    </a>
+                    .
+                  </p>
+                )}
+                <p className="funnel-microcopy">
+                  Odpovídám do 24 hodin. Vaše údaje nikam dál nepředávám.
+                </p>
+              </>
+            )}
           </>
         )}
       </div>
@@ -276,12 +316,12 @@ function FunnelSuccess({ branch }: { branch: Branch }) {
         ✓
       </div>
       <h3 className="funnel-success-title">
-        {branch === "call" ? "Hovor je domluvený" : "Zpráva je na cestě"}
+        {branch === "call" ? "Díky, hovor je domluvený" : "Díky, zpráva dorazila"}
       </h3>
       <p className="funnel-success-text">
         {branch === "call"
-          ? "Pošlu Vám potvrzení s detaily během 24 hodin."
-          : "Ozvu se Vám během 24 hodin."}
+          ? "Potvrzení s detaily Vám pošlu do 24 hodin."
+          : "Ozvu se Vám do 24 hodin."}
       </p>
     </div>
   );

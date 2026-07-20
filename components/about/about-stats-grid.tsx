@@ -4,9 +4,9 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: "5M+ Kč", label: "Spravované budgety" },
-  { value: "3,2×", label: "Průměrné ROAS" },
-  { value: "−38%", label: "Průměrný pokles CPL" },
+  { value: "5M+ Kč", label: "v reklamách pod mou správou" },
+  { value: "3,2×", label: "průměrná návratnost" },
+  { value: "−38%", label: "průměrné zlevnění poptávky" },
 ];
 
 export function AboutStatsGrid() {

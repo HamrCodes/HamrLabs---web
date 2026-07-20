@@ -10,10 +10,10 @@ type Branch = "call" | "message";
 // Blog is intentionally NOT linked here — it lives only at /blog (direct URL
 // + sitemap for search engines), hidden from the site's visible navigation.
 const navLinks = [
-  { href: "/#sluzby", label: "Služby" },
-  { href: "/#moje-vysledky", label: "Moje výsledky" },
-  { href: "/#proces", label: "Proces" },
-  { href: "/#faq", label: "FAQ" },
+  { href: "/#sluzby", label: "Co dělám" },
+  { href: "/#moje-vysledky", label: "Výsledky" },
+  { href: "/#proces", label: "Jak to probíhá" },
+  { href: "/#faq", label: "Otázky" },
 ];
 
 const socialLinks = [
@@ -52,24 +52,29 @@ export function Footer() {
         {/* CTA section */}
         <div className="relative">
           <div className="absolute inset-0 aurora-bg opacity-60 pointer-events-none" />
-          <div className="container-ultra relative py-24 md:py-32 flex flex-col items-center text-center gap-10">
-            <h2 className="font-display leading-[1.15] tracking-[-0.02em] text-[clamp(40px,6vw,72px)] max-w-3xl">
-              Připraven začít?
+          <div className="container-ultra relative py-24 md:py-32 flex flex-col items-center text-center gap-8">
+            <h2 className="font-display leading-[1.15] tracking-[-0.02em] text-[clamp(32px,5vw,64px)] max-w-3xl">
+              Kolik by stála poptávka ve Vašem oboru?
             </h2>
+            <p className="font-sans text-base md:text-lg text-fg-muted leading-relaxed max-w-xl">
+              Domluvme si krátký hovor. Projdu s Vámi Váš obor, řeknu Vám, co
+              můžete reálně čekat, a Vy se rozhodnete. Nic Vás to nestojí a k
+              ničemu se nezavazujete.
+            </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <MagneticButton
                 as="button"
                 onClick={() => openFunnel("call")}
                 className="btn-primary-cyan rounded-full px-8 py-4 font-mono text-sm font-semibold uppercase tracking-wider"
               >
-                Nezávazná konzultace →
+                Chci nezávaznou konzultaci
               </MagneticButton>
               <MagneticButton
                 as="button"
                 onClick={() => openFunnel("message")}
                 className="glass rounded-full px-8 py-4 font-mono text-sm font-semibold uppercase tracking-wider text-fg"
               >
-                Kontaktovat tým
+                Napsat zprávu
               </MagneticButton>
             </div>
           </div>
@@ -92,8 +97,8 @@ export function Footer() {
               </span>
             </div>
             <p className="font-sans text-sm text-fg-muted max-w-xs leading-relaxed">
-              AI marketing. Meta reklamy, lead generation a AI obsah pro firmy,
-              které měří všechno.
+              Reklama na Facebooku a Instagramu, která nosí poptávky. Pro firmy,
+              které chtějí vidět čísla, ne sliby.
             </p>
             {/* Company info */}
             <div className="flex flex-col gap-1 font-mono text-xs text-fg-subtle">

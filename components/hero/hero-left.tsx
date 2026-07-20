@@ -7,28 +7,28 @@ export function HeroLeft() {
       <div className="hero-text-col-content">
         {/* Eyebrow */}
         <p className="hero-eyebrow font-mono text-xs uppercase tracking-[0.2em] text-fg-muted">
-          Tomáš Hamerník · Marketing Specialist
+          Tomáš Hamerník · Reklama na sociálních sítích
         </p>
 
         {/* H1 — smaller, balanced */}
         <h1 className="hero-h1">
-          <span className="block">Přivedu Vám zákazníky.</span>
-          <span className="block hero-h1-accent">Ne jen lajky.</span>
+          <span className="block">Vaši zákazníci jsou na Facebooku.</span>
+          <span className="block hero-h1-accent">Přivedu je k Vám.</span>
         </h1>
 
         {/* Subhead */}
         <p className="hero-subhead font-sans text-base md:text-lg leading-relaxed text-fg-muted max-w-[480px]">
-          Meta reklamy, lead generation a AI obsah pro firmy, které chtějí
-          výsledky, ne omáčku.
+          Reklama na Facebooku a Instagramu pro stavební firmy, řemeslníky,
+          výrobní podniky a nábor. Vy děláte svou práci. Poptávky chodí samy.
         </p>
 
         {/* CTAs */}
         <div className="hero-cta-row flex flex-wrap items-center gap-4">
           <a href="#kontakt">
-            <Button variant="primary">Chci výsledky →</Button>
+            <Button variant="primary">Chci nové poptávky</Button>
           </a>
           <a href="#moje-vysledky">
-            <Button variant="glass-secondary">Ukázky práce</Button>
+            <Button variant="glass-secondary">Podívat se na výsledky</Button>
           </a>
         </div>
       </div>

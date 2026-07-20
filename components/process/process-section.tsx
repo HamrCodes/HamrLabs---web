@@ -14,30 +14,30 @@ import { ProcessTrustBar } from "./process-trust-bar";
 const steps = [
   {
     week: "Týden 1",
-    title: "Onboarding",
+    title: "Seznámení",
     description:
-      "Briefing, přístupy do Business Manageru, setup tracking stacku a sdílených dokumentů.",
+      "Projdeme Váš byznys, cíle a čísla. Nastavíme přístupy a měření, ať od prvního dne víme, co se děje.",
     icon: Handshake,
   },
   {
     week: "Týden 2",
     title: "Průzkum",
     description:
-      "Analýza posledních 12 měsíců účtu, konkurence a unit economics. Strategická mapa kampaní.",
+      "Podívám se, co jste v reklamě dělali doposud a co dělá konkurence. Spočítám, kolik si můžete dovolit zaplatit za poptávku. Z toho vznikne plán.",
     icon: ScanSearch,
   },
   {
     week: "Týden 3",
-    title: "Setup",
+    title: "Příprava",
     description:
-      "Kreativy, kampaně, Pixel a Conversions API, custom reporting dashboard. Vše napojené.",
+      "Vytvořím vizuály, videa a texty. Nastavím kampaně i měření výsledků. Všechno Vám ukážu ještě před spuštěním.",
     icon: Settings,
   },
   {
     week: "Týden 4+",
     title: "Výsledky",
     description:
-      "Weekly call, kontinuální optimalizace, škálování vítězných kreativ. Slack support v hodinách.",
+      "Reklamy běží. Každý týden krátký hovor, průběžné ladění a víc peněz jen do toho, co skutečně nosí poptávky.",
     icon: TrendingUp,
   },
 ];
@@ -58,13 +58,13 @@ export function ProcessSection() {
       <div className="container-ultra process-content">
         <div className="process-grid">
           <div className="process-intro">
-            <SectionEyebrow>Proces</SectionEyebrow>
+            <SectionEyebrow>Jak to probíhá</SectionEyebrow>
             <h2 id="proces-heading" className="process-h2">
-              Jak pracuji
+              Jak spolupráce vypadá
             </h2>
             <p className="process-lead">
-              Čtyři týdny od podpisu k prvním optimalizovaným kampaním. Žádný
-              kouř, žádné PowerPointy navíc.
+              Čtyři týdny od domluvy k běžícím reklamám. Žádné schůzky navíc,
+              žádné prezentace o ničem.
             </p>
             <a href="#kontakt" className="process-cta">
               <span>Domluvit úvodní hovor</span>

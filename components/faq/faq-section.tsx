@@ -26,21 +26,21 @@ export function FaqSection() {
             className="reveal"
             style={{ transitionDelay: "0ms" }}
           >
-            FAQ
+            Otázky
           </SectionEyebrow>
           <h2
             id="faq-heading"
             className="faq-h2 reveal"
             style={{ transitionDelay: "80ms" }}
           >
-            Časté dotazy
+            Na co se ptáte nejčastěji
           </h2>
           <p
             className="faq-lead reveal"
             style={{ transitionDelay: "160ms" }}
           >
-            Čtyři otázky, na které se ptá většina klientů ještě před prvním
-            callem. Vedle nich výsledky z Business Manageru.
+            Čtyři otázky, které padnou skoro na každém prvním hovoru. Vedle nich
+            skutečné výsledky z kampaní.
           </p>
         </div>
 

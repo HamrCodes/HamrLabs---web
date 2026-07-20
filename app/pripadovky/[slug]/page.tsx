@@ -93,15 +93,15 @@ export default async function CaseStudyPage({
         <section className="border-t border-rule py-20 md:py-32">
           <div className="container-ultra flex flex-col gap-8 items-start max-w-3xl">
             <h2 className="font-display leading-[1.15] tracking-[-0.02em] text-[clamp(28px,3.5vw,52px)] text-fg">
-              Mám podobný case?
+              Kolik by stála poptávka ve Vašem oboru?
             </h2>
             <p className="font-sans text-lg text-fg-muted leading-relaxed max-w-lg">
-              Pošlete stručný brief: firma, rozpočet, co řešíte. Vrátím se s
-              návrhem, jak na to bych šel já.
+              Napište mi pár vět: co děláte, jaký máte rozpočet a co řešíte.
+              Vrátím se s návrhem, jak bych na to šel já.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="/#kontakt">
-                <Button variant="primary">Chci výsledky →</Button>
+                <Button variant="primary">Chci nové poptávky</Button>
               </a>
               <a href="/#moje-vysledky">
                 <Button variant="secondary">← Zpět na výsledky</Button>

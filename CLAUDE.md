@@ -16,8 +16,12 @@ Web je **personal brand**. Tomáš je tvář značky. V hero copy se mluví v pr
 Primární cíl: **konverze na discovery call** přes kontaktní formulář (a později booking).
 Sekundární cíl: budovat credibility přes data, případovky a tone of voice.
 
-### 1.4 Cílovka
-Český majitel SMB firmy (e-shop 5 až 50 M Kč obrat, lokální služba s 1 až 10 zaměstnanci, regionální B2B), který:
+### 1.4 Cílovka — aktualizováno copy v2 (2026-07)
+Jednatel nebo majitel **stavební firmy, řemeslné dílny, výrobního podniku**
+(30+ let), případně firma, která shání lidi. Sjednoceno s Tomášovým videem;
+mezi sedmi případovkami není jediný e-shop, takže dřívější „e-shopy" cílení je
+obsolete. Tento člověk **nezná žargon** (CPL, ROAS, lead gen, Pixel, CAPI):
+copy mluví o ceně za poptávku, návratnosti a přísunu poptávek. Dál platí, že:
 - Měsíční mediální rozpočet 30 až 200 tis. Kč
 - Reaguje na čísla, ne na sliby
 - Není tech-naivní, ale není performance marketer
@@ -27,11 +31,15 @@ Sekundární cíl: budovat credibility přes data, případovky a tone of voice.
 
 ## 2. Brand & Positioning
 
-### 2.1 Co Tomáš dělá (4 disciplíny)
-1. **Meta Ads** — kampaně na Facebook a Instagram, struktura, kreativy, škálování
-2. **Lead Generation** — systémy na získávání kvalifikovaných leadů
-3. **AI Obsah** — kreativy, karusely, copy, videa s AI podporou
-4. **Audit & Strategie** — kompletní audit Meta účtu
+### 2.1 Co Tomáš dělá (3 služby) — aktualizováno copy v2 (2026-07)
+1. **Reklama na Facebooku a Instagramu** — vymyslí, spustí a denně hlídá kampaně
+2. **Přísun poptávek** — systém, který každý týden nosí poptávky se známou cenou
+3. **Nábor zaměstnanců** — kandidáti na řemeslné a výrobní pozice bez pracovních portálů
+
+Školení už není samostatná služba: přesunulo se do posledního odstavce sekce
+O mně („zaškolím Váš tým"). Tyto tři služby musí zůstat v souladu se
+`components/services/services-data.ts` **i** se `Service` uzly v JSON-LD
+(`app/layout.tsx`), protože structured data musí odpovídat viditelnému obsahu.
 
 ### 2.2 Brand pillars (tři tóny, definují každé copy a design rozhodnutí)
 1. **Přímý, ne drzý.** Říká co si myslí. Čísla, ne vzduch. Když něco nefunguje, řekne to první.
@@ -77,12 +85,14 @@ Sekundární cíl: budovat credibility přes data, případovky a tone of voice.
 **Pozitivní:** Linear.app, Stripe, Vercel, Basecamp, Wise (věcné, sebejisté).
 **Negativní:** typická SaaS agentura („Empower your brand"), korporátní češtinou napsaný web („naše společnost se specializuje").
 
-### 3.5 CTA copy (závazný seznam)
-- Primary hero: „Chci výsledky →"
-- Secondary hero: „Ukázky práce"
-- Live card: „Prozkoumat →"
-- Contact section: „Domluvit hovor", „Napsat zprávu"
-- **Ban:** „Get Started", „Sign Up", „Learn More", „Click Here"
+### 3.5 CTA copy (závazný seznam) — aktualizováno copy v2 (2026-07)
+- Nav: „Chci konzultaci"
+- Primary hero: „Chci nové poptávky"
+- Secondary hero: „Podívat se na výsledky"
+- Live card: „Prozkoumat výsledky"
+- Kontaktní sekce: „Chci nezávaznou konzultaci", „Napsat zprávu"
+- **Ban:** „Get Started", „Sign Up", „Learn More", „Click Here", „Kontaktovat tým"
+  (Hamr Labs je jeden člověk, ne tým)
 
 ### 3.6 Formatting rules v copy
 - **Žádné pomlčky** jako separator v běžných větách (Matyášova preference). Místo nich: dvojtečky, závorky, nové věty, čárky.
@@ -414,7 +424,12 @@ Status indicator standalone, ne informational tag. Použití: Live výsledky bad
 
 **Varianta A — Minimal inline items (Služby).**
 
-Sekce bez header chrome (žádný eyebrow / H2 / lead), grid položek vertical-stack icon → title → description. Žádný card border / bg / padding. Hover effect jen na icon-wrapper (cyan glow + scale 1.08), ne na celou položku. Použití: Služby (4 disciplíny jako post-hero intro strip).
+**Výjimka od copy v2 (2026-07):** sekce Služby má nově H2 „Co dělám"
+(`.services-h2`). Je záměrně menší než ostatní H2 a padding sekce je zkrácený,
+aby řada služeb pořád sedla do foldu na 1920x1080 (viz 5.7). Když se s tímto
+nadpisem bude hýbat, vždy přeměř `.services-grid` bottom ≤ 1080.
+
+Jinak: grid položek vertical-stack icon → title → description, bez eyebrow/lead. Žádný card border / bg / padding. Hover effect jen na icon-wrapper (cyan glow + scale 1.08), ne na celou položku. Použití: Služby (4 disciplíny jako post-hero intro strip).
 
 ```jsx
 <div className="service-item">

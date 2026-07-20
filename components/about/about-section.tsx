@@ -46,37 +46,36 @@ export function AboutSection() {
                 className="reveal"
                 style={{ transitionDelay: "160ms" }}
               >
-                Performance marketing konzultant. Pracuji s českými e-shopy,
-                službami a místními firmami. AI a data používám k zjednodušení
-                cesty klienta, ne k nahrazení lidské práce. Bez balíčků, bez
-                sklepových reportů, bez slibů, které nejdou splnit.
+                Reklamě na sociálních sítích se věnuju přes pět let. Za tu dobu
+                jsem spolupracoval s desítkami firem a vyzkoušel spoustu
+                způsobů, jak dostat nabídku před správné lidi. Vím, co funguje.
+                A hlavně vím, co ne.
               </p>
               <p
                 className="reveal"
                 style={{ transitionDelay: "220ms" }}
               >
-                Specializuji se na Meta Ads, lead generation a tvorbu kreativ.
-                Každá kampaň má jasné KPI a měřitelný výsledek. Reportuju přes
-                Business Manager a custom dashboard, ke kterému máte přístup
-                24/7.
+                Zaměřuju se na stavební firmy, řemeslníky, výrobní podniky a
+                nábor zaměstnanců. Rozumím tomu, jak Váš zákazník přemýšlí a kde
+                tráví čas. Proto stavím reklamy tak, aby jim rozuměl on. Ne
+                marketéři.
               </p>
               <p
                 className="reveal"
                 style={{ transitionDelay: "280ms" }}
               >
-                V práci preferuju přímost před zdvořilým mlčením. Když něco
-                nefunguje, řeknu to první. Když naopak funguje, mluví za mě
-                čísla. Klient nepotřebuje konzultanta, který zaobaluje výsledky
-                do prezentací, potřebuje partnera, který drží směr.
+                V práci jsem přímý. Když něco nefunguje, řeknu Vám to jako
+                první. Když to funguje, uvidíte to v číslech, ne v prezentaci.
+                K výsledkům svých kampaní máte přístup kdykoliv, ne jednou
+                měsíčně v PDF.
               </p>
               <p
                 className="reveal"
                 style={{ transitionDelay: "340ms" }}
               >
-                Stavím systémy, ne jednorázové kampaně. Cílem není odpracovat
-                hodiny, ale postavit performance engine, kterému klient rozumí a
-                který škáluje s jeho byznysem. Marketing není magie, je to
-                řemeslo s metrikami.
+                Nestavím jednorázové kampaně. Stavím systém, který Vám přivádí
+                zákazníky, i když zrovna spíte. A pokud chcete, zaškolím Váš
+                tým, aby si část marketingu uměl dělat sám.
               </p>
             </div>
 
@@ -84,7 +83,7 @@ export function AboutSection() {
 
             <div className="about-badges">
               <span className="reveal" style={{ transitionDelay: "560ms" }}>
-                <Badge variant="pill">Czech Republic</Badge>
+                <Badge variant="pill">Česká republika</Badge>
               </span>
             </div>
           </div>

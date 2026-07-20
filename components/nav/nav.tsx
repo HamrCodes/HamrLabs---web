@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 
 // Anchors are absolute (/#id) so they work from sub-pages (blog, legal) too.
 const links = [
-  { label: "Služby", id: "sluzby" },
-  { label: "Moje výsledky", id: "moje-vysledky" },
+  { label: "Co dělám", id: "sluzby" },
+  { label: "Výsledky", id: "moje-vysledky" },
   { label: "O mně", id: "o-mne" },
-  { label: "Proces", id: "proces" },
-  { label: "FAQ", id: "faq" },
+  { label: "Jak to probíhá", id: "proces" },
+  { label: "Otázky", id: "faq" },
 ];
 
 export function Nav() {
@@ -136,7 +136,7 @@ export function Nav() {
           {/* RIGHT: KONTAKT (desktop) */}
           <a href="/#kontakt" className="hidden md:inline-flex">
             <Button variant="primary" className="px-5 py-2.5 text-xs">
-              Připraven začít?
+              Chci konzultaci
             </Button>
           </a>
 
@@ -190,7 +190,7 @@ export function Nav() {
             className="nav-drawer-cta"
           >
             <Button variant="primary" className="w-full py-4 text-sm">
-              Připraven začít?
+              Chci konzultaci
             </Button>
           </a>
         </div>

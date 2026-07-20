@@ -8,10 +8,17 @@ export function ServicesSection() {
   const ref = useScrollReveal<HTMLDivElement>({ threshold: 0.15 });
 
   return (
-    <section id="sluzby" className="services-section">
+    <section
+      id="sluzby"
+      aria-labelledby="sluzby-heading"
+      className="services-section"
+    >
       <div className="services-spotlight-bg" aria-hidden />
 
       <div className="container-ultra">
+        <h2 id="sluzby-heading" className="services-h2">
+          Co dělám
+        </h2>
         <div ref={ref} className="services-grid">
           {services.map((service, idx) => (
             <ServiceItem key={service.title} {...service} index={idx} />

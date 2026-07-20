@@ -42,11 +42,11 @@ const sans = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hamrlabs.cz"),
   title: {
-    default: "Hamr Labs — Marketing nové generace",
-    template: "%s — Hamr Labs",
+    default: "Hamr Labs | Reklama, která nosí poptávky",
+    template: "%s | Hamr Labs",
   },
   description:
-    "Tomáš Hamerník: Meta reklamy, lead generation a AI obsah pro e-shopy a služby. CPL pokles o 64 % za 60 dní.",
+    "Reklama na Facebooku a Instagramu pro stavební firmy, řemeslníky, výrobní podniky a nábor. První poptávky do 14 dnů. Výsledky doložené čísly z kampaní.",
   alternates: {
     canonical: "/",
     languages: {
@@ -59,22 +59,23 @@ export const metadata: Metadata = {
     locale: "cs_CZ",
     url: "https://hamrlabs.cz",
     siteName: "Hamr Labs",
-    title: "Hamr Labs — Marketing nové generace",
+    title: "Hamr Labs | Reklama, která nosí poptávky",
     description:
-      "Meta reklamy, lead generation a AI obsah pro firmy, které měří všechno.",
+      "Reklama na Facebooku a Instagramu, ze které chodí poptávky a kandidáti. Pro firmy, které chtějí vidět čísla, ne sliby.",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Hamr Labs — Přivedu ti zákazníky. Ne jen lajky.",
+        alt: "Hamr Labs. Přivedu Vám zákazníky, ne jen lajky.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hamr Labs — Marketing nové generace",
-    description: "Marketing nové generace pro české firmy",
+    title: "Hamr Labs | Reklama, která nosí poptávky",
+    description:
+      "Reklama na sociálních sítích pro stavební firmy, řemeslníky a nábor. Výsledky do 14 dnů.",
     images: ["/og.png"],
   },
   robots: {
@@ -99,36 +100,32 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Kept in sync with the three visible service cards (components/services/
+// services-data.ts) — structured data must match what the page shows.
 const serviceNodes = [
   {
     "@type": "Service",
-    name: "Meta Ads",
+    name: "Reklama na Facebooku a Instagramu",
     provider: { "@id": ORGANIZATION_ID },
     areaServed: "CZ",
     description:
-      "Kampaně na Facebooku a Instagramu od struktury přes kreativy až po škálování.",
+      "Vymyslím, spustím a denně hlídám Vaše reklamy. Od prvního vizuálu až po vyhodnocení, co skutečně vydělalo.",
   },
   {
     "@type": "Service",
-    name: "Lead Generation",
+    name: "Přísun poptávek",
     provider: { "@id": ORGANIZATION_ID },
     areaServed: "CZ",
     description:
-      "Systémy na získávání kvalifikovaných leadů. Data místo dojmů.",
+      "Systém, který každý týden nosí nové poptávky. U každé víte, kolik stála.",
   },
   {
     "@type": "Service",
-    name: "AI Obsah",
+    name: "Nábor zaměstnanců",
     provider: { "@id": ORGANIZATION_ID },
     areaServed: "CZ",
-    description: "Kreativy, karusely, copy a videa s AI podporou.",
-  },
-  {
-    "@type": "Service",
-    name: "Audit & Strategie",
-    provider: { "@id": ORGANIZATION_ID },
-    areaServed: "CZ",
-    description: "Kompletní audit Meta účtu a strategická mapa kampaní.",
+    description:
+      "Kandidáti na řemeslné a výrobní pozice přes reklamu na Facebooku. Bez pracovních portálů a za zlomek jejich ceny.",
   },
 ];
 

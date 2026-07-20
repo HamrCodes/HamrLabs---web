@@ -33,7 +33,9 @@ export function CookieBar() {
           height={44}
         />
         <p className="cookie-bar__text">
-          Používáme sušenky pro lepší poskytování našich služeb.{" "}
+          Používám cookies, abych věděl, jak web funguje a jestli reklamy dávají
+          smysl. Analytické a marketingové cookies se zapnou jen s Vaším
+          souhlasem.{" "}
           <a href="/cookies" className="cookie-bar__link">
             Více o cookies
           </a>

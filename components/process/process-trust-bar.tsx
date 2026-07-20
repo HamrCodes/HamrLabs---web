@@ -1,9 +1,9 @@
 import { Clock, ShieldCheck, BarChart3 } from "lucide-react";
 
 const trustSignals = [
-  { icon: Clock, label: "60 dní do prvních výsledků" },
+  { icon: Clock, label: "První výsledky do 14 dnů" },
   { icon: ShieldCheck, label: "Bez výpovědních lhůt" },
-  { icon: BarChart3, label: "Reporting 24/7 v Business Manageru" },
+  { icon: BarChart3, label: "Výsledky vidíte kdykoliv, 24/7" },
 ];
 
 export function ProcessTrustBar() {

@@ -25,7 +25,7 @@ export function CaseCard({ caseStudy, onClick }: Props) {
           />
         ) : (
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-fg-subtle">
-            Meta Ads screenshot
+            Screenshot z kampaně
           </span>
         )}
       </div>
