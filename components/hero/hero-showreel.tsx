@@ -32,6 +32,9 @@ export function HeroShowreel({ hasVideo, hasPoster }: Props) {
     if (!el) return;
     el.muted = false;
     el.volume = 1;
+    // Restart from the top so the visitor hears it from the beginning, not
+    // wherever the muted autoplay had already reached.
+    el.currentTime = 0;
     const started = el.play();
     if (started) started.catch(() => {});
     setSoundOn(true);
