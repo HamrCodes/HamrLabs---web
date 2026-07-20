@@ -101,7 +101,7 @@ export default async function CaseStudyPage({
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="/#kontakt">
-                <Button variant="primary">Chci nové poptávky</Button>
+                <Button variant="primary">Chci konzultaci</Button>
               </a>
               <a href="/#moje-vysledky">
                 <Button variant="secondary">← Zpět na výsledky</Button>

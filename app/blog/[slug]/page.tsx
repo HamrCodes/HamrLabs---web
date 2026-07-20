@@ -176,7 +176,7 @@ export default async function BlogPostPage({
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="/#kontakt">
-                <Button variant="primary">Nezávazná konzultace →</Button>
+                <Button variant="primary">Chci konzultaci</Button>
               </a>
               <a href="/blog">
                 <Button variant="secondary">← Zpět na blog</Button>

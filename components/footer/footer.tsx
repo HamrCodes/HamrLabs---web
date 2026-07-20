@@ -67,7 +67,7 @@ export function Footer() {
                 onClick={() => openFunnel("call")}
                 className="btn-primary-cyan rounded-full px-8 py-4 font-mono text-sm font-semibold uppercase tracking-wider"
               >
-                Chci nezávaznou konzultaci
+                Chci konzultaci
               </MagneticButton>
               <MagneticButton
                 as="button"

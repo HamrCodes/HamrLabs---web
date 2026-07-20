@@ -1070,7 +1070,9 @@ body {
 .faq-h2 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(36px, 5vw, 64px);
+  /* Capped so "Na co se ptáte nejčastěji" stays on one line in the 720px
+     header column (it needs <= 55px). Wraps naturally on mobile. */
+  font-size: clamp(32px, 5vw, 52px);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--fg);
@@ -1583,7 +1585,10 @@ body {
 .process-h2 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(36px, 5vw, 56px);
+  /* Sized to keep "Jak spolupráce vypadá" on one line. This heading sits in
+     the narrow 5fr intro column, so it has to stay well below the other
+     section H2s; the vw term tracks the column as it shrinks. */
+  font-size: clamp(20px, 2.1vw, 36px);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--fg);
