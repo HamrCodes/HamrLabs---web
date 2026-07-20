@@ -11,8 +11,11 @@ export function HeroLeft() {
         </p>
 
         {/* H1 — smaller, balanced */}
+        {/* Line break is deliberate: "na Facebooku." keeps its own line so the
+            brand name lands on the second row, not orphaned mid-sentence. */}
         <h1 className="hero-h1">
-          <span className="block">Vaši zákazníci jsou na Facebooku.</span>
+          <span className="block">Vaši zákazníci jsou</span>
+          <span className="block">na Facebooku.</span>
           <span className="block hero-h1-accent">Přivedu je k Vám.</span>
         </h1>
 
