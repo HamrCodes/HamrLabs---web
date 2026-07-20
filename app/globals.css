@@ -4463,7 +4463,10 @@ body {
 
   /* ===== HERO — mobile reorder (text → video → CTA) ===== */
   .hero-section {
-    padding-top: max(24px, env(safe-area-inset-top));
+    /* Sit the headline + showreel roughly in the middle of the phone screen
+       instead of hugging the nav. Scales with viewport height so short
+       phones don't push the CTAs off-screen. */
+    padding-top: calc(env(safe-area-inset-top) + clamp(52px, 11.5vh, 116px));
     padding-bottom: 48px;
     min-height: auto;
   }
@@ -4902,6 +4905,20 @@ body {
   /* Success padding */
   .funnel-success {
     padding: 32px 16px;
+  }
+}
+
+/* Short screens: there is no room to centre the hero, so give the padding
+   back rather than pushing the CTAs below the fold. */
+@media (max-width: 768px) and (max-height: 720px) {
+  .hero-section {
+    padding-top: calc(env(safe-area-inset-top) + 20px);
+  }
+  .live-results-card {
+    margin-top: 14px;
+  }
+  .hero-cta-row {
+    margin-top: 16px;
   }
 }
 
