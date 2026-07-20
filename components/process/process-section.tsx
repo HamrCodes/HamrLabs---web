@@ -13,28 +13,24 @@ import { ProcessTrustBar } from "./process-trust-bar";
 
 const steps = [
   {
-    week: "Týden 1",
     title: "Seznámení",
     description:
       "Projdeme Váš byznys, cíle a čísla. Nastavíme přístupy a měření, ať od prvního dne víme, co se děje.",
     icon: Handshake,
   },
   {
-    week: "Týden 2",
     title: "Průzkum",
     description:
       "Podívám se, co jste v reklamě dělali doposud a co dělá konkurence. Spočítám, kolik si můžete dovolit zaplatit za poptávku. Z toho vznikne plán.",
     icon: ScanSearch,
   },
   {
-    week: "Týden 3",
     title: "Příprava",
     description:
       "Vytvořím vizuály, videa a texty. Nastavím kampaně i měření výsledků. Všechno Vám ukážu ještě před spuštěním.",
     icon: Settings,
   },
   {
-    week: "Týden 4+",
     title: "Výsledky",
     description:
       "Reklamy běží. Každý týden krátký hovor, průběžné ladění a víc peněz jen do toho, co skutečně nosí poptávky.",

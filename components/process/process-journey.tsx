@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
 
 interface Step {
-  week: string;
   title: string;
   description: string;
   icon: LucideIcon;
@@ -120,7 +119,7 @@ export function ProcessJourney({ steps }: Props) {
         const pos = dotPositions[idx];
         return (
           <div
-            key={step.week}
+            key={step.title}
             className={`process-journey-step${stepClass}`}
             style={
               {
@@ -143,8 +142,7 @@ export function ProcessJourney({ steps }: Props) {
             </div>
 
             <div className="process-journey-content">
-              <span className="process-journey-week">{step.week}</span>
-              <h3 className="process-journey-title">{step.title}</h3>
+                <h3 className="process-journey-title">{step.title}</h3>
               <p className="process-journey-description">{step.description}</p>
             </div>
           </div>
