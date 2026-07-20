@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
-import { Badge } from "@/components/ui/badge";
 import { AboutStatsGrid } from "./about-stats-grid";
 import { PhotoCollage } from "./photo-collage";
 import { useScrollReveal } from "@/lib/hooks/use-scroll-reveal";
@@ -80,12 +79,6 @@ export function AboutSection() {
             </div>
 
             <AboutStatsGrid />
-
-            <div className="about-badges">
-              <span className="reveal" style={{ transitionDelay: "560ms" }}>
-                <Badge variant="pill">Česká republika</Badge>
-              </span>
-            </div>
           </div>
         </div>
       </div>

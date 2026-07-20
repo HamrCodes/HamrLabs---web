@@ -747,6 +747,73 @@ body {
   background: rgba(0, 0, 0, 0.25);
 }
 
+/* Showreel timer: races away at the start, eases toward the finish flag. */
+.showreel-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.showreel-track {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.showreel-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--accent-deep) 0%,
+    var(--accent) 100%
+  );
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+}
+
+.showreel-dot {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-50%);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.9);
+}
+
+.showreel-flag {
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
+  color: var(--fg-subtle);
+  transition: color 0.3s ease;
+}
+
+.showreel-flag--reached {
+  color: var(--accent);
+}
+
+.showreel-caption {
+  margin: 0;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--fg-muted);
+  text-wrap: balance;
+}
+
 /* Generic section divider (reusable between any 2 sekce) */
 .section-divider {
   display: flex;
@@ -1928,7 +1995,9 @@ body {
 .about-section {
   position: relative;
   padding-top: clamp(96px, 14vh, 180px);
-  padding-bottom: clamp(96px, 14vh, 180px);
+  /* Tightened: the "Česká republika" badge is gone, so the process section
+     should follow closer instead of sitting after a large gap. */
+  padding-bottom: clamp(56px, 8vh, 104px);
   background: var(--bg);
   overflow: hidden;
 }
@@ -4420,10 +4489,16 @@ body {
   }
   .hero-h1 {
     order: 2;
-    font-size: clamp(26px, 7vw, 38px);
-    line-height: 1.1;
+    /* Sized so "Vaši zákazníci jsou na Facebooku." holds one line. */
+    font-size: clamp(15px, 5.1vw, 22px);
+    line-height: 1.2;
     letter-spacing: -0.03em;
     margin: 0;
+  }
+  /* Two halves flow into a single line on phones */
+  .hero-h1-a,
+  .hero-h1-b {
+    display: inline;
   }
   /* Phone hero is deliberately just headline + showreel: the eyebrow and
      subhead are dropped so the video is what people actually see. */
@@ -4434,7 +4509,8 @@ body {
   .live-results-card {
     order: 4;
     width: 100%;
-    margin-top: 4px;
+    /* Breathing room between the headline and the showreel */
+    margin-top: 24px;
   }
   /* Long status label wraps on phones and adds noise above the showreel. */
   .live-results-card .font-mono.text-xs {
@@ -4448,7 +4524,8 @@ body {
     align-items: stretch;
     gap: 12px;
     width: 100%;
-    margin-top: 4px;
+    /* Sit clearly below the video rather than hugging it */
+    margin-top: 28px;
   }
   .hero-cta-row > a,
   .hero-cta-row > button {
@@ -4730,7 +4807,8 @@ body {
   /* ===== FOOTER CTA ===== */
   .footer-cta h2,
   footer h2 {
-    font-size: clamp(32px, 8vw, 48px) !important;
+    /* Sized so "Jste připraveni začít?" holds one line on phones. */
+    font-size: clamp(20px, 6.4vw, 30px) !important;
   }
   /* CTA buttons stack full-width */
   footer .flex.flex-wrap.items-center.justify-center {
@@ -4834,7 +4912,8 @@ body {
     padding-right: 16px;
   }
   .hero-h1 {
-    font-size: clamp(24px, 6.8vw, 32px);
+    /* Keep "Vaši zákazníci jsou na Facebooku." on one line here too. */
+    font-size: clamp(13px, 4.9vw, 19px);
   }
   .nav-logo span {
     font-size: 14px;

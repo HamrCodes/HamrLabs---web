@@ -12,11 +12,11 @@ export function PhotoCollage() {
       >
         <div className="photo-card-frame">
           <img
-            src="/tomas-portrait.jpg"
+            src="/tomas-uvod.jpg"
             alt="Tomáš Hamerník"
             className="photo-card-image"
-            width={900}
-            height={1200}
+            width={1100}
+            height={1375}
             loading="lazy"
             decoding="async"
           />
@@ -29,11 +29,15 @@ export function PhotoCollage() {
         style={{ "--rotate": "3deg", "--z": "3" } as CSSProperties}
       >
         <div className="photo-card-frame">
-          {/* TODO: replace with behind-the-scenes work photo */}
-          <div className="photo-card-placeholder">
-            <span className="photo-card-label">Pracovní moment</span>
-            <span className="photo-card-sublabel">Behind the scenes</span>
-          </div>
+          <img
+            src="/tomas-work.jpg"
+            alt="Tomáš Hamerník při práci na kampaních"
+            className="photo-card-image"
+            width={1200}
+            height={675}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
 
