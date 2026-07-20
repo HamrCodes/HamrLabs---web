@@ -53,8 +53,8 @@ export function Footer() {
         <div className="relative">
           <div className="absolute inset-0 aurora-bg opacity-60 pointer-events-none" />
           <div className="container-ultra relative py-24 md:py-32 flex flex-col items-center text-center gap-8">
-            <h2 className="font-display leading-[1.15] tracking-[-0.02em] text-[clamp(32px,5vw,64px)] max-w-3xl">
-              Kolik by stála poptávka ve Vašem oboru?
+            <h2 className="font-display leading-[1.15] tracking-[-0.02em] text-[clamp(36px,6vw,72px)] max-w-4xl">
+              Jste připraveni začít?
             </h2>
             <p className="font-sans text-base md:text-lg text-fg-muted leading-relaxed max-w-xl">
               Domluvme si krátký hovor. Projdu s Vámi Váš obor, řeknu Vám, co
