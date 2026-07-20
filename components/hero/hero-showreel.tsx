@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Flag, PlayCircle } from "lucide-react";
+import { Flag, PlayCircle, Volume2 } from "lucide-react";
 
 interface Props {
   /** Whether public/hero.mp4 exists (checked at build time). */
@@ -23,6 +23,19 @@ interface Props {
 export function HeroShowreel({ hasVideo, hasPoster }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [progress, setProgress] = useState(0);
+  // Autoplay is only permitted while muted, so the video starts silent and we
+  // offer sound as a single tap over the picture.
+  const [soundOn, setSoundOn] = useState(false);
+
+  const enableSound = () => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.muted = false;
+    el.volume = 1;
+    const started = el.play();
+    if (started) started.catch(() => {});
+    setSoundOn(true);
+  };
 
   useEffect(() => {
     const el = videoRef.current;
@@ -79,18 +92,35 @@ export function HeroShowreel({ hasVideo, hasPoster }: Props) {
       {/* Showreel — fixed 16:9 so the layout never shifts when the file loads */}
       <div className="relative z-[3] hero-video-frame">
         {hasVideo ? (
-          <video
-            ref={videoRef}
-            className="hero-video"
-            src="/hero.mp4"
-            poster={hasPoster ? "/hero-poster.jpg" : undefined}
-            autoPlay
-            muted
-            playsInline
-            preload="metadata"
-            controls
-            aria-label="Ukázka práce Hamr Labs"
-          />
+          <>
+            <video
+              ref={videoRef}
+              className="hero-video"
+              src="/hero.mp4"
+              poster={hasPoster ? "/hero-poster.jpg" : undefined}
+              autoPlay
+              muted
+              playsInline
+              preload="metadata"
+              controls
+              aria-label="Ukázka práce Hamr Labs"
+            />
+
+            {/* Tap-to-unmute, covering the picture until sound is on */}
+            {!soundOn && (
+              <button
+                type="button"
+                onClick={enableSound}
+                className="showreel-unmute"
+                aria-label="Zapnout zvuk videa"
+              >
+                <span className="showreel-unmute-pill">
+                  <Volume2 className="w-6 h-6" strokeWidth={1.75} aria-hidden />
+                  <span>Zapnout zvuk</span>
+                </span>
+              </button>
+            )}
+          </>
         ) : (
           <div className="hero-video hero-video--placeholder">
             <div className="flex flex-col items-center gap-3 text-fg-subtle">

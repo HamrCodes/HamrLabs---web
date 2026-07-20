@@ -800,6 +800,66 @@ body {
   color: var(--accent);
 }
 
+/* Tap-to-unmute overlay: autoplay must start muted, so sound is one tap. */
+.showreel-unmute {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  -webkit-tap-highlight-color: transparent;
+}
+
+.showreel-unmute-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.45);
+  animation: showreel-unmute-pulse 2.4s ease-in-out infinite;
+}
+
+.showreel-unmute:hover .showreel-unmute-pill,
+.showreel-unmute:focus-visible .showreel-unmute-pill {
+  animation: none;
+  transform: scale(1.04);
+}
+
+@keyframes showreel-unmute-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 40px rgba(0, 240, 255, 0.45);
+  }
+  50% {
+    transform: scale(1.035);
+    box-shadow: 0 0 56px rgba(0, 240, 255, 0.65);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showreel-unmute-pill {
+    animation: none;
+  }
+}
+
 .showreel-caption {
   margin: 0;
   padding: 14px 20px;
@@ -4518,11 +4578,20 @@ body {
   .hero-h1-b {
     display: inline;
   }
-  /* Phone hero is deliberately just headline + showreel: the eyebrow and
-     subhead are dropped so the video is what people actually see. */
-  .hero-eyebrow,
-  .hero-subhead {
+  /* Phone hero leads with headline + showreel; the eyebrow is dropped and the
+     subhead moves below the video as a small supporting line. */
+  .hero-eyebrow {
     display: none;
+  }
+  .hero-subhead {
+    order: 5;
+    max-width: 34ch;
+    margin: 18px auto 0;
+    font-size: 13px;
+    line-height: 1.55;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--fg-subtle);
   }
   .live-results-card {
     order: 4;
@@ -4537,7 +4606,7 @@ body {
     white-space: nowrap;
   }
   .hero-cta-row {
-    order: 5;
+    order: 6;
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
