@@ -2117,6 +2117,19 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
+  /* Reset the desktop absolute-layout widths so each card fills its grid
+     cell exactly and the right column can't overflow off-screen. */
+  .photo-card--main,
+  .photo-card--work,
+  .photo-card--result {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
   .photo-card--main {
     grid-column: 1;
     grid-row: 1 / span 2;
@@ -4469,6 +4482,12 @@ body {
     padding-left: 20px;
     padding-right: 20px;
   }
+  /* Let the hero showreel run closer to the screen edges than the rest of the
+     page so the video reads big, not boxed-in. */
+  .hero-section .container-ultra {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
   /* iOS no-zoom — all text inputs must be ≥16px */
   input[type="text"],
@@ -4584,9 +4603,9 @@ body {
     display: none;
   }
   .hero-subhead {
-    order: 5;
+    order: 3;
     max-width: 34ch;
-    margin: 18px auto 0;
+    margin: 14px auto 0;
     font-size: 13px;
     line-height: 1.55;
     text-align: center;
@@ -4596,7 +4615,7 @@ body {
   .live-results-card {
     order: 4;
     width: 100%;
-    /* Breathing room between the headline and the showreel */
+    /* Breathing room between the intro text and the showreel */
     margin-top: 24px;
   }
   /* Long status label wraps on phones and adds noise above the showreel. */
@@ -4854,10 +4873,10 @@ body {
   .about-h2 {
     font-size: clamp(32px, 8vw, 44px);
   }
-  /* Photo collage — smaller + center on mobile */
+  /* Photo collage fills the column on mobile (was capped at 240px). */
   .photo-collage {
-    max-width: 240px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
   }
   /* Stats 1-col stack on small mobile, 3-col stays workable down to 380px */
   .about-stats-grid {
