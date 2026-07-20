@@ -4613,7 +4613,7 @@ body {
     /* Full width, not the 480px / 34ch cap that left it narrow and boxed in. */
     max-width: 100% !important;
     width: 100%;
-    margin: 14px 0 0;
+    margin: 8px 0 0;
     padding: 0 6px;
     font-size: 13px;
     line-height: 1.55;
