@@ -2050,8 +2050,23 @@ body {
 }
 
 @media (max-width: 640px) {
+  /* Keep the collage two-up on phones: tall portrait on the left, the two
+     smaller shots stacked beside it. Stacking all three full-width read as a
+     plain list rather than a collage. */
   .photo-collage {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .photo-card--main {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    aspect-ratio: 3 / 4;
+  }
+  /* 8:5 each so the right column ends level with the portrait */
+  .photo-card--work,
+  .photo-card--result {
+    grid-column: 2;
+    aspect-ratio: 8 / 5;
   }
 }
 
@@ -4619,6 +4634,11 @@ body {
   .process-h2 {
     /* Sized to keep "Jak spolupráce vypadá" on one line on phones. */
     font-size: clamp(18px, 6.6vw, 30px);
+  }
+  /* Full-width tap target rather than a small pill */
+  .process-cta {
+    width: 100%;
+    justify-content: center;
   }
   /* Journey curve — kill aspect ratio so steps stack as glowing glass cards */
   .process-journey {

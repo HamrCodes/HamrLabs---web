@@ -16,8 +16,9 @@ interface Props {
  *
  * To publish a video, drop a 16:9 H.264 MP4 at `public/hero.mp4` (optionally a
  * still frame at `public/hero-poster.jpg`) and redeploy. It then autoplays
- * muted, looping and inline, which is what browsers require before they allow
- * autoplay at all.
+ * muted and inline, which is what browsers require before they allow autoplay
+ * at all. It deliberately does not loop: this is a two-minute talking piece,
+ * so reaching the finish flag should mean finished, not restart.
  */
 export function HeroShowreel({ hasVideo, hasPoster }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -85,7 +86,6 @@ export function HeroShowreel({ hasVideo, hasPoster }: Props) {
             poster={hasPoster ? "/hero-poster.jpg" : undefined}
             autoPlay
             muted
-            loop
             playsInline
             preload="metadata"
             controls
