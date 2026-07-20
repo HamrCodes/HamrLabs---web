@@ -720,6 +720,11 @@ body {
   text-shadow: 0 0 40px rgba(0, 240, 255, 0.25);
 }
 
+/* Line-break toggles for the hero headline. Default = desktop breaks. */
+.hero-br--mobile {
+  display: none;
+}
+
 /* ===== HERO SHOWREEL =====
    Fixed 16:9 box so the space is reserved before the file loads (no CLS)
    and the uploaded video is never letterboxed. */
@@ -4586,18 +4591,16 @@ body {
   }
   .hero-h1 {
     order: 2;
-    /* Sized so the headline breaks after "...jsou na", with
-       "Facebooku. Přivedu je k Vám." flowing onto the second line. */
-    font-size: clamp(19px, 6vw, 24px);
+    font-size: clamp(18px, 5.4vw, 24px);
     line-height: 1.2;
     letter-spacing: -0.03em;
     margin: 0;
   }
-  /* Whole headline flows inline on phones and wraps naturally as one
-     sentence, accent included. */
-  .hero-h1-a,
-  .hero-h1-b,
-  .hero-h1-accent {
+  /* Phones break after "...na" instead of after "jsou"/"Facebooku." */
+  .hero-br--desktop {
+    display: none;
+  }
+  .hero-br--mobile {
     display: inline;
   }
   /* Phone hero leads with headline + showreel; the eyebrow is dropped and the
@@ -5043,8 +5046,7 @@ body {
     padding-right: 16px;
   }
   .hero-h1 {
-    /* Same "...jsou na" break on small phones, a touch smaller. */
-    font-size: clamp(18px, 5.7vw, 21px);
+    font-size: clamp(16px, 5.2vw, 20px);
   }
   .nav-logo span {
     font-size: 14px;

@@ -10,13 +10,16 @@ export function HeroLeft() {
           Tomáš Hamerník · Reklama na sociálních sítích
         </p>
 
-        {/* Desktop keeps three deliberate lines (block spans). On phones every
-            span goes inline (see globals.css) so the whole headline flows as
-            one sentence and wraps naturally, accent and all. */}
+        {/* Deterministic line breaks via <br> toggled by breakpoint, so the
+            wrap never depends on font size / device width:
+              desktop: "Vaši zákazníci jsou" / "na Facebooku." / accent
+              mobile:  "Vaši zákazníci jsou na" / "Facebooku." + accent      */}
         <h1 className="hero-h1">
-          <span className="block hero-h1-a">Vaši zákazníci jsou</span>{" "}
-          <span className="block hero-h1-b">na Facebooku.</span>{" "}
-          <span className="block hero-h1-accent">Přivedu je k Vám.</span>
+          Vaši zákazníci jsou
+          <br className="hero-br--desktop" /> na
+          <br className="hero-br--mobile" /> Facebooku.
+          <br className="hero-br--desktop" />{" "}
+          <span className="hero-h1-accent">Přivedu je k Vám.</span>
         </h1>
 
         {/* Subhead */}
