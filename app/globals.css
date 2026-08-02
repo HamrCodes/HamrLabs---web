@@ -3677,6 +3677,39 @@ body {
   animation: funnel-container-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Calendly booking (call branch) */
+.funnel-calendly {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.funnel-calendly-intro {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+.funnel-calendly-frame {
+  position: relative;
+  width: 100%;
+  height: min(64vh, 640px);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+}
+
+.funnel-calendly-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
 @keyframes funnel-container-in {
   from {
     opacity: 0;

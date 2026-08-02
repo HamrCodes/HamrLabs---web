@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { X, ArrowLeft, ArrowRight, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { callBranchSteps, messageBranchSteps } from "./funnel-data";
+import { messageBranchSteps } from "./funnel-data";
 import { FunnelStep } from "./funnel-step";
+import { FunnelCalendly } from "./funnel-calendly";
 import { submitFunnel } from "@/lib/submit-funnel";
 import { trackMetaEvent } from "@/lib/meta-track-client";
 
@@ -40,7 +41,9 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   const [sendFailed, setSendFailed] = useState(false);
   const [sending, setSending] = useState(false);
 
-  const steps = branch === "call" ? callBranchSteps : messageBranchSteps;
+  // The "call" branch is now Calendly; only the "message" branch runs the
+  // step-based Web3Forms flow.
+  const steps = messageBranchSteps;
   const currentStep = steps[stepIndex];
   const isLastStep = stepIndex === steps.length - 1;
 
@@ -217,6 +220,10 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
               </button>
             </div>
 
+            {branch === "call" ? (
+              <FunnelCalendly />
+            ) : (
+              <>
             {/* Progress */}
             <div
               className="funnel-progress"
@@ -272,9 +279,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
                     ? "Pokračovat"
                     : sending
                       ? "Odesílám..."
-                      : branch === "call"
-                        ? "Odeslat a domluvit hovor"
-                        : "Odeslat zprávu"}
+                      : "Odeslat zprávu"}
                 </span>
                 <ArrowRight
                   className="w-4 h-4"
@@ -300,6 +305,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
                 <p className="funnel-microcopy">
                   Odpovídám do 24 hodin. Vaše údaje nikam dál nepředávám.
                 </p>
+              </>
+            )}
               </>
             )}
           </>
