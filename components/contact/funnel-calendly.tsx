@@ -11,7 +11,23 @@ const CALENDLY_URL =
   "&text_color=f5f5f5" +
   "&primary_color=00f0ff";
 
-export function FunnelCalendly() {
+interface Props {
+  /** Fullscreen layout (call branch) vs. embedded inside the modal. */
+  fullscreen?: boolean;
+}
+
+export function FunnelCalendly({ fullscreen = false }: Props) {
+  if (fullscreen) {
+    return (
+      <iframe
+        src={CALENDLY_URL}
+        title="Rezervace konzultace"
+        loading="lazy"
+        className="funnel-calendly-iframe funnel-calendly-iframe--full"
+      />
+    );
+  }
+
   return (
     <div className="funnel-calendly">
       <p className="funnel-calendly-intro">

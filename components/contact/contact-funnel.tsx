@@ -155,6 +155,29 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
 
   if (!isOpen) return null;
 
+  // Call branch = fullscreen Calendly with a single close button, so booking
+  // a slot has the whole screen and no surrounding chrome.
+  if (branch === "call" && !submitted) {
+    return (
+      <div
+        className="funnel-backdrop funnel-backdrop--full"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Rezervace konzultace"
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="funnel-close funnel-close--full"
+          aria-label="Zavřít"
+        >
+          <X className="w-6 h-6" strokeWidth={2} aria-hidden />
+        </button>
+        <FunnelCalendly fullscreen />
+      </div>
+    );
+  }
+
   return (
     <div
       className="funnel-backdrop"
