@@ -70,6 +70,23 @@ export function personNode() {
   };
 }
 
+// Hero showreel. Invisible structured data (no visual change) that makes the
+// video eligible for Google's video results. Values match the actual file in
+// /public: hero.mp4 (1:54, published 2026-08-06) + hero-poster.jpg thumbnail.
+export function videoObjectNode() {
+  return {
+    "@type": "VideoObject",
+    name: "Hamr Labs — reklama, která nosí poptávky",
+    description:
+      "Krátké video, ve kterém Tomáš Hamerník vysvětluje, jak reklama na Facebooku a Instagramu přivádí firmám poptávky a kandidáty.",
+    thumbnailUrl: [`${SITE_URL}/hero-poster.jpg`],
+    uploadDate: "2026-08-06",
+    contentUrl: `${SITE_URL}/hero.mp4`,
+    duration: "PT1M55S",
+    publisher: { "@id": ORGANIZATION_ID },
+  };
+}
+
 export interface BreadcrumbItem {
   name: string;
   url: string;

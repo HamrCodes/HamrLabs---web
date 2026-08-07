@@ -10,6 +10,7 @@ import {
   organizationNode,
   websiteNode,
   personNode,
+  videoObjectNode,
   ORGANIZATION_ID,
 } from "@/lib/seo";
 import "./globals.css";
@@ -133,6 +134,7 @@ const siteJsonLd = graph([
   organizationNode(),
   websiteNode(),
   personNode(),
+  videoObjectNode(),
   ...serviceNodes,
 ]);
 
