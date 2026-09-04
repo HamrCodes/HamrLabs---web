@@ -8,6 +8,7 @@ import { FunnelStep } from "./funnel-step";
 import { FunnelCalendly } from "./funnel-calendly";
 import { submitFunnel } from "@/lib/submit-funnel";
 import { trackMetaEvent } from "@/lib/meta-track-client";
+import { contactParams, leadParams, scheduleParams } from "@/lib/meta-events";
 
 const BOOKED_KEY = "hamr-booked-slots";
 
@@ -98,21 +99,16 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
 
     // Meta: Lead covers every funnel submission, plus the branch-specific
     // event (Schedule for a booked call, Contact for a written message).
+    // Parameters come from lib/meta-events so both halves of the event, browser
+    // and server, carry the shape Meta documents for these standard events.
     // email/phone go to the CAPI relay for server-side match quality; the
     // relay hashes them before they reach Meta.
     const userData = { email: answers.email, phone: answers.phone };
-    trackMetaEvent(
-      "Lead",
-      {
-        content_name:
-          branch === "call" ? "Nezávazná konzultace" : "Napsat zprávu",
-      },
-      userData,
-    );
+    trackMetaEvent("Lead", leadParams(branch), userData);
     if (branch === "call" && answers.slot) {
-      trackMetaEvent("Schedule", undefined, userData);
+      trackMetaEvent("Schedule", scheduleParams(), userData);
     } else if (branch === "message") {
-      trackMetaEvent("Contact", undefined, userData);
+      trackMetaEvent("Contact", contactParams(), userData);
     }
 
     // Only show the success screen if the message actually went out —

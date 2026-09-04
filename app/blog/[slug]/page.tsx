@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
+import { ArticleViewTracker } from "@/components/blog/article-view-tracker";
 import { blogPosts, getBlogPost } from "@/lib/blog";
 import {
   SITE_URL,
@@ -115,6 +116,7 @@ export default async function BlogPostPage({
 
   return (
     <>
+      <ArticleViewTracker slug={post.slug} title={post.title} />
       <JsonLd data={jsonLd} />
       <Nav />
       <main id="main" className="relative">

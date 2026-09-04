@@ -4,6 +4,7 @@ import { LiquidGlassSVG } from "@/components/ui/liquid-glass-svg";
 import { CookieBar } from "@/components/ui/cookie-bar";
 import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { Clarity } from "@/components/analytics/clarity";
+import { GoogleTagManager } from "@/components/analytics/gtm";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   graph,
@@ -160,6 +161,7 @@ export default function RootLayout({
         <CookieBar />
         <MetaPixel />
         <Clarity />
+        <GoogleTagManager />
       </body>
     </html>
   );
