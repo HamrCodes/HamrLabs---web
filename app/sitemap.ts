@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { caseStudies } from "@/lib/case-studies";
 import { blogPosts } from "@/lib/blog";
+import { guides } from "@/lib/guides";
 import { SITE_URL } from "@/lib/seo";
 
 // Required for `output: "export"` — bakes the sitemap once at build time.
@@ -36,6 +37,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       // Pillar article ranks above the cluster.
       priority: p.pillar ? 0.9 : 0.8,
+    })),
+    {
+      url: `${SITE_URL}/navody/`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    ...guides.map((g) => ({
+      url: `${SITE_URL}/navody/${g.slug}/`,
+      lastModified: new Date(g.updated),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
     })),
     ...["privacy", "obchodni-podminky", "cookies"].map((slug) => ({
       url: `${SITE_URL}/${slug}/`,

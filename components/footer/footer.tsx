@@ -9,11 +9,14 @@ type Branch = "call" | "message";
 
 // Blog is intentionally NOT linked here — it lives only at /blog (direct URL
 // + sitemap for search engines), hidden from the site's visible navigation.
+// Návody pro klienty are linked only here, like on agency sites: clients get
+// the link from Tomáš, the top nav stays for prospects.
 const navLinks = [
   { href: "/#sluzby", label: "Co dělám" },
   { href: "/#moje-vysledky", label: "Výsledky" },
   { href: "/#proces", label: "Jak to probíhá" },
   { href: "/#faq", label: "Otázky" },
+  { href: "/navody/", label: "Návody pro klienty" },
 ];
 
 const socialLinks = [
