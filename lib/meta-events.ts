@@ -71,7 +71,10 @@ export function articleViewParams(slug: string, title: string) {
   });
 }
 
-/** Any completed funnel submission, whichever branch it took. */
+/**
+ * A real lead: a call booked in Calendly or a message that reached us.
+ * Opening the calendar or clicking a button is not one.
+ */
 export function leadParams(branch: "call" | "message") {
   return withValue(
     {

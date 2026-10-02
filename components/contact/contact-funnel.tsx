@@ -97,20 +97,6 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       persistBookedSlot(answers.slot);
     }
 
-    // Meta: Lead covers every funnel submission, plus the branch-specific
-    // event (Schedule for a booked call, Contact for a written message).
-    // Parameters come from lib/meta-events so both halves of the event, browser
-    // and server, carry the shape Meta documents for these standard events.
-    // email/phone go to the CAPI relay for server-side match quality; the
-    // relay hashes them before they reach Meta.
-    const userData = { email: answers.email, phone: answers.phone };
-    trackMetaEvent("Lead", leadParams(branch), userData);
-    if (branch === "call" && answers.slot) {
-      trackMetaEvent("Schedule", scheduleParams(), userData);
-    } else if (branch === "message") {
-      trackMetaEvent("Contact", contactParams(), userData);
-    }
-
     // Only show the success screen if the message actually went out —
     // otherwise the visitor thinks they reached us when they did not.
     setSending(true);
@@ -126,6 +112,22 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
     if (!ok) {
       setSendFailed(true);
       return;
+    }
+
+    // Meta: Lead only once the message really reached us (a failed send and
+    // its retry must not count as two leads), plus the branch-specific event
+    // (Schedule for a booked call, Contact for a written message). A Calendly
+    // booking reports itself from FunnelCalendly. Parameters come from
+    // lib/meta-events so both halves of the event, browser and server, carry
+    // the shape Meta documents for these standard events. email/phone go to
+    // the CAPI relay for server-side match quality; the relay hashes them
+    // before they reach Meta.
+    const userData = { email: answers.email, phone: answers.phone };
+    trackMetaEvent("Lead", leadParams(branch), userData);
+    if (branch === "call" && answers.slot) {
+      trackMetaEvent("Schedule", scheduleParams(), userData);
+    } else if (branch === "message") {
+      trackMetaEvent("Contact", contactParams(), userData);
     }
 
     setSubmitted(true);
