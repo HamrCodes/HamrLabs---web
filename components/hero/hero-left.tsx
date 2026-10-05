@@ -30,7 +30,7 @@ export function HeroLeft() {
 
         {/* CTAs */}
         <div className="hero-cta-row flex flex-wrap items-center gap-4">
-          <a href="#kontakt">
+          <a href="#konzultace">
             <Button variant="primary">Chci konzultaci</Button>
           </a>
           <a href="#moje-vysledky">

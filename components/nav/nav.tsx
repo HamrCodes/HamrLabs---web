@@ -134,7 +134,7 @@ export function Nav() {
           </div>
 
           {/* RIGHT: KONTAKT (desktop) */}
-          <a href="/#kontakt" className="hidden md:inline-flex">
+          <a href="/#konzultace" className="hidden md:inline-flex">
             <Button variant="primary" className="px-5 py-2.5 text-xs">
               Chci konzultaci
             </Button>
@@ -185,7 +185,7 @@ export function Nav() {
             ))}
           </div>
           <a
-            href="/#kontakt"
+            href="/#konzultace"
             onClick={() => setOpen(false)}
             className="nav-drawer-cta"
           >

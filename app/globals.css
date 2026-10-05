@@ -4346,6 +4346,46 @@ body {
   text-underline-offset: 3px;
 }
 
+/* Form before the calendar: one button on the right, inline field errors,
+   consent checkbox with the label text next to it. */
+.funnel-nav--single {
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.funnel-field-error {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.funnel-consent {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.funnel-consent input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+}
+
+.funnel-consent a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @supports not (backdrop-filter: blur(20px)) {
   .funnel-backdrop {
     background: rgba(0, 0, 0, 0.97);

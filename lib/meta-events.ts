@@ -5,10 +5,11 @@
  * Anything nested or renamed is dropped on their side, so every call site
  * builds its payload through the helpers here instead of inlining objects.
  *
- * Events in use: ViewContent, Lead, Schedule, Contact, PageView.
- * They are also allow-listed in the CAPI relay (hamr-capi/api/track.js);
- * adding an event here means adding it there too, or the server copy is
- * rejected and Meta only ever sees the browser half.
+ * Events in use: ViewContent, Lead, Contact, PageView and our own
+ * KonzultaceFormular. Lead means only a booked call or a delivered message.
+ * Server copies go through the CAPI relay (hamr-capi/api/track.js allow-list,
+ * the booked-call Lead through hamr-capi/api/rezervace.js); adding an event
+ * here means adding it there too, or Meta only ever sees the browser half.
  */
 
 export const CURRENCY = "CZK";
@@ -86,12 +87,13 @@ export function leadParams(branch: "call" | "message") {
   );
 }
 
-/** A booked call on top of the Lead. */
-export function scheduleParams() {
-  return withValue(
-    { content_name: "Nezávazná konzultace", content_category: "Poptávka" },
-    "call",
-  );
+/**
+ * Our own event KonzultaceFormular: contact filled in before the calendar.
+ * Not a lead yet (the slot may never be picked), but it carries the contact,
+ * so it is the fallback optimisation goal if bookings stay too few.
+ */
+export function konzultaceParams() {
+  return clean({ content_name: "Nezávazná konzultace", content_category: "Kontakt před kalendářem" });
 }
 
 /** A written message on top of the Lead. */

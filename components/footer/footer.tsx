@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Instagram, Facebook, Mail } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
 import { ContactFunnel } from "@/components/contact/contact-funnel";
@@ -45,6 +45,22 @@ export function Footer() {
     setBranch(b);
     setFunnelOpen(true);
   };
+
+  // Every "Chci konzultaci" on the site links to #konzultace (also from the
+  // blog and case studies, via /#konzultace). Opening the form here keeps
+  // them plain links that work without extra wiring. The hash is cleared
+  // right away so the same link opens the form again next time.
+  useEffect(() => {
+    const check = () => {
+      if (window.location.hash !== "#konzultace") return;
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      setBranch("call");
+      setFunnelOpen(true);
+    };
+    check();
+    window.addEventListener("hashchange", check);
+    return () => window.removeEventListener("hashchange", check);
+  }, []);
 
   return (
     <>

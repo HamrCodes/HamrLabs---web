@@ -158,7 +158,7 @@ export function CaseStudyModal({ caseStudy, onClose }: Props) {
               Celá case study →
             </a>
           )}
-          <a href="#kontakt" onClick={onClose} className="case-modal-cta">
+          <a href="#konzultace" onClick={onClose} className="case-modal-cta">
             Mám podobný case →
           </a>
         </div>

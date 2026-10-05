@@ -62,7 +62,7 @@ export function ProcessSection() {
               Čtyři týdny od domluvy k běžícím reklamám. Žádné schůzky navíc,
               žádné prezentace o ničem.
             </p>
-            <a href="#kontakt" className="process-cta">
+            <a href="#konzultace" className="process-cta">
               <span>Domluvit úvodní hovor</span>
               <ArrowRight
                 className="w-4 h-4"

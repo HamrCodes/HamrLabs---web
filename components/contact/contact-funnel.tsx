@@ -6,9 +6,11 @@ import { cn } from "@/lib/utils";
 import { messageBranchSteps } from "./funnel-data";
 import { FunnelStep } from "./funnel-step";
 import { FunnelCalendly } from "./funnel-calendly";
+import { FunnelKonzultace } from "./funnel-konzultace";
+import type { KonzultaceKontakt } from "@/lib/submit-konzultace";
 import { submitFunnel } from "@/lib/submit-funnel";
 import { trackMetaEvent } from "@/lib/meta-track-client";
-import { contactParams, leadParams, scheduleParams } from "@/lib/meta-events";
+import { contactParams, leadParams } from "@/lib/meta-events";
 
 const BOOKED_KEY = "hamr-booked-slots";
 
@@ -41,6 +43,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [sendFailed, setSendFailed] = useState(false);
   const [sending, setSending] = useState(false);
+  // Kontakt z formuláře před kalendářem. Dokud není, kalendář se neukáže.
+  const [kontakt, setKontakt] = useState<KonzultaceKontakt | null>(null);
 
   // The "call" branch is now Calendly; only the "message" branch runs the
   // step-based Web3Forms flow.
@@ -55,6 +59,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       setStepIndex(0);
       setAnswers({});
       setSubmitted(false);
+      setKontakt(null);
     }
   }, [isOpen, initialBranch]);
 
@@ -82,6 +87,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
     setBranch(newBranch);
     setStepIndex(0);
     setAnswers({});
+    setKontakt(null);
   };
 
   const handleAnswer = (questionId: string, value: string) => {
@@ -116,17 +122,15 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
 
     // Meta: Lead only once the message really reached us (a failed send and
     // its retry must not count as two leads), plus the branch-specific event
-    // (Schedule for a booked call, Contact for a written message). A Calendly
+    // (Contact for a written message). A Calendly
     // booking reports itself from FunnelCalendly. Parameters come from
     // lib/meta-events so both halves of the event, browser and server, carry
     // the shape Meta documents for these standard events. email/phone go to
     // the CAPI relay for server-side match quality; the relay hashes them
     // before they reach Meta.
-    const userData = { email: answers.email, phone: answers.phone };
+    const userData = { email: answers.email, phone: answers.phone, name: answers.name };
     trackMetaEvent("Lead", leadParams(branch), userData);
-    if (branch === "call" && answers.slot) {
-      trackMetaEvent("Schedule", scheduleParams(), userData);
-    } else if (branch === "message") {
+    if (branch === "message") {
       trackMetaEvent("Contact", contactParams(), userData);
     }
 
@@ -153,9 +157,10 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
 
   if (!isOpen) return null;
 
-  // Call branch = fullscreen Calendly with a single close button, so booking
+  // Call branch: first the short contact form (in the modal), then fullscreen
+  // Calendly with a single close button and the contact prefilled, so booking
   // a slot has the whole screen and no surrounding chrome.
-  if (branch === "call" && !submitted) {
+  if (branch === "call" && kontakt && !submitted) {
     return (
       <div
         className="funnel-backdrop funnel-backdrop--full"
@@ -171,7 +176,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
         >
           <X className="w-6 h-6" strokeWidth={2} aria-hidden />
         </button>
-        <FunnelCalendly fullscreen />
+        <FunnelCalendly fullscreen kontakt={kontakt} />
       </div>
     );
   }
@@ -242,7 +247,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
             </div>
 
             {branch === "call" ? (
-              <FunnelCalendly />
+              <FunnelKonzultace onDone={setKontakt} />
             ) : (
               <>
             {/* Progress */}

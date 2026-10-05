@@ -11,7 +11,33 @@ const CAPI_ENDPOINT = "https://hamr-capi.vercel.app/api/track";
 type UserData = {
   email?: string;
   phone?: string;
+  /** Jméno a příjmení; relay z nich udělá zahashované fn a ln. */
+  name?: string;
 };
+
+// Meta's standard events go through fbq("track"), our own (KonzultaceFormular)
+// through fbq("trackCustom"), otherwise the Pixel flags them as invalid.
+const STANDARD_EVENTS = new Set(["Lead", "Contact", "ViewContent", "PageView", "Schedule"]);
+
+function fireFbq(eventName: string, customData: Record<string, unknown> | undefined, eventId: string) {
+  if (typeof window.fbq !== "function") return;
+  const method = STANDARD_EVENTS.has(eventName) ? "track" : "trackCustom";
+  window.fbq(method, eventName, customData ?? {}, { eventID: eventId });
+}
+
+/** _fbp a _fbc pro serverovou kopii události, ať ji Meta spáruje s návštěvou. */
+export function metaCookies(): { fbp?: string; fbc?: string } {
+  return { fbp: readCookie("_fbp"), fbc: readCookie("_fbc") };
+}
+
+/**
+ * Jen prohlížečová polovina události s daným event_id. Serverovou pošle
+ * jiná cesta se stejným id (rezervace z Calendly: relay /api/rezervace).
+ */
+export function trackPixelOnly(eventName: string, customData: Record<string, unknown> | undefined, eventId: string) {
+  if (typeof window === "undefined" || !hasMarketingConsent()) return;
+  fireFbq(eventName, customData, eventId);
+}
 
 function readCookie(name: string): string | undefined {
   if (typeof document === "undefined") return undefined;
@@ -49,9 +75,7 @@ export function trackMetaEvent(
   const eventId = newEventId();
 
   // 1. Browser Pixel — pass eventID so Meta can dedupe with the server copy.
-  if (typeof window.fbq === "function") {
-    window.fbq("track", eventName, customData ?? {}, { eventID: eventId });
-  }
+  fireFbq(eventName, customData, eventId);
 
   // 2. Server-side relay. Fire-and-forget; failures must never block the UI.
   try {
@@ -61,6 +85,7 @@ export function trackMetaEvent(
       eventSourceUrl: window.location.href,
       email: userData?.email,
       phone: userData?.phone,
+      name: userData?.name,
       fbp: readCookie("_fbp"),
       fbc: readCookie("_fbc"),
       customData,

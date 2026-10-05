@@ -18,14 +18,25 @@ export default function PrivacyPage() {
         <p className="font-sans text-lg text-fg leading-relaxed mb-6">
           Správcem osobních údajů je společnost Hamr Labs s.r.o., IČO 29675855,
           se sídlem Kaprova 42/14, Staré Město, 110 00 Praha 1. Osobní údaje
-          zaslané přes kontaktní formulář zpracovává pouze za účelem zodpovězení
-          dotazu a případného navázání obchodního vztahu.
+          zaslané přes formuláře na tomto webu (jméno, e-mail, telefon,
+          případně firma a text zprávy) zpracovává za účelem domluvení
+          konzultace, zodpovězení dotazu a případného navázání obchodního
+          vztahu.
         </p>
         <p className="font-sans text-base text-fg-muted leading-relaxed mb-6">
-          Odeslání kontaktního formuláře zpracovává služba Web3Forms (doručení
-          zprávy e-mailem), a to výhradně za tímto účelem. Údaje neukládám do
-          CRM bez Vašeho souhlasu a nesdílím je s dalšími třetími stranami.
-          Pokud chcete data smazat, napište na{" "}
+          Údaje z formulářů ukládám do svého systému pro správu obchodních
+          kontaktů, se kterým pracuje můj tým. Když vyplníte kontakt před
+          výběrem termínu a termín nakonec nevyberete, můžeme Vám zavolat
+          a termín nabídnout. Rezervaci termínu zajišťuje služba Calendly,
+          zprávy z formuláře dostávám také e-mailem. Údaje uchovávám po dobu
+          nutnou k vyřízení poptávky a obchodní komunikace.
+        </p>
+        <p className="font-sans text-base text-fg-muted leading-relaxed mb-6">
+          Pokud jste přijali marketingové cookies, předávám společnosti Meta
+          zahashovaný e-mail, telefon a jméno (nevratně převedené na kód), aby
+          bylo možné měřit výsledky reklam. Jinak údaje nesdílím s dalšími
+          třetími stranami kromě služeb, které zajišťují provoz (hosting,
+          e-mail, kalendář). Pokud chcete data smazat, napište na{" "}
           <a
             className="text-accent underline underline-offset-4"
             href="mailto:tomas.hammernik@gmail.com"
@@ -35,7 +46,7 @@ export default function PrivacyPage() {
           .
         </p>
         <p className="font-mono text-xs uppercase tracking-[0.15em] text-fg-subtle mt-12">
-          Poslední aktualizace: 8. července 2026
+          Poslední aktualizace: 5. října 2026
         </p>
       </main>
       <Footer />

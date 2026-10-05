@@ -31,6 +31,9 @@ export function MetaPixel() {
   // Track client-side route changes (App Router doesn't reload the pixel
   // script on navigation, so subsequent page views need an explicit fire).
   // The inline script below already tracks the very first page view.
+  // fbq.disablePushState turns off the Pixel's own history tracking: without
+  // it a jump to an anchor (#kontakt) counted as one more PageView and route
+  // changes as two.
   useEffect(() => {
     if (!enabled) return;
     if (isFirstPathname.current) {
@@ -55,6 +58,7 @@ export function MetaPixel() {
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
+        fbq.disablePushState = true;
         fbq('init', '${PIXEL_ID}');
         fbq('track', 'PageView');
       `}
