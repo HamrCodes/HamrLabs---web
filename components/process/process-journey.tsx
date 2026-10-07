@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Step {
   title: string;
@@ -13,19 +14,22 @@ interface Props {
   steps: Step[];
 }
 
-// Going-up trajectory: each step higher than previous (Y decreases).
-// Compressed Y range (18→72 instead of 18→88) so bottom step content
-// doesn't overflow into trust bar below.
-const dotPositions = [
-  { x: 10, y: 72 }, // Step 1 — bottom-left
-  { x: 34, y: 56 }, // Step 2
-  { x: 60, y: 36 }, // Step 3
-  { x: 88, y: 18 }, // Step 4 — top-right
-];
-
-// Smooth cubic bezier curve through all 4 dots, gentle wave going up-right.
+// Layout is driven by the width of the journey itself (container query on
+// .process-journey-cq), not by the viewport:
+//   < 600px  stacked glass cards
+//   600-759  2x2 glass cards
+//   >= 760   four columns, each step one column higher than the previous,
+//            with the curve drawn behind them as decoration.
+// Every step owns its column, so step texts can never overlap, whatever
+// their length or the viewport width.
+//
+// The curve SVG spans from the centre of the highest dot (step 4, top edge)
+// to the centre of the lowest one (step 1, bottom edge). Columns are equal
+// quarters, so the dot centres are always at x = 12.5 / 37.5 / 62.5 / 87.5 %
+// and y = 100 / 66.67 / 33.33 / 0 %. Control points keep the original gentle
+// wave: flatter at each dot, steeper between them.
 const pathData =
-  "M 10,72 C 18,68 26,60 34,56 C 42,52 52,42 60,36 C 70,28 80,24 88,18";
+  "M 12.5,100 C 20.83,91.67 29.17,75 37.5,66.67 C 45.83,58.33 54.17,41.67 62.5,33.33 C 70.83,25 79.17,8.33 87.5,0";
 
 export function ProcessJourney({ steps }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,97 +61,102 @@ export function ProcessJourney({ steps }: Props) {
     return () => observer.disconnect();
   }, []);
 
-  const drawClass = isVisible ? " process-journey-path-draw--visible" : "";
-  const glowClass = isVisible ? " process-journey-path-glow--visible" : "";
-  const stepClass = isVisible ? " process-journey-step--visible" : "";
-
   return (
-    <div ref={containerRef} className="process-journey">
-      {/* Watermark numbers in background */}
-      {steps.map((_, idx) => {
-        const pos = dotPositions[idx];
-        return (
+    <div className="process-journey-cq">
+      <div ref={containerRef} className="process-journey">
+        {/* Watermark numbers in background */}
+        {steps.map((_, idx) => (
           <span
             key={`num-${idx}`}
             className="process-journey-number"
-            style={{
-              left: `${pos.x + 4}%`,
-              top: `${pos.y - 4}%`,
-            }}
+            style={{ "--i": idx } as CSSProperties}
             aria-hidden="true"
           >
             {idx + 1}
           </span>
-        );
-      })}
+        ))}
 
-      {/* SVG curve */}
-      <svg
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        className="process-journey-svg"
-        aria-hidden="true"
-        focusable="false"
-      >
-        {/* Glow halo (wider, semi-transparent) */}
-        <path
-          d={pathData}
-          stroke="rgba(0, 240, 255, 0.3)"
-          strokeWidth="2.5"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={`process-journey-path-glow${glowClass}`}
-        />
-
-        {/* Main path — solid cyan, pathLength=1 for safe drawing animation */}
-        <path
-          d={pathData}
-          stroke="rgba(0, 240, 255, 0.9)"
-          strokeWidth="0.6"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          pathLength={1}
-          className={`process-journey-path-draw${drawClass}`}
-        />
-      </svg>
-
-      {/* Step blocks (dot + content positioned at each dot) */}
-      {steps.map((step, idx) => {
-        const Icon = step.icon;
-        const pos = dotPositions[idx];
-        return (
-          <div
-            key={step.title}
-            className={`process-journey-step${stepClass}`}
-            style={
-              {
-                left: `${pos.x}%`,
-                top: `${pos.y}%`,
-                "--delay": `${1200 + idx * 200}ms`,
-              } as CSSProperties
-            }
+        {/* Curve: decoration only, revealed left to right by a clip */}
+        <div
+          className={cn(
+            "process-journey-track",
+            isVisible && "process-journey-track--visible",
+          )}
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="process-journey-svg"
+            focusable="false"
           >
-            <div className="process-journey-dot">
-              <div className="process-journey-dot-glow" aria-hidden="true" />
-              <div className="process-journey-dot-sphere">
-                <Icon
-                  className="process-journey-dot-icon"
-                  strokeWidth={1.5}
-                  aria-hidden="true"
-                  focusable={false}
-                />
+            {/* Glow halo (wider, semi-transparent) */}
+            <path
+              d={pathData}
+              stroke="rgba(0, 240, 255, 0.3)"
+              strokeWidth="10"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              className={cn(
+                "process-journey-path-glow",
+                isVisible && "process-journey-path-glow--visible",
+              )}
+            />
+
+            {/* Main path, solid cyan */}
+            <path
+              d={pathData}
+              stroke="rgba(0, 240, 255, 0.9)"
+              strokeWidth="3"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        </div>
+
+        {/* Steps: one grid cell each (dot on the curve, text below) */}
+        {steps.map((step, idx) => {
+          const Icon = step.icon;
+          return (
+            <div
+              key={step.title}
+              className={cn(
+                "process-journey-step",
+                isVisible && "process-journey-step--visible",
+              )}
+              style={
+                {
+                  "--i": idx,
+                  "--delay": `${1200 + idx * 200}ms`,
+                } as CSSProperties
+              }
+            >
+              <div className="process-journey-dot">
+                <div className="process-journey-dot-glow" aria-hidden="true" />
+                <div className="process-journey-dot-sphere">
+                  <Icon
+                    className="process-journey-dot-icon"
+                    strokeWidth={1.5}
+                    aria-hidden="true"
+                    focusable={false}
+                  />
+                </div>
+              </div>
+
+              <div className="process-journey-content">
+                <h3 className="process-journey-title">{step.title}</h3>
+                <p className="process-journey-description">
+                  {step.description}
+                </p>
               </div>
             </div>
-
-            <div className="process-journey-content">
-                <h3 className="process-journey-title">{step.title}</h3>
-              <p className="process-journey-description">{step.description}</p>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

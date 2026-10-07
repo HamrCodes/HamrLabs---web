@@ -27,13 +27,13 @@ const steps = [
   {
     title: "Příprava",
     description:
-      "Vytvořím vizuály, videa a texty. Nastavím kampaně i měření výsledků. Všechno Vám ukážu ještě před spuštěním.",
+      "Vytvořím vizuály a texty, v balíčku Premium i videa. Nastavím kampaně i měření výsledků. Všechno Vám ukážu ještě před spuštěním.",
     icon: Settings,
   },
   {
     title: "Výsledky",
     description:
-      "Reklamy běží. Každý týden krátký hovor, průběžné ladění a víc peněz jen do toho, co skutečně nosí poptávky.",
+      "Reklamy běží. Pravidelný report podle balíčku, průběžné ladění a víc peněz jen do toho, co skutečně nosí poptávky.",
     icon: TrendingUp,
   },
 ];

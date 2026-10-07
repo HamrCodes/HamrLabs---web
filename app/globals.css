@@ -1118,14 +1118,25 @@ body {
 @media (min-width: 768px) {
   .trust-bar {
     flex-direction: row;
-    justify-content: space-between;
+    /* Tablets: the three labels do not fit on one line (labels never wrap
+       inside), so the row wraps and stays centred instead of being clipped. */
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    gap: 24px;
-    /* Full-bleed band: 100% viewport width, items hug left/right edges */
+    gap: 12px 40px;
+    /* Full-bleed band: 100% viewport width */
     padding: 20px clamp(24px, 5vw, 96px);
     border-radius: 0;
     border-left: none;
     border-right: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .trust-bar {
+    /* One row, items hug the left/right edges */
+    justify-content: space-between;
+    gap: 24px;
   }
 }
 
@@ -1718,18 +1729,20 @@ body {
   z-index: 10;
 }
 
-/* 2-column grid (left intro + right journey) */
+/* Intro on top, journey across the full content width below it. The 2-column
+   layout (left intro + right journey) only kicks in once the 7fr column is wide
+   enough for the four-column curve (>= 760px, see .process-journey-cq). */
 .process-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 48px;
   align-items: center;
   margin-bottom: clamp(48px, 6vh, 80px);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1680px) {
   .process-grid {
-    grid-template-columns: 5fr 7fr;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(48px, 5vw, 96px);
   }
 }
@@ -1753,6 +1766,17 @@ body {
   letter-spacing: -0.02em;
   color: var(--fg);
   margin: 0;
+}
+
+/* Single-column layout above phones: the intro spans the full width, so the
+   heading no longer has to squeeze into the narrow 5fr column. */
+@media (min-width: 769px) and (max-width: 1679px) {
+  .process-intro {
+    max-width: 560px;
+  }
+  .process-h2 {
+    font-size: clamp(26px, 2.8vw, 40px);
+  }
 }
 
 .process-lead {
@@ -1799,114 +1823,42 @@ body {
     inset 0 0 0 1px rgba(0, 240, 255, 0.3);
 }
 
-/* RIGHT journey column */
+/* Journey: layout decided by the journey's own width (container query), not
+   by the viewport. Breakpoints:
+     < 600px   stacked glass cards (the phone look)
+     600-759   2x2 glass cards
+     >= 760    four columns, each step higher than the previous one, curve
+               behind them as decoration.
+   Each step sits in its own grid cell, so texts cannot overlap and the height
+   follows the content (nothing spills into the trust bar below). */
+.process-journey-cq {
+  container: journey / inline-size;
+  min-width: 0;
+}
+
 .process-journey {
+  --dot: 56px;
   position: relative;
-  width: 100%;
-  aspect-ratio: 7 / 4;
-  min-height: 380px;
-  padding-bottom: 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
 }
 
-@media (max-width: 1023px) {
-  .process-journey {
-    aspect-ratio: auto;
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
+/* Watermark numbers + curve exist only in the four-column layout */
+.process-journey-number,
+.process-journey-track {
+  display: none;
 }
 
-/* Watermark numbers in background */
-.process-journey-number {
-  position: absolute;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: clamp(80px, 8vw, 120px);
-  line-height: 0.85;
-  letter-spacing: -0.05em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(0, 240, 255, 0.1);
-  user-select: none;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
-
-@media (max-width: 1023px) {
-  .process-journey-number {
-    display: none;
-  }
-}
-
-/* SVG curve canvas */
-.process-journey-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-
-@media (max-width: 1023px) {
-  .process-journey-svg {
-    display: none;
-  }
-}
-
-/* Path drawing animation — pathLength=1 normalizes length */
-.process-journey-path-draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 2s cubic-bezier(0.65, 0, 0.35, 1);
-}
-
-.process-journey-path-draw--visible {
-  stroke-dashoffset: 0;
-}
-
-.process-journey-path-glow {
-  opacity: 0;
-  transition: opacity 1.8s ease-out 0.2s;
-}
-
-.process-journey-path-glow--visible {
-  opacity: 1;
-}
-
-/* Step block (dot centered at coord, content flows below) */
+/* Step block (dot + content) */
 .process-journey-step {
-  position: absolute;
-  /* X centered on coord, Y shifted up by half dot height (56/2 = 28px)
-     so dot CENTER sits exactly on the curve coord */
-  transform: translate(-50%, -28px);
+  position: relative;
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  width: 220px;
-  opacity: 0;
-  transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0ms);
-}
-
-.process-journey-step--visible {
-  opacity: 1;
-}
-
-@media (max-width: 1023px) {
-  .process-journey-step {
-    position: relative;
-    transform: none;
-    left: auto !important;
-    top: auto !important;
-    width: 100%;
-    align-items: flex-start;
-    opacity: 1;
-    transition: none;
-  }
+  min-width: 0;
 }
 
 /* Dot wrapper */
@@ -1915,6 +1867,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 /* Glow halo */
@@ -1954,8 +1907,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: var(--dot);
+  height: var(--dot);
   border-radius: 50%;
   background: linear-gradient(
     135deg,
@@ -1996,13 +1949,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
   text-align: center;
-}
-
-@media (max-width: 1023px) {
-  .process-journey-content {
-    text-align: left;
-  }
 }
 
 .process-journey-week {
@@ -2032,12 +1980,186 @@ body {
   margin: 0;
 }
 
+/* ----- Narrow journey: liquid-glass cards with cyan rim glow ----- */
+@container journey (width < 760px) {
+  .process-journey {
+    --dot: 48px;
+  }
+  .process-journey-step {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--rule);
+    box-shadow:
+      0 8px 28px -10px rgba(0, 0, 0, 0.55),
+      0 0 32px -16px rgba(0, 240, 255, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .process-journey-step::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 240, 255, 0.35) 0%,
+      rgba(0, 240, 255, 0.05) 40%,
+      transparent 70%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .process-journey-step:active {
+    border-color: rgba(0, 240, 255, 0.4);
+    box-shadow:
+      0 12px 36px -10px rgba(0, 0, 0, 0.6),
+      0 0 48px -12px rgba(0, 240, 255, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+  /* Smaller dot, no big pulsing halo inside a card */
+  .process-journey-dot-glow {
+    width: 56px;
+    height: 56px;
+    opacity: 0.5;
+    animation: none;
+  }
+  .process-journey-dot-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .process-journey-content {
+    flex: 1;
+    gap: 4px;
+    text-align: left;
+  }
+  .process-journey-title {
+    margin-top: 2px;
+  }
+  .process-journey-description {
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+}
+
+@container journey (600px <= width < 760px) {
+  .process-journey {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ----- Wide journey: four columns climbing up and to the right ----- */
+@container journey (width >= 760px) {
+  .process-journey {
+    /* Vertical step between neighbouring dots; scales with the journey width
+       like the old aspect-ratio canvas did. */
+    --rise: clamp(56px, 9cqi, 100px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    align-items: start;
+  }
+
+  .process-journey-step {
+    margin-top: calc((3 - var(--i)) * var(--rise));
+    padding-inline: 12px;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0ms);
+  }
+
+  .process-journey-step--visible {
+    opacity: 1;
+  }
+
+  .process-journey-content {
+    width: 100%;
+    max-width: 240px;
+  }
+
+  /* Watermark number up and to the right of each dot */
+  .process-journey-number {
+    display: block;
+    position: absolute;
+    left: calc((var(--i) + 0.5) * 25% + 30px);
+    top: calc((3 - var(--i)) * var(--rise) + var(--dot) / 2 - 18px);
+    z-index: 1;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: clamp(80px, 8vw, 120px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0, 240, 255, 0.1);
+    user-select: none;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Curve. The track is the clip box for the draw-in reveal; it reaches
+     24px past the dot centres so the glow and round caps are not cut off. */
+  .process-journey-track {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--dot) / 2 - 24px);
+    height: calc(3 * var(--rise) + 48px);
+    z-index: 2;
+    pointer-events: none;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 2s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .process-journey-track--visible {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* SVG spans exactly from the top dot centre to the bottom dot centre */
+  .process-journey-svg {
+    position: absolute;
+    left: 0;
+    top: 24px;
+    width: 100%;
+    height: calc(100% - 48px);
+    overflow: visible;
+  }
+
+  .process-journey-path-glow {
+    opacity: 0;
+    transition: opacity 1.8s ease-out 0.2s;
+  }
+
+  .process-journey-path-glow--visible {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .process-journey-path-draw,
+  .process-journey-track,
   .process-journey-path-glow,
   .process-journey-step {
     transition: none;
-    stroke-dashoffset: 0;
+  }
+  .process-journey-track {
+    clip-path: none;
+  }
+  .process-journey-path-glow,
+  .process-journey-step {
     opacity: 1;
   }
   .process-journey-step:hover .process-journey-dot-sphere {
@@ -4859,122 +4981,7 @@ body {
     width: 100%;
     justify-content: center;
   }
-  /* Journey curve — kill aspect ratio so steps stack as glowing glass cards */
-  .process-journey {
-    aspect-ratio: auto !important;
-    padding-bottom: 0;
-    display: flex !important;
-    flex-direction: column;
-    gap: 16px !important;
-  }
-  .process-journey-svg {
-    display: none;
-  }
-  /* Hide background watermark numbers — too busy in card layout */
-  .process-journey-number {
-    display: none;
-  }
-  /* Each step = liquid-glass card with cyan rim glow */
-  .process-journey-step {
-    position: relative !important;
-    transform: none !important;
-    left: auto !important;
-    top: auto !important;
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: flex-start !important;
-    gap: 16px !important;
-    padding: 20px;
-    border-radius: 20px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    border: 1px solid var(--rule);
-    box-shadow:
-      0 8px 28px -10px rgba(0, 0, 0, 0.55),
-      0 0 32px -16px rgba(0, 240, 255, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    transition:
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
-    opacity: 1 !important;
-  }
-  .process-journey-step::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 240, 255, 0.35) 0%,
-      rgba(0, 240, 255, 0.05) 40%,
-      transparent 70%
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-  .process-journey-step:active {
-    border-color: rgba(0, 240, 255, 0.4);
-    box-shadow:
-      0 12px 36px -10px rgba(0, 0, 0, 0.6),
-      0 0 48px -12px rgba(0, 240, 255, 0.65),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-  /* Dot — smaller, no big glow halo on mobile */
-  .process-journey-dot {
-    position: relative !important;
-    flex-shrink: 0;
-    margin: 0;
-  }
-  .process-journey-dot-glow {
-    width: 56px !important;
-    height: 56px !important;
-    opacity: 0.5 !important;
-    animation: none !important;
-  }
-  .process-journey-dot-sphere {
-    width: 48px !important;
-    height: 48px !important;
-  }
-  .process-journey-dot-icon {
-    width: 20px !important;
-    height: 20px !important;
-  }
-  /* Content — left-aligned, flush with dot */
-  .process-journey-content {
-    position: static !important;
-    transform: none !important;
-    width: auto !important;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 0 !important;
-    border: none !important;
-    text-align: left !important;
-  }
-  .process-journey-week {
-    font-size: 11px !important;
-  }
-  .process-journey-title {
-    font-size: 18px !important;
-    margin: 2px 0 0 !important;
-  }
-  .process-journey-description {
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-    margin-top: 4px !important;
-  }
+  /* Journey steps: card layout lives in the @container journey rules. */
   /* Trust bar stacks vertical (full-bleed, so add side gutters + radius) */
   .trust-bar {
     flex-direction: column;
