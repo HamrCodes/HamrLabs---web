@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, ArrowLeft, ArrowRight, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { messageBranchSteps } from "./funnel-data";
+import { CHYBA_EMAIL, EMAIL_RE, messageBranchSteps } from "./funnel-data";
 import { FunnelStep } from "./funnel-step";
 import { FunnelCalendly } from "./funnel-calendly";
 import { FunnelKonzultace } from "./funnel-konzultace";
@@ -11,6 +11,7 @@ import type { KonzultaceKontakt } from "@/lib/submit-konzultace";
 import { submitFunnel } from "@/lib/submit-funnel";
 import { trackMetaEvent } from "@/lib/meta-track-client";
 import { contactParams, leadParams } from "@/lib/meta-events";
+import { overTelefon } from "@/lib/telefon";
 
 const BOOKED_KEY = "hamr-booked-slots";
 
@@ -43,6 +44,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [sendFailed, setSendFailed] = useState(false);
   const [sending, setSending] = useState(false);
+  // Errors under the contact fields show only after the first send attempt.
+  const [zkouseno, setZkouseno] = useState(false);
   // Kontakt z formuláře před kalendářem. Dokud není, kalendář se neukáže.
   const [kontakt, setKontakt] = useState<KonzultaceKontakt | null>(null);
 
@@ -59,6 +62,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       setStepIndex(0);
       setAnswers({});
       setSubmitted(false);
+      setZkouseno(false);
       setKontakt(null);
     }
   }, [isOpen, initialBranch]);
@@ -87,6 +91,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
     setBranch(newBranch);
     setStepIndex(0);
     setAnswers({});
+    setZkouseno(false);
     setKontakt(null);
   };
 
@@ -96,9 +101,28 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
 
   const handleBack = () => {
     if (stepIndex > 0) setStepIndex(stepIndex - 1);
+    setZkouseno(false);
   };
 
-  const handleSubmit = async () => {
+  // Same checks as the form before Calendly: the phone against the CZ, SK,
+  // DE, PL and AT numbering plans (lib/telefon), the e-mail by EMAIL_RE.
+  // They recompute live, so an error disappears as soon as it is fixed.
+  const telefon = overTelefon(answers.phone ?? "");
+  const email = (answers.email ?? "").trim();
+  const chybyKontaktu: Record<string, string | null> = {
+    phone: telefon.ok ? null : telefon.chyba,
+    email: EMAIL_RE.test(email) ? null : CHYBA_EMAIL,
+  };
+
+  // A valid number shows in the international form after leaving the field
+  // ("+420 774 964 919"), so the visitor sees what goes out.
+  const handleBlur = (questionId: string) => {
+    if (questionId === "phone" && telefon.ok && answers.phone !== telefon.hezky) {
+      handleAnswer("phone", telefon.hezky);
+    }
+  };
+
+  const handleSubmit = async (overene: Record<string, string>) => {
     if (branch === "call" && answers.slot) {
       persistBookedSlot(answers.slot);
     }
@@ -109,7 +133,7 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
     setSendFailed(false);
     let ok = false;
     try {
-      ({ ok } = await submitFunnel({ branch, answers }));
+      ({ ok } = await submitFunnel({ branch, answers: overene }));
     } catch (err) {
       console.error("[funnel submit error]", err);
     }
@@ -127,8 +151,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
     // lib/meta-events so both halves of the event, browser and server, carry
     // the shape Meta documents for these standard events. email/phone go to
     // the CAPI relay for server-side match quality; the relay hashes them
-    // before they reach Meta.
-    const userData = { email: answers.email, phone: answers.phone, name: answers.name };
+    // before they reach Meta. The phone is already E.164.
+    const userData = { email: overene.email, phone: overene.phone, name: overene.name };
     trackMetaEvent("Lead", leadParams(branch), userData);
     if (branch === "message") {
       trackMetaEvent("Contact", contactParams(), userData);
@@ -142,11 +166,15 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   };
 
   const handleNext = () => {
-    if (isLastStep) {
-      handleSubmit();
-    } else {
+    if (!isLastStep) {
       setStepIndex(stepIndex + 1);
+      return;
     }
+    setZkouseno(true);
+    // An invalid phone or e-mail stays in the form with the error under the
+    // field; nothing goes to the relay.
+    if (!telefon.ok || chybyKontaktu.email) return;
+    handleSubmit({ ...answers, email, phone: telefon.e164 });
   };
 
   const isStepComplete = currentStep?.questions.every((q) => {
@@ -275,6 +303,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
               step={currentStep}
               answers={answers}
               onAnswer={handleAnswer}
+              chyby={zkouseno && isLastStep ? chybyKontaktu : undefined}
+              onBlur={handleBlur}
             />
 
             {/* Navigation */}
