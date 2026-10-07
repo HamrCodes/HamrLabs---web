@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { SectionEyebrow } from "@/components/ui/section-eyebrow";
 import { useScrollReveal } from "@/lib/hooks/use-scroll-reveal";
+import { hasMarketingConsent, onConsentChange } from "@/lib/cookie-consent";
 import { trackMetaEvent } from "@/lib/meta-track-client";
 import { pricingViewParams } from "@/lib/meta-events";
 import { plans } from "@/lib/pricing";
@@ -23,8 +24,11 @@ interface Props {
  * Used on the home page (#cenik, between Proces and FAQ) and on /cenik/.
  *
  * Fires Meta ViewContent once per page load when the section comes into
- * view. Clicking a plan's CTA is not a lead: it only opens the consultation
- * funnel (#konzultace, handled in Footer).
+ * view, only with marketing consent. A visitor who first sees the price list
+ * and accepts cookies afterwards (typical on /cenik/, opened from an offer
+ * with the cookie bar still up) is counted at that moment. Clicking a plan's
+ * CTA is not a lead: it only opens the consultation funnel (#konzultace,
+ * handled in Footer).
  */
 export function PricingSection({ headingLevel = "h2", className }: Props) {
   const ref = useScrollReveal<HTMLElement>({
@@ -37,12 +41,22 @@ export function PricingSection({ headingLevel = "h2", className }: Props) {
     if (!el || typeof IntersectionObserver === "undefined") return;
 
     let sent = false;
+    let seen = false;
+    let waitTimer = 0;
+
+    const send = () => {
+      if (sent || !hasMarketingConsent()) return;
+      sent = true;
+      observer.disconnect();
+      trackMetaEvent("ViewContent", pricingViewParams());
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (sent || !entries.some((entry) => entry.isIntersecting)) return;
-        sent = true;
-        observer.disconnect();
-        trackMetaEvent("ViewContent", pricingViewParams());
+        // Without consent nothing is sent and the observer keeps watching.
+        seen = true;
+        send();
       },
       // The section is taller than the screen on phones, so a ratio threshold
       // could never be reached there. Instead: its top has to rise into the
@@ -50,7 +64,29 @@ export function PricingSection({ headingLevel = "h2", className }: Props) {
       { threshold: 0, rootMargin: "0px 0px -35% 0px" },
     );
     observer.observe(el);
-    return () => observer.disconnect();
+
+    // Consent given after the section was seen. MetaPixel injects fbq a
+    // render later, so wait for it (at most about 5 s) before sending; the
+    // server half goes out either way.
+    const stopConsent = onConsentChange(() => {
+      if (sent || !seen || !hasMarketingConsent()) return;
+      let tries = 0;
+      const whenPixelReady = () => {
+        if (typeof window.fbq === "function" || tries >= 25) {
+          send();
+          return;
+        }
+        tries += 1;
+        waitTimer = window.setTimeout(whenPixelReady, 200);
+      };
+      whenPixelReady();
+    });
+
+    return () => {
+      observer.disconnect();
+      stopConsent();
+      window.clearTimeout(waitTimer);
+    };
   }, [ref]);
 
   const Heading = headingLevel;
