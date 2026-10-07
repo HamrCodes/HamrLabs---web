@@ -45,7 +45,7 @@ export const faqItems: FaqGridItem[] = [
     type: "faq",
     icon: Wallet,
     question: "Kolik do reklamy musím dát?",
-    answer: `Záleží na balíčku. Start počítá s rozpočtem od ${startBudget} měsíčně na samotnou reklamu, Růst od ${rustBudget}. S menší částkou trvá déle, než se reklama rozjede a než jde poznat, co funguje.`,
+    answer: `Podle balíčku: Start počítá s reklamou od ${startBudget} měsíčně, Růst od ${rustBudget}. S menší částkou trvá déle, než se reklama rozjede a než jde poznat, co funguje.`,
   },
   {
     type: "screenshot",
@@ -67,7 +67,7 @@ export const faqItems: FaqGridItem[] = [
     icon: BarChart3,
     question: "Jak se dozvím, co reklama dělá?",
     answer:
-      "Podle balíčku Vám jednou za měsíc, za 2 týdny nebo každý týden pošlu zprávu s výsledky a dalším postupem. Reklamní účet je Váš, takže k číslům máte přístup kdykoliv.",
+      "Podle balíčku Vám jednou za měsíc, za 2 týdny nebo každý týden pošlu zprávu s výsledky. Čísla navíc vidíte kdykoliv v reklamním účtu.",
   },
   {
     type: "screenshot",
@@ -81,6 +81,6 @@ export const faqItems: FaqGridItem[] = [
     icon: Sparkles,
     question: "Musím si dělat fotky a videa sám?",
     answer:
-      "Ne. Bannery a texty do reklam vytvořím já, ve stylu Vaší firmy. V balíčku Premium navíc natáčím přímo u Vás a každý měsíc dostanete 4 hotová videa. Od Vás potřebuju jen základní podklady.",
+      "Ne. Bannery a texty do reklam vytvořím já, ve stylu Vaší firmy. V balíčku Premium přidám natáčení u Vás a 4 videa měsíčně.",
   },
 ];
