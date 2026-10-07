@@ -367,6 +367,10 @@ Hlavní content grid: 12 columns, 24px gutter na desktopu (`lg+`), 16px na table
 
 **Tertiary / link:** plain text, underline-offset 4px, hover color `--accent`.
 
+**Odkaz, který vypadá jako tlačítko:** `ButtonLink` z `components/ui/button.tsx`
+(stejné varianty jako `Button`). Nikdy `<a><Button /></a>`: tlačítko v odkazu
+jsou dvě zastávky Tabu a čtečka ho hlásí dvakrát.
+
 **Magnetic button (GSAP):** Reusable primitive `<MagneticButton>` v `components/ui/`. Mousemove → translateX/Y * 0.4, rotateX/Y * 0.15, scale 1.05. Mouseleave → elastic ease back to 0. Inspirováno 21st.dev CinematicFooter componentem.
 
 ### 7.2 Liquid glass card
@@ -689,6 +693,12 @@ Pokud výstup pasuje na popis „typický AI-generated SaaS landing page", refak
 ### 11.2 Accessibility (WCAG 2.2 AA)
 - Contrast: zkontroluj `--fg-muted` (#A0A0A0) na `--bg` (#0A0A0A) → contrast ratio ≥ 4,5:1 (OK)
 - Keyboard navigation: Tab order logický, focus visible s 2px outline `--accent` offset 2px
+- Skryté nebo modální vrstvy: zavřené mobilní menu je `inert` (plus
+  `visibility: hidden`), otevřený formulář konzultace dá zbytku stránky
+  `inert` a po zavření vrátí fokus na spouštěč. Cookie lišta nastavuje
+  `--cookie-bar-space`, aby nezakryla fokusovaný prvek (WCAG 2.4.11).
+- Text v `--fg-subtle` (#6A6A6A, kontrast 3,66:1) nesplňuje AA, na čitelný
+  text používej `--fg-muted`
 - Form labels správně napojené (`for`/`id`), error states screen-reader friendly (aria-describedby)
 - Reduced motion respect (`prefers-reduced-motion: reduce`)
 - Alt texty na obrázcích (nebo `aria-hidden` pokud decorative)
