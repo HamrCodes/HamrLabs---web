@@ -1,18 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { trackMetaEvent } from "@/lib/meta-track-client";
 import { konzultaceParams } from "@/lib/meta-events";
 import { submitKonzultace, type KonzultaceKontakt } from "@/lib/submit-konzultace";
-
-const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+import { overTelefon } from "@/lib/telefon";
+import { cn } from "@/lib/utils";
+import { CHYBA_EMAIL, EMAIL_RE } from "./funnel-data";
 
 /**
  * Krátký formulář před kalendářem: jméno, e-mail, telefon a souhlas.
  * Kontakt jde do Systému hned (nedokončená rezervace), takže navolávač
  * zavolá i tomu, kdo kalendář zavře bez výběru termínu. Pak se otevře
  * Calendly s předvyplněnými údaji.
+ *
+ * Telefon se ověří proti číselným plánům CZ, SK, DE, PL a AT (lib/telefon).
+ * Neplatné číslo zastaví odeslání s chybou u pole; Calendly by ho stejně
+ * odmítlo. Do Systému, Mety i Calendly jde číslo v E.164.
  *
  * Na kliknutí se žádný Lead neposílá. KonzultaceFormular odejde až po
  * zápisu do Systému a jen s marketingovým souhlasem (trackMetaEvent).
@@ -24,20 +29,34 @@ export function FunnelKonzultace({ onDone }: { onDone: (kontakt: KonzultaceKonta
   const [souhlas, setSouhlas] = useState(false);
   const [sending, setSending] = useState(false);
   const [zkouseno, setZkouseno] = useState(false);
+  // .funnel-step starts at opacity 0 and shows only with .funnel-step--enter
+  // (the same slide-in as FunnelStep). Without it the form stays invisible.
+  const [vstup, setVstup] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setVstup(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
+  const telefon = overTelefon(phone);
   const chyby = {
     name: name.trim().length < 2 ? "Vyplňte jméno a příjmení." : null,
-    email: !EMAIL.test(email.trim()) ? "Vyplňte e-mail ve tvaru jan@firma.cz." : null,
-    phone: phone.replace(/\D/g, "").length < 9 ? "Vyplňte telefon, ať se Vám můžu ozvat." : null,
+    email: !EMAIL_RE.test(email.trim()) ? CHYBA_EMAIL : null,
+    phone: telefon.ok ? null : telefon.chyba,
     souhlas: !souhlas ? "Bez souhlasu Vám termín domluvit nemůžu." : null,
   };
   const platne = !chyby.name && !chyby.email && !chyby.phone && !chyby.souhlas;
 
+  // After leaving the field a valid number shows in the international form
+  // ("+420 774 964 919"), so the visitor sees what goes out, +420 included.
+  const ucesatTelefon = () => {
+    if (telefon.ok && phone !== telefon.hezky) setPhone(telefon.hezky);
+  };
+
   const odeslat = async (e: React.FormEvent) => {
     e.preventDefault();
     setZkouseno(true);
-    if (!platne || sending) return;
-    const kontakt = { name: name.trim(), email: email.trim(), phone: phone.trim() };
+    if (!platne || !telefon.ok || sending) return;
+    const kontakt = { name: name.trim(), email: email.trim(), phone: telefon.e164 };
     setSending(true);
     const { ok } = await submitKonzultace(kontakt);
     setSending(false);
@@ -54,7 +73,7 @@ export function FunnelKonzultace({ onDone }: { onDone: (kontakt: KonzultaceKonta
     ) : null;
 
   return (
-    <form className="funnel-step" onSubmit={odeslat} noValidate>
+    <form className={cn("funnel-step", vstup && "funnel-step--enter")} onSubmit={odeslat} noValidate>
       <h2 className="funnel-step-heading">Nezávazná konzultace</h2>
       <p className="funnel-step-subheading">
         Nechte mi na sebe kontakt a pak si vyberte termín. Kdybyste termín
@@ -111,6 +130,7 @@ export function FunnelKonzultace({ onDone }: { onDone: (kontakt: KonzultaceKonta
             autoComplete="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            onBlur={ucesatTelefon}
             placeholder="+420 777 123 456"
             aria-invalid={zkouseno && Boolean(chyby.phone)}
             aria-describedby={zkouseno && chyby.phone ? "konzultace-phone-chyba" : undefined}

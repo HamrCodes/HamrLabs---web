@@ -9,9 +9,13 @@ interface Props {
   step: Step;
   answers: Record<string, string>;
   onAnswer: (id: string, value: string) => void;
+  /** Error text per question id, shown under the field (null = no error). */
+  chyby?: Record<string, string | null>;
+  /** Called when a text field loses focus (the phone reformats itself). */
+  onBlur?: (id: string) => void;
 }
 
-export function FunnelStep({ step, answers, onAnswer }: Props) {
+export function FunnelStep({ step, answers, onAnswer, chyby, onBlur }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,6 +49,8 @@ export function FunnelStep({ step, answers, onAnswer }: Props) {
                   q={q}
                   answers={answers}
                   onAnswer={onAnswer}
+                  chyba={chyby?.[q.id] ?? null}
+                  onBlur={onBlur}
                 />
               ))}
             </div>
@@ -65,6 +71,8 @@ export function FunnelStep({ step, answers, onAnswer }: Props) {
               q={q}
               answers={answers}
               onAnswer={onAnswer}
+              chyba={chyby?.[q.id] ?? null}
+              onBlur={onBlur}
             />
           ))}
         </div>
@@ -77,11 +85,16 @@ function QuestionField({
   q,
   answers,
   onAnswer,
+  chyba,
+  onBlur,
 }: {
   q: Question;
   answers: Record<string, string>;
   onAnswer: (id: string, value: string) => void;
+  chyba: string | null;
+  onBlur?: (id: string) => void;
 }) {
+  const chybaId = `${q.id}-chyba`;
   return (
     <div className="funnel-question">
       {q.label && (
@@ -117,10 +130,14 @@ function QuestionField({
         <input
           id={q.id}
           type={q.type}
+          inputMode={q.type === "tel" ? "tel" : undefined}
           value={answers[q.id] || ""}
           onChange={(e) => onAnswer(q.id, e.target.value)}
+          onBlur={onBlur ? () => onBlur(q.id) : undefined}
           placeholder={q.placeholder}
           required={q.required}
+          aria-invalid={Boolean(chyba)}
+          aria-describedby={chyba ? chybaId : undefined}
           className="funnel-input"
         />
       )}
@@ -142,6 +159,12 @@ function QuestionField({
           value={answers[q.id] || ""}
           onChange={(val) => onAnswer(q.id, val)}
         />
+      )}
+
+      {chyba && (
+        <span id={chybaId} className="funnel-field-error" role="alert">
+          {chyba}
+        </span>
       )}
     </div>
   );

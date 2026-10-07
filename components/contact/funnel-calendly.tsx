@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { trackPixelOnly } from "@/lib/meta-track-client";
 import { leadParams } from "@/lib/meta-events";
 import { reportBooking, type KonzultaceKontakt } from "@/lib/submit-konzultace";
+import { overTelefon } from "@/lib/telefon";
 
 // Calendly scheduling page for the "call" branch. Themed to match the site.
 // A plain iframe (no external Calendly script) keeps the static site free of
@@ -28,16 +29,20 @@ const CALENDLY_ORIGIN = "https://calendly.com";
 /**
  * The contact from the form before the calendar goes into Calendly's own
  * fields, so the visitor does not type it twice. a1 is the event type's
- * first question, "Telefon" (phone_number), which expects "+420 777123456".
+ * first question, "Telefon" (phone_number). It gets "+{calling code}
+ * {national number}" built from the E.164 number the form checked
+ * (lib/telefon): "+420 777123456" (the shape verified on production),
+ * "+421 903000123", "+48 512000123", "+49 15120000123", "+43 6640000123".
+ * The calling code is taken from the parsed number, not a fixed three
+ * digits, so +48, +49 and +43 split correctly.
  */
 export function calendlyUrl(kontakt?: KonzultaceKontakt): string {
   const params = new URLSearchParams(CALENDLY_PARAMS);
   if (kontakt) {
     params.set("name", kontakt.name);
     params.set("email", kontakt.email);
-    const digits = kontakt.phone.replace(/[^\d+]/g, "");
-    const m = /^\+(\d{3})(\d+)$/.exec(digits);
-    params.set("a1", m ? `+${m[1]} ${m[2]}` : kontakt.phone);
+    const telefon = overTelefon(kontakt.phone);
+    params.set("a1", telefon.ok ? telefon.calendly : kontakt.phone);
   }
   return `${CALENDLY_BASE}?${params.toString()}`;
 }

@@ -27,6 +27,12 @@ export interface Step {
   questions: Question[];
 }
 
+// E-mail check shared by both forms ("Nezávazná konzultace" and "Napsat
+// zprávu"), so the visitor sees the same message in both. The phone check
+// lives in lib/telefon.ts.
+export const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+export const CHYBA_EMAIL = "Vyplňte e-mail ve tvaru jan@firma.cz.";
+
 // Shared first 2 steps for both branches
 const sharedStartSteps: Step[] = [
   {
