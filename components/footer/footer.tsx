@@ -1,9 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Instagram, Facebook, Mail } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
-import { ContactFunnel } from "@/components/contact/contact-funnel";
+
+// The funnel (with the phone metadata of libphonenumber) is not needed until
+// someone opens it, so it stays out of the page's initial JS. It is fetched
+// when the browser is idle, or on the first open at the latest; until then
+// the dark backdrop shows that the click did something.
+const loadFunnel = () => import("@/components/contact/contact-funnel");
+const ContactFunnel = dynamic(() => loadFunnel().then((m) => m.ContactFunnel), {
+  ssr: false,
+  loading: () => <div className="funnel-backdrop" aria-hidden="true" />,
+});
 
 type Branch = "call" | "message";
 
@@ -40,12 +50,32 @@ const socialLinks = [
 
 export function Footer() {
   const [funnelOpen, setFunnelOpen] = useState(false);
+  // Mounted on the first open only, that is what loads its chunk.
+  const [funnelMounted, setFunnelMounted] = useState(false);
   const [branch, setBranch] = useState<Branch>("call");
 
   const openFunnel = (b: Branch) => {
     setBranch(b);
+    setFunnelMounted(true);
     setFunnelOpen(true);
   };
+
+  // Warm the funnel's chunk once the page is idle, so the first click on
+  // "Chci konzultaci" does not wait for the network. Skipped with Save-Data.
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection;
+    if (connection?.saveData) return;
+    const warm = () => {
+      loadFunnel().catch(() => {});
+    };
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(warm, { timeout: 6000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = window.setTimeout(warm, 3000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   // Every "Chci konzultaci" on the site links to #konzultace (also from the
   // blog and case studies, via /#konzultace). Opening the form here keeps
@@ -56,6 +86,7 @@ export function Footer() {
       if (window.location.hash !== "#konzultace") return;
       window.history.replaceState(null, "", window.location.pathname + window.location.search);
       setBranch("call");
+      setFunnelMounted(true);
       setFunnelOpen(true);
     };
     check();
@@ -211,11 +242,13 @@ export function Footer() {
         </div>
       </footer>
 
-      <ContactFunnel
-        isOpen={funnelOpen}
-        initialBranch={branch}
-        onClose={() => setFunnelOpen(false)}
-      />
+      {funnelMounted && (
+        <ContactFunnel
+          isOpen={funnelOpen}
+          initialBranch={branch}
+          onClose={() => setFunnelOpen(false)}
+        />
+      )}
     </>
   );
 }
