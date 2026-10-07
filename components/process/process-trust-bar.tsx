@@ -2,7 +2,9 @@ import { Clock, ShieldCheck, BarChart3 } from "lucide-react";
 
 const trustSignals = [
   { icon: Clock, label: "První výsledky do 14 dnů" },
-  { icon: ShieldCheck, label: "Závazek jen na 3 měsíce" },
+  // VOP 10.7: the ad account and its data stay the client's. The contract
+  // length is spelled out under the price list, not sold as a perk here.
+  { icon: ShieldCheck, label: "Účty a data zůstávají Vaše" },
   { icon: BarChart3, label: "Výsledky vidíte kdykoliv, 24/7" },
 ];
 

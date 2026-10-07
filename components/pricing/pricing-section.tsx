@@ -107,8 +107,10 @@ export function PricingSection({ headingLevel = "h2", className }: Props) {
               one-letter words and numbers off the end of a line. */}
           <p className="pricing-footnote">
             Reklamní rozpočet platíte přímo společnosti Meta ze své platební
-            karty. Ceny jsou bez DPH. Spolupráce začíná na 3&nbsp;měsíce. Potom
-            pokračuje na dobu neurčitou s&nbsp;výpovědní dobou 1&nbsp;měsíc.
+            karty. Ceny jsou bez DPH. Spolupráce začíná na 3&nbsp;měsíce. Když
+            mi aspoň 30&nbsp;dní před jejich koncem nenapíšete, že nechcete
+            pokračovat, běží dál na dobu neurčitou. Pak platí výpovědní doba
+            1&nbsp;měsíc, která začíná 1.&nbsp;dnem následujícího měsíce.
             Podrobnosti najdete v&nbsp;
             <a href="/obchodni-podminky/" className="pricing-link">
               obchodních podmínkách

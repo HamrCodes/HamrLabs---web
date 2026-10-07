@@ -540,7 +540,10 @@ Plochá karta Varianty B (7.4), ne glass. Vzor:
   Žádný karusel ani akordeon. Žádná velká ikona nad kartou (10.1). Výjimka
   z 10.1 „3-column grid": tři balíčky ceníku jsou jeho přirozený tvar.
 - Pod kartami poznámka podle VOP (rozpočet platí klient Metě, bez DPH,
-  3 měsíce a pak výpovědní doba 1 měsíc, odkaz na `/obchodni-podminky/`).
+  3 měsíce, oznámení konce aspoň 30 dní předem (5.2), pak výpovědní doba
+  1 měsíc od 1. dne následujícího měsíce (5.3), odkaz na `/obchodni-podminky/`).
+  Délku spolupráce nikde neprodávej jako výhodu („závazek jen…“): pruh pod
+  Procesem má místo toho „Účty a data zůstávají Vaše“ (VOP 10.7).
 - Meta: `ViewContent` (content_name „Ceník") jednou při zobrazení sekce.
   Klik na CTA **není** Lead.
 

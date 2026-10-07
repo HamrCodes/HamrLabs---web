@@ -15,6 +15,11 @@ import {
 import { SITE_URL, breadcrumbNode, graph } from "@/lib/seo";
 
 const PATH = "/obchodni-podminky/";
+// The day this wording went public on the site (the page said "Platné od
+// 12. června 2026" before too, with the older terms). Set it to the deploy
+// day, like "Poslední aktualizace" on /privacy/.
+const AKTUALIZACE = "2026-10-07";
+const AKTUALIZACE_TEXT = "7. října 2026";
 const TITLE = "Všeobecné obchodní podmínky";
 const DESCRIPTION =
   "Všeobecné obchodní podmínky Hamr Labs s.r.o. pro marketingové služby: uzavření smlouvy, doba trvání a výpověď, cena, platby, mlčenlivost a licence k reklamám.";
@@ -58,7 +63,7 @@ function TocList({ clanky }: { clanky: VopClanek[] }) {
             href={`#${vopAnchor(String(a.cislo))}`}
             className="group/toc-link grid grid-cols-[1.75rem_minmax(0,1fr)] font-sans text-[15px] text-fg-muted leading-snug transition-colors hover:text-accent"
           >
-            <span className="font-mono tabular-nums text-fg-subtle transition-colors group-hover/toc-link:text-accent">
+            <span className="font-mono tabular-nums text-fg-muted transition-colors group-hover/toc-link:text-accent">
               {a.cislo}.
             </span>
             <span>{a.nadpis}</span>
@@ -95,7 +100,7 @@ export default function TermsPage() {
             <span aria-hidden className="text-fg-subtle">
               /
             </span>
-            <span className="text-fg-subtle" aria-current="page">
+            <span className="text-fg" aria-current="page">
               Obchodní podmínky
             </span>
           </nav>
@@ -108,10 +113,16 @@ export default function TermsPage() {
               {VOP_PODTITUL} {VOP_PREAMBULE}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-fg-subtle">
-                Platné od{" "}
-                <time dateTime={VOP_PLATNOST_OD}>12. června 2026</time>
-              </p>
+              <div className="flex flex-col gap-1.5 font-mono text-xs uppercase tracking-[0.2em] text-fg-muted">
+                <p>
+                  Platné od{" "}
+                  <time dateTime={VOP_PLATNOST_OD}>12. června 2026</time>
+                </p>
+                <p>
+                  Poslední aktualizace:{" "}
+                  <time dateTime={AKTUALIZACE}>{AKTUALIZACE_TEXT}</time>
+                </p>
+              </div>
               <a
                 href={VOP_PDF}
                 download
@@ -166,7 +177,7 @@ export default function TermsPage() {
                     id={`cl-${a.cislo}-nadpis`}
                     className="font-mono font-medium text-xl text-fg mb-6 text-pretty"
                   >
-                    <span className="tabular-nums text-fg-subtle">
+                    <span className="tabular-nums text-fg-muted">
                       {a.cislo}.
                     </span>{" "}
                     {a.nadpis}
@@ -183,7 +194,7 @@ export default function TermsPage() {
                         >
                           <a
                             href={`#${id}`}
-                            className="font-mono text-sm leading-[1.625rem] tabular-nums text-fg-subtle transition-colors hover:text-accent"
+                            className="font-mono text-sm leading-[1.625rem] tabular-nums text-fg-muted transition-colors hover:text-accent"
                           >
                             {p.cislo}
                           </a>
@@ -198,7 +209,7 @@ export default function TermsPage() {
                                     key={b.pismeno}
                                     className="grid grid-cols-[1.75rem_minmax(0,1fr)]"
                                   >
-                                    <span className="font-mono text-sm leading-[1.625rem] text-fg-subtle">
+                                    <span className="font-mono text-sm leading-[1.625rem] text-fg-muted">
                                       {b.pismeno})
                                     </span>
                                     <span>
@@ -216,7 +227,7 @@ export default function TermsPage() {
                 </section>
               ))}
 
-              <p className="font-sans text-sm text-fg-subtle leading-relaxed mt-16 border-t border-rule pt-8">
+              <p className="font-sans text-sm text-fg-muted leading-relaxed mt-16 border-t border-rule pt-8">
                 Máte dotaz k podmínkám? Napište na{" "}
                 <a
                   className="text-accent underline underline-offset-4"
