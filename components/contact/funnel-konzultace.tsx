@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { trackMetaEvent } from "@/lib/meta-track-client";
 import { konzultaceParams } from "@/lib/meta-events";
 import { submitKonzultace, type KonzultaceKontakt } from "@/lib/submit-konzultace";
 import { overTelefon } from "@/lib/telefon";
+import { cn } from "@/lib/utils";
 import { CHYBA_EMAIL, EMAIL_RE } from "./funnel-data";
 
 /**
@@ -28,6 +29,13 @@ export function FunnelKonzultace({ onDone }: { onDone: (kontakt: KonzultaceKonta
   const [souhlas, setSouhlas] = useState(false);
   const [sending, setSending] = useState(false);
   const [zkouseno, setZkouseno] = useState(false);
+  // .funnel-step starts at opacity 0 and shows only with .funnel-step--enter
+  // (the same slide-in as FunnelStep). Without it the form stays invisible.
+  const [vstup, setVstup] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setVstup(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const telefon = overTelefon(phone);
   const chyby = {
@@ -65,7 +73,7 @@ export function FunnelKonzultace({ onDone }: { onDone: (kontakt: KonzultaceKonta
     ) : null;
 
   return (
-    <form className="funnel-step" onSubmit={odeslat} noValidate>
+    <form className={cn("funnel-step", vstup && "funnel-step--enter")} onSubmit={odeslat} noValidate>
       <h2 className="funnel-step-heading">Nezávazná konzultace</h2>
       <p className="funnel-step-subheading">
         Nechte mi na sebe kontakt a pak si vyberte termín. Kdybyste termín
