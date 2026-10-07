@@ -44,7 +44,11 @@ for (const country of COUNTRIES) {
 const cut = { version: max.version, country_calling_codes, countries, nonGeographic: {} };
 const json = JSON.stringify(cut) + "\n";
 
-const current = fs.existsSync(target) ? fs.readFileSync(target, "utf8") : null;
+// Compare without CR: a Windows checkout (core.autocrlf) has the file with
+// CRLF, and rewriting it on every build would leave a phantom git change.
+const current = fs.existsSync(target)
+  ? fs.readFileSync(target, "utf8").replace(/\r\n/g, "\n")
+  : null;
 if (current === json) {
   console.log(`telefon-metadata: ${path.relative(root, target)} is up to date`);
 } else {
