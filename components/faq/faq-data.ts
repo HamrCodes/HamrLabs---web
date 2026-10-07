@@ -81,6 +81,6 @@ export const faqItems: FaqGridItem[] = [
     icon: Sparkles,
     question: "Musím si dělat fotky a videa sám?",
     answer:
-      "Ne. Bannery a texty do reklam vytvořím já, od Vás potřebuju jen podklady. V balíčku Premium přidám natáčení u Vás a 4 videa měsíčně.",
+      "Ne. Bannery a texty vytvořím já, od Vás potřebuju jen podklady. V balíčku Premium přidám natáčení u Vás a 4 videa měsíčně.",
   },
 ];
