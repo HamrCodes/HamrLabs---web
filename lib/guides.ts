@@ -70,7 +70,7 @@ export const guides: Guide[] = [
     description:
       "Jak založit Business Manager (firemní portfolio Meta), přidat stránku, Instagram, reklamní účet a kartu a nasdílet přístup partnerovi. Návod na 10 minut.",
     minutes: 10,
-    updated: "2026-09-30",
+    updated: "2026-10-07",
     // TODO: doplnit videonávod od Tomáše (soubor do /public/navody/)
     video: undefined,
   },

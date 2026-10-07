@@ -188,19 +188,19 @@ export function Footer() {
             <span>© 2026 Hamr Labs · Česká republika</span>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
               <a
-                href="/privacy"
+                href="/privacy/"
                 className="hover:text-accent transition-colors"
               >
                 Ochrana údajů
               </a>
               <a
-                href="/obchodni-podminky"
+                href="/obchodni-podminky/"
                 className="hover:text-accent transition-colors"
               >
                 Obchodní podmínky
               </a>
               <a
-                href="/cookies"
+                href="/cookies/"
                 className="hover:text-accent transition-colors"
               >
                 Cookies
