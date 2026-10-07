@@ -9,6 +9,14 @@ import {
   type PricingPlan,
 } from "@/lib/pricing";
 
+/**
+ * Czech typography: a one-letter preposition or conjunction ("s Meta",
+ * "u Vás") must not end a line, so it is glued to the next word.
+ */
+function keepShortWords(text: string): string {
+  return text.replace(/(^|\s)([ksvzouaiKSVZOUAI]) /g, "$1$2\u00A0");
+}
+
 interface Props {
   plan: PricingPlan;
   /** One level below the section heading: h3 on the home page, h2 on /cenik/. */
@@ -47,7 +55,9 @@ export function PricingCard({
           </Heading>
           {plan.badge && <p className="pricing-card__badge">{plan.badge}</p>}
         </div>
-        <p className="pricing-card__tagline">{plan.tagline}</p>
+        <p className="pricing-card__tagline">
+          {keepShortWords(plan.tagline)}
+        </p>
       </div>
 
       <p className="pricing-card__price">
@@ -112,7 +122,7 @@ export function PricingCard({
                 aria-hidden="true"
                 focusable={false}
               />
-              <span>{feature}</span>
+              <span>{keepShortWords(feature)}</span>
             </li>
           ))}
         </ul>

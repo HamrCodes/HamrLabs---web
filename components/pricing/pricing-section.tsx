@@ -101,13 +101,15 @@ export function PricingSection({ headingLevel = "h2", className }: Props) {
             <a href="#konzultace" className="pricing-link">
               Na konzultaci Vám ho doporučím
             </a>{" "}
-            podle oboru a rozpočtu.
+            podle oboru a&nbsp;rozpočtu.
           </p>
+          {/* Summary of the VOP (5.1 to 5.3, 6.1, 6.2); &nbsp; keeps Czech
+              one-letter words and numbers off the end of a line. */}
           <p className="pricing-footnote">
             Reklamní rozpočet platíte přímo společnosti Meta ze své platební
-            karty. Ceny jsou bez DPH. Spolupráce začíná na 3 měsíce. Potom
-            pokračuje na dobu neurčitou s výpovědní dobou 1 měsíc. Podrobnosti
-            najdete v{" "}
+            karty. Ceny jsou bez DPH. Spolupráce začíná na 3&nbsp;měsíce. Potom
+            pokračuje na dobu neurčitou s&nbsp;výpovědní dobou 1&nbsp;měsíc.
+            Podrobnosti najdete v&nbsp;
             <a href="/obchodni-podminky/" className="pricing-link">
               obchodních podmínkách
             </a>
