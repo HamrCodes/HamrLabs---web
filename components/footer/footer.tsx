@@ -15,6 +15,7 @@ const navLinks = [
   { href: "/#sluzby", label: "Co dělám" },
   { href: "/#moje-vysledky", label: "Výsledky" },
   { href: "/#proces", label: "Jak to probíhá" },
+  { href: "/#cenik", label: "Ceník" },
   { href: "/#faq", label: "Otázky" },
   { href: "/navody/", label: "Návody pro klienty" },
 ];
