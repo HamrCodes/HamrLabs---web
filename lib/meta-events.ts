@@ -73,6 +73,18 @@ export function articleViewParams(slug: string, title: string) {
 }
 
 /**
+ * Someone saw the price list (the #cenik section or the /cenik/ page).
+ * Fired once per page load; clicking a plan's CTA is not a lead.
+ */
+export function pricingViewParams() {
+  return clean({
+    content_name: "Ceník",
+    content_category: "Ceník",
+    content_ids: ["cenik"],
+  });
+}
+
+/**
  * A real lead: a call booked in Calendly or a message that reached us.
  * Opening the calendar or clicking a button is not one.
  */

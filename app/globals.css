@@ -5182,3 +5182,448 @@ body {
   }
 }
 
+
+/* === Ceník === */
+/* Price list (components/pricing): three plans from lib/pricing.ts, the only
+   place prices live. Flat cards (CLAUDE.md 7.4, variant B). The highlighted
+   plan gets a 1px accent border, a soft glow and a text badge; cyan is never
+   a surface fill here, only the one primary CTA uses .btn-primary-cyan. */
+
+.pricing-section {
+  position: relative;
+  background: var(--bg);
+}
+
+/* /cenik/: the breadcrumb sits right above, so less top padding. */
+.pricing-section--page {
+  padding-top: clamp(24px, 4vh, 48px);
+}
+
+.pricing-header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 720px;
+  margin-bottom: clamp(40px, 5vh, 64px);
+}
+
+.pricing-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  margin: 0;
+}
+
+.pricing-lead {
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.5;
+  color: var(--fg-muted);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* One column below 1024 px (no carousel), three from lg. On desktop every
+   card spans the same five rows (head, price, breakdown, CTA, features) and
+   shares them through subgrid, so prices, CTAs and lists line up. */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  max-width: 640px;
+}
+
+@media (min-width: 1024px) {
+  .pricing-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(5, auto);
+    column-gap: 24px;
+    row-gap: 24px;
+    max-width: 1440px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .pricing-grid {
+    column-gap: 32px;
+  }
+}
+
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  padding: 28px 22px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+}
+
+@media (min-width: 640px) {
+  .pricing-card {
+    padding: 32px 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pricing-card {
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    gap: 24px;
+  }
+}
+
+/* Browsers without subgrid: keep the rows roughly level with min-heights. */
+@supports not (grid-template-rows: subgrid) {
+  @media (min-width: 1024px) {
+    .pricing-card {
+      display: flex;
+    }
+    .pricing-card__head {
+      min-height: 7.5em;
+    }
+    .pricing-card__features {
+      flex: 1;
+    }
+  }
+}
+
+/* Reveal stagger only on opacity and transform (--reveal-delay is set per
+   card); the hover lift uses `translate`, so it never fights the reveal. */
+.pricing-card.reveal {
+  transition-property: opacity, transform, translate, border-color, box-shadow;
+  transition-duration: 600ms, 600ms, 200ms, 200ms, 200ms;
+  transition-timing-function:
+    cubic-bezier(0.16, 1, 0.3, 1),
+    cubic-bezier(0.16, 1, 0.3, 1),
+    ease-out,
+    ease-out,
+    ease-out;
+  transition-delay: var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), 0ms, 0ms, 0ms;
+}
+
+@media (hover: hover) {
+  .pricing-card:hover {
+    translate: 0 -2px;
+    border-color: var(--rule-accent);
+    box-shadow: 0 0 40px -10px var(--accent-glow);
+  }
+}
+
+.pricing-card--highlighted {
+  border-color: var(--rule-accent);
+  box-shadow:
+    0 0 56px -12px var(--lg-shadow-glow),
+    inset 0 1px 0 rgba(0, 240, 255, 0.12);
+}
+
+@media (hover: hover) {
+  .pricing-card--highlighted:hover {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 64px -10px var(--lg-shadow-glow),
+      inset 0 1px 0 rgba(0, 240, 255, 0.16);
+  }
+}
+
+/* Head: name + badge, tagline */
+.pricing-card__head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pricing-card__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.pricing-card__name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 2.2vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* Status pill (CLAUDE.md 7.3): text in accent, outline only, no fill. */
+.pricing-card__badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 5px 12px;
+  border: 1px solid var(--rule-accent);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.pricing-card__tagline {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--fg-muted);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* Price: the monthly fee for the work */
+.pricing-card__price {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.pricing-card__amount {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(40px, 3.6vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.pricing-card__currency {
+  font-size: 0.42em;
+  letter-spacing: 0;
+  color: var(--fg-muted);
+}
+
+.pricing-card__unit {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--fg-muted);
+}
+
+/* Breakdown: ad budget paid to Meta, then the monthly total */
+.pricing-card__breakdown {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.pricing-card__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.pricing-card__row dt {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--fg-muted);
+}
+
+.pricing-card__hint {
+  white-space: nowrap;
+}
+
+.pricing-card__row dd {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  margin: 0 0 0 auto;
+  text-align: right;
+}
+
+.pricing-card__value {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.pricing-card__daily {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+.pricing-card__row--total dt {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.pricing-card__row--total .pricing-card__value {
+  font-size: 17px;
+}
+
+/* CTA: full-width pill, at least 48 px tall */
+.pricing-card__cta {
+  display: flex;
+}
+
+.pricing-card__button {
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 24px;
+  text-decoration: none;
+}
+
+.pricing-card__button--secondary {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--rule-strong);
+  transition:
+    border-color 0.2s ease-out,
+    color 0.2s ease-out,
+    transform 0.2s ease-out;
+}
+
+.pricing-card__button--secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pricing-card__button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* Features */
+.pricing-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pricing-card__includes {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--fg-muted);
+}
+
+.pricing-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pricing-card__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fg);
+}
+
+.pricing-card__check {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: var(--accent);
+}
+
+/* Notes under the cards (help line + summary of the VOP) */
+.pricing-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 70ch;
+  margin-top: clamp(32px, 4vh, 48px);
+}
+
+.pricing-help {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+.pricing-footnote {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+.pricing-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.pricing-link:hover {
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card,
+  .pricing-card.reveal,
+  .pricing-card__button--secondary {
+    transition: none;
+  }
+  .pricing-card:hover {
+    translate: none;
+  }
+}
+
+/* Menu: with "Ceník" the six links no longer fit next to the logo and the
+   CTA below 1024 px, so the desktop menu starts at lg (nav.tsx: lg: classes
+   and 1024 in its resize handler). The original nav rules above switch at
+   768 px; these overrides keep the hamburger and a full-width bar up to
+   1023 px instead of leaving that range without any menu. */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .nav-hamburger {
+    display: inline-flex;
+  }
+  .nav-pill--scrolled {
+    max-width: 100%;
+    transform: none;
+    border-radius: 0;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023.98px) {
+  /* Drawer starts right under the 56 px bar (the 60 px rule is for <= 768). */
+  .nav-drawer {
+    top: 56px;
+  }
+}

@@ -7,11 +7,15 @@ import { useScroll } from "@/components/ui/use-scroll";
 import { Button } from "@/components/ui/button";
 
 // Anchors are absolute (/#id) so they work from sub-pages (blog, legal) too.
+// Six links do not fit next to the logo and CTA on a tablet, so the desktop
+// menu starts at lg (1024 px); below that the hamburger drawer is used.
+const DESKTOP_MIN_WIDTH = 1024;
 const links = [
   { label: "Co dělám", id: "sluzby" },
   { label: "Výsledky", id: "moje-vysledky" },
   { label: "O mně", id: "o-mne" },
   { label: "Jak to probíhá", id: "proces" },
+  { label: "Ceník", id: "cenik" },
   { label: "Otázky", id: "faq" },
 ];
 
@@ -43,7 +47,7 @@ export function Nav() {
   // Close drawer on resize to desktop
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) setOpen(false);
+      if (window.innerWidth >= DESKTOP_MIN_WIDTH) setOpen(false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -117,7 +121,7 @@ export function Nav() {
           </a>
 
           {/* CENTER: Links (desktop only) */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {links.map((link) => (
               <a
                 key={link.id}
@@ -134,7 +138,7 @@ export function Nav() {
           </div>
 
           {/* RIGHT: KONTAKT (desktop) */}
-          <a href="/#konzultace" className="hidden md:inline-flex">
+          <a href="/#konzultace" className="hidden lg:inline-flex">
             <Button variant="primary" className="px-5 py-2.5 text-xs">
               Chci konzultaci
             </Button>
@@ -144,7 +148,7 @@ export function Nav() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="nav-hamburger md:hidden"
+            className="nav-hamburger lg:hidden"
             aria-label={open ? "Zavřít menu" : "Otevřít menu"}
             aria-expanded={open}
             aria-controls="mobile-drawer"
@@ -162,7 +166,7 @@ export function Nav() {
       <div
         id="mobile-drawer"
         className={cn(
-          "nav-drawer md:hidden",
+          "nav-drawer lg:hidden",
           open ? "nav-drawer--open" : "nav-drawer--closed",
         )}
         aria-hidden={!open}

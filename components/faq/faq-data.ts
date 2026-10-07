@@ -1,5 +1,11 @@
 import { Clock, Wallet, BarChart3, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { formatCzk, getPlan } from "@/lib/pricing";
+
+// Budgets come from the price list (lib/pricing.ts), so the FAQ never
+// contradicts the cards.
+const startBudget = formatCzk(getPlan("start").budgetMinCzk);
+const rustBudget = formatCzk(getPlan("rust").budgetMinCzk);
 
 export interface FaqCard {
   type: "faq";
@@ -39,8 +45,7 @@ export const faqItems: FaqGridItem[] = [
     type: "faq",
     icon: Wallet,
     question: "Kolik do reklamy musím dát?",
-    answer:
-      "Doporučuju začít s rozpočtem od 30 000 Kč měsíčně na samotnou reklamu. S menší částkou trvá déle, než se reklama rozjede a než jde poznat, co funguje.",
+    answer: `Podle balíčku: Start počítá s reklamou od ${startBudget} měsíčně, Růst od ${rustBudget}. S menší částkou trvá déle, než se reklama rozjede a než jde poznat, co funguje.`,
   },
   {
     type: "screenshot",
@@ -62,7 +67,7 @@ export const faqItems: FaqGridItem[] = [
     icon: BarChart3,
     question: "Jak se dozvím, co reklama dělá?",
     answer:
-      "Každý týden Vám pošlu krátké video nebo zprávu s výsledky a dalším postupem. K číslům máte navíc přístup kdykoliv, 24 hodin denně.",
+      "Podle balíčku Vám jednou za měsíc, za 2 týdny nebo každý týden pošlu zprávu s výsledky. Čísla navíc vidíte kdykoliv v reklamním účtu.",
   },
   {
     type: "screenshot",
@@ -76,6 +81,6 @@ export const faqItems: FaqGridItem[] = [
     icon: Sparkles,
     question: "Musím si dělat fotky a videa sám?",
     answer:
-      "Ne. Vizuály, videa i texty do reklam vytvořím já, s pomocí AI a ve stylu Vaší firmy. Od Vás potřebuju jen základní podklady.",
+      "Ne. Bannery a texty do reklam vytvořím já, ve stylu Vaší firmy. V balíčku Premium přidám natáčení u Vás a 4 videa měsíčně.",
   },
 ];

@@ -3,6 +3,8 @@
 // root layout's @graph; per-page nodes (BlogPosting, BreadcrumbList, FAQPage)
 // reference them by @id, so Google links the whole graph across script tags.
 
+import { formatBudgetMin, plainSpaces, type PricingPlan } from "./pricing";
+
 export const SITE_URL = "https://hamrlabs.cz";
 export const SITE_NAME = "Hamr Labs";
 export const AUTHOR_NAME = "Tomáš Hamerník";
@@ -154,6 +156,62 @@ export function blogPostingNode(post: BlogPostingInput) {
     keywords: post.keywords.join(", "),
     inLanguage: "cs-CZ",
     ...(post.wordCount ? { wordCount: post.wordCount } : {}),
+  };
+}
+
+// Business customers only: the VOP (1.3) cover B2B contracts, not consumers.
+const ELIGIBLE_BUSINESS = "http://purl.org/goodrelations/v1#Business";
+
+/**
+ * The price list as an OfferCatalog with one Offer per plan, built from
+ * lib/pricing.ts so it always matches the visible cards. Emitted only on the
+ * pages that show the price list (home page and /cenik/), never site-wide.
+ *
+ * price is the monthly fee for the work, the only amount Hamr Labs invoices.
+ * The ad budget goes in the description: the client pays it to Meta.
+ * valueAddedTaxIncluded is left out on purpose (not a VAT payer, VOP 6.1).
+ */
+export function pricingCatalogNode(list: readonly PricingPlan[]) {
+  return {
+    "@type": "OfferCatalog",
+    "@id": `${SITE_URL}/#cenik`,
+    name: "Ceník Hamr Labs",
+    url: `${SITE_URL}/cenik/`,
+    itemListElement: list.map((plan) => ({
+      "@type": "Offer",
+      "@id": `${SITE_URL}/#cenik-${plan.id}`,
+      name: `Balíček ${plan.name}`,
+      // Plain spaces in structured data; the NBSPs are for on-page layout.
+      description: plainSpaces(
+        [
+          plan.tagline,
+          `${plan.includesFrom ? plan.includesFrom.label : "Obsahuje:"} ${plan.features.join("; ")}.`,
+          `Reklamní rozpočet ${formatBudgetMin(plan)} měsíčně platí klient přímo společnosti Meta.`,
+        ].join(" "),
+      ),
+      price: plan.feeCzk,
+      priceCurrency: "CZK",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: plan.feeCzk,
+        priceCurrency: "CZK",
+        unitCode: "MON",
+        referenceQuantity: {
+          "@type": "QuantitativeValue",
+          value: 1,
+          unitCode: "MON",
+        },
+      },
+      eligibleCustomerType: ELIGIBLE_BUSINESS,
+      areaServed: "CZ",
+      seller: { "@id": ORGANIZATION_ID },
+      itemOffered: {
+        "@type": "Service",
+        name: `Reklama na Facebooku a Instagramu: balíček ${plan.name}`,
+        provider: { "@id": ORGANIZATION_ID },
+        areaServed: "CZ",
+      },
+    })),
   };
 }
 

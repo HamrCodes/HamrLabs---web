@@ -22,7 +22,8 @@ Jednatel nebo majitel **stavební firmy, řemeslné dílny, výrobního podniku*
 mezi sedmi případovkami není jediný e-shop, takže dřívější „e-shopy" cílení je
 obsolete. Tento člověk **nezná žargon** (CPL, ROAS, lead gen, Pixel, CAPI):
 copy mluví o ceně za poptávku, návratnosti a přísunu poptávek. Dál platí, že:
-- Měsíční mediální rozpočet 30 až 200 tis. Kč
+- Měsíční mediální rozpočet od 10 tis. Kč (balíček Start) do 200 tis. Kč
+  (aktualizováno ceníkem 2026-10, viz 2.5)
 - Reaguje na čísla, ne na sliby
 - Není tech-naivní, ale není performance marketer
 - Chce vidět ukázky práce a metriky před prvním callem
@@ -49,14 +50,43 @@ O mně („zaškolím Váš tým"). Tyto tři služby musí zůstat v souladu se
 ### 2.3 USP (proč Tomáš a ne konkurence)
 1. **Měřitelnost end-to-end.** Tracking stack, server-side události, real-time dashboard 24/7.
 2. **AI jako rychlostní násobič, ne náhrada.** Kreativy, copy varianty, anomálie v datech, segmentace.
-3. **Bez „balíčků".** Žádné fixní 9 990 Kč packages. Spolupráce se škáluje s rozpočtem.
+3. **Transparentní ceník.** Tři balíčky s pevnou měsíční cenou za práci (Start,
+   Růst, Premium), reklamní rozpočet platí klient přímo Metě. Dřívější „Bez
+   balíčků" je od ceníku 2026-10 obsolete, viz 2.5.
 4. **Český mid-market focus.** Ne enterprise, ne freelance.
 
 ### 2.4 Čím Hamr Labs NENÍ (kontrastní pozicování)
 - Ne SEO agentura
 - Ne creative agency / branding studio
 - Ne no-code / web development
-- Ne enterprise dodavatel (pod 30k Kč/měsíc rozpočtu nemá smysl začínat)
+- Ne enterprise dodavatel. Nejnižší reklamní rozpočet je 10 000 Kč měsíčně
+  (balíček Start); dřívější „pod 30k nemá smysl začínat" už neplatí.
+
+### 2.5 Ceník (zadání Matyáše 2026-10, podle VOP platných od 12. 6. 2026)
+Tři měsíční balíčky, ceny bez DPH (Hamr Labs není plátce DPH, VOP 6.1):
+Start, Růst (zvýrazněný), Premium. Velké číslo na kartě je měsíční odměna za
+práci, pod ním reklamní rozpočet (platí klient přímo Metě, VOP 6.2) a celkem.
+Spolupráce začíná na 3 měsíce, pak běží na dobu neurčitou s výpovědní dobou
+1 měsíc (VOP 5.1 až 5.3). Celý ceník je sekce `#cenik` na hlavní stránce
+(mezi Procesem a FAQ) a samostatná stránka `/cenik/`.
+
+- **Ceny jsou jen v `lib/pricing.ts`.** Karty, JSON-LD `OfferCatalog`
+  (`lib/seo.ts`), metadata `/cenik/` i odpověď FAQ o rozpočtu se z něj
+  generují. Žádné číslo z ceníku nepiš ručně do komponenty, FAQ ani JSON-LD.
+  Součty (odměna + rozpočet = celkem) hlídá `assertPricingConsistent()` při
+  buildu, překlep build shodí.
+- Částky formátuj přes `formatCzk` / `formatAmount` z `lib/pricing.ts`
+  (pevná mezera), nikdy přes `Intl.NumberFormat`: Node a prohlížeč mohou
+  formátovat jinak a hrozí hydration mismatch (#418).
+- **Štítek „Nejoblíbenější" u Růstu je výslovné rozhodnutí Matyáše**
+  (2026-10, text z jeho obrázku ceníku). Je to schválená výjimka z 3.1
+  (žádné superlativy). Neměnit bez jeho pokynu.
+- Texty bodů jsou převzaté doslova z Matyášova obrázku (včetně „leady",
+  „Pipeline", „Retargeting"); výjimka z 1.4 (žargon). Upravené jen kvůli
+  tvrdým pravidlům (velké V ve vykání).
+- Při změně ceny, rozpočtu nebo podmínek projdi i texty, které o nich mluví:
+  `components/faq/faq-data.ts`, `content/blog/reklama-na-facebooku-pro-firmy.mdx`
+  (blog má ceny psané ručně, generovat je neumí) a `/obchodni-podminky/`.
 
 ---
 
@@ -91,6 +121,7 @@ O mně („zaškolím Váš tým"). Tyto tři služby musí zůstat v souladu se
 - Secondary hero: „Podívat se na výsledky"
 - Live card: „Prozkoumat výsledky"
 - Kontaktní sekce: „Chci nezávaznou konzultaci", „Napsat zprávu"
+- Karty ceníku: „Chci konzultaci" (odkaz `#konzultace`, otevře funnel konzultace)
 - **Ban:** „Get Started", „Sign Up", „Learn More", „Click Here", „Kontaktovat tým"
   (Hamr Labs je jeden člověk, ne tým)
 
@@ -482,6 +513,36 @@ Plain text, žádné cards. Mezi položkami 1px divider `--rule`. Chevron rotuje
   - Initial state (na heru): transparent background, no border
   - Scroll past hero: solid `--bg` background, 1px bottom border `--rule`, **NEBO** glass utility class (rozhodnout v Phase 2)
 - Height 72px desktop, 64px mobile
+- **Desktopové menu až od `lg` (1024 px)** od přidání položky „Ceník"
+  (šest odkazů se pod 1024 px nevejde vedle loga a CTA). Pod 1024 px je
+  hamburger. Breakpoint je ve třech místech: `lg:` třídy v `nav.tsx`,
+  `DESKTOP_MIN_WIDTH` v resize handleru a override na konci `globals.css`
+  (blok Ceník), protože původní CSS navigace přepíná na 768 px.
+
+### 7.8 Karta ceníku (`components/pricing/`)
+
+Plochá karta Varianty B (7.4), ne glass. Vzor:
+- `--bg-elevated`, 1px `--rule`, radius 16px, padding 28 až 32px; hover
+  `translate: 0 -2px` + okraj `--rule-accent` + jemná záře (vypnuto při
+  reduced motion).
+- Zvýrazněný balíček (Růst): trvale 1px `--rule-accent`, záře
+  `0 0 56px -12px var(--lg-shadow-glow)` a štítek jako pill (`rounded-full`,
+  okraj `--rule-accent`, text `--accent`, **bez výplně**). Tyrkysová nikdy
+  jako výplň karty ani pozadí sekce.
+- Jediná tyrkysová plocha v sekci je CTA zvýrazněného balíčku
+  (`.btn-primary-cyan`, existující výjimka z 5.2). Ostatní CTA jsou obrysová.
+- Pořadí bloků: název + štítek, popis, velké číslo (font-mono, tabular-nums)
+  s popiskem „měsíčně za moji práci", rozpad (reklama platíte Metě, celkem
+  měsíčně), CTA, body s ikonou `Check` (lucide 16px, stroke 1.5). U vyšších
+  balíčků řádek „Vše ze Start, plus:" / „Vše z Růst, plus:".
+- Od 1024 px tři sloupce a karty sdílí řádky přes `grid-template-rows:
+  subgrid` (ceny, CTA a seznamy na jedné linii), pod 1024 px jeden sloupec.
+  Žádný karusel ani akordeon. Žádná velká ikona nad kartou (10.1). Výjimka
+  z 10.1 „3-column grid": tři balíčky ceníku jsou jeho přirozený tvar.
+- Pod kartami poznámka podle VOP (rozpočet platí klient Metě, bez DPH,
+  3 měsíce a pak výpovědní doba 1 měsíc, odkaz na `/obchodni-podminky/`).
+- Meta: `ViewContent` (content_name „Ceník") jednou při zobrazení sekce.
+  Klik na CTA **není** Lead.
 
 ---
 
@@ -596,7 +657,7 @@ Dokud Tomáš nedodá assety, používáme:
 - ✅ **Citace s reálnými jmény klientů** (Flach, Elegant Dog's Barber, Klub moderního psa).
 - ✅ **Mono font na metrikách.** Tabular-nums povinné.
 - ✅ **Velký whitespace.** Sekce 96 až 160px vertical padding.
-- ✅ **Specifická čísla v copy.** 60 dní, 30 000 Kč, 3,2×.
+- ✅ **Specifická čísla v copy.** 60 dní, 30 000 Kč, 3,2×. (Ceny a rozpočty balíčků jen z `lib/pricing.ts`, viz 2.5.)
 - ✅ **Czech-first.** Žádné anglické UI prvky kromě brand termínů.
 - ✅ **Edge cases polished.** Empty form state, error state, mobile menu open state, loading skeleton.
 - ✅ **Hard 1px borders, ne shadows.** Shadows pouze na liquid glass a hover states.
