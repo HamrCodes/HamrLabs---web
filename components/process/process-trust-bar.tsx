@@ -2,7 +2,7 @@ import { Clock, ShieldCheck, BarChart3 } from "lucide-react";
 
 const trustSignals = [
   { icon: Clock, label: "První výsledky do 14 dnů" },
-  { icon: ShieldCheck, label: "Bez výpovědních lhůt" },
+  { icon: ShieldCheck, label: "Závazek jen na 3 měsíce" },
   { icon: BarChart3, label: "Výsledky vidíte kdykoliv, 24/7" },
 ];
 

@@ -172,7 +172,7 @@ export const businessManager: GuideContent = {
     },
     {
       q: "Co když spolupráci ukončíme?",
-      a: "V Nastavení firmy otevřete Partneři a přístup mi jedním kliknutím odeberete. Stránka, reklamní účet i všechna data zůstávají Vaše.",
+      a: "Až spolupráce skončí, otevřete v Nastavení firmy Partneři a přístup mi jedním kliknutím odeberete. Stránka, reklamní účet i všechna data zůstávají Vaše.",
     },
   ],
 };
