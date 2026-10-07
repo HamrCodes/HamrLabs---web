@@ -15,9 +15,10 @@ interface Props {
  * invitation to watch it.
  *
  * To publish a video, drop a 16:9 H.264 MP4 at `public/hero.mp4` (optionally a
- * still frame at `public/hero-poster.jpg`) and redeploy. It then autoplays
- * muted and inline, which is what browsers require before they allow autoplay
- * at all. It deliberately does not loop: this is a two-minute talking piece,
+ * still frame at `public/hero-poster.jpg`) and redeploy. It then starts muted
+ * and inline, which is what browsers require before they allow autoplay at
+ * all. There is no autoPlay attribute: the effect below calls play() only
+ * without prefers-reduced-motion, so with reduce the video waits for a tap. It deliberately does not loop: this is a two-minute talking piece,
  * so reaching the finish flag should mean finished, not restart.
  */
 export function HeroShowreel({ hasVideo, hasPoster }: Props) {
@@ -101,7 +102,6 @@ export function HeroShowreel({ hasVideo, hasPoster }: Props) {
               className="hero-video"
               src="/hero.mp4"
               poster={hasPoster ? "/hero-poster.jpg" : undefined}
-              autoPlay
               muted
               playsInline
               preload="metadata"

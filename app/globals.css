@@ -530,13 +530,17 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--rule);
   overflow-y: auto;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0s;
 }
 
+/* Closed: hidden from Tab and screen readers too (the drawer is also inert).
+   visibility flips only after the 0.3 s fade, so closing still animates. */
 .nav-drawer--closed {
   opacity: 0;
   transform: translateY(-8px);
   pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
 }
 
 .nav-drawer--open {
@@ -3760,6 +3764,12 @@ body {
   to { opacity: 1; }
 }
 
+/* The dialog itself takes focus on open (tabIndex -1), so a screen reader
+   announces it; a ring around the whole screen would only be noise. */
+.funnel-backdrop:focus {
+  outline: none;
+}
+
 .funnel-close {
   position: fixed;
   top: 24px;
@@ -4521,6 +4531,21 @@ body {
 /* ===========================================
    COOKIE BAR
    =========================================== */
+/* While the bar is up, CookieBar sets --cookie-bar-space to its height. The
+   page gets that much room at the bottom and focus scrolling keeps clear of
+   it, so the bar never covers the focused link or the footer (WCAG 2.4.11). */
+html {
+  scroll-padding-bottom: var(--cookie-bar-space, 0px);
+}
+body {
+  padding-bottom: var(--cookie-bar-space, 0px);
+}
+/* The open mobile menu takes the whole screen; the bar waits until it closes
+   instead of covering its last links. */
+html.nav-drawer-open .cookie-bar {
+  visibility: hidden;
+}
+
 .cookie-bar {
   position: fixed;
   bottom: 16px;

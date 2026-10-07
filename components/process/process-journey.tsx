@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, keepShortWords } from "@/lib/utils";
 
 interface Step {
   title: string;
@@ -150,7 +150,7 @@ export function ProcessJourney({ steps }: Props) {
               <div className="process-journey-content">
                 <h3 className="process-journey-title">{step.title}</h3>
                 <p className="process-journey-description">
-                  {step.description}
+                  {keepShortWords(step.description)}
                 </p>
               </div>
             </div>

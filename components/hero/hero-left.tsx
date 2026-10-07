@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 
 export function HeroLeft() {
   return (
@@ -30,12 +30,12 @@ export function HeroLeft() {
 
         {/* CTAs */}
         <div className="hero-cta-row flex flex-wrap items-center gap-4">
-          <a href="#konzultace">
-            <Button variant="primary">Chci konzultaci</Button>
-          </a>
-          <a href="#moje-vysledky">
-            <Button variant="glass-secondary">Podívat se na výsledky</Button>
-          </a>
+          <ButtonLink href="#konzultace" variant="primary">
+            Chci konzultaci
+          </ButtonLink>
+          <ButtonLink href="#moje-vysledky" variant="glass-secondary">
+            Podívat se na výsledky
+          </ButtonLink>
         </div>
       </div>
     </div>

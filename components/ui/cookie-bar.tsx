@@ -1,14 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { readConsent, saveConsent, type Consent } from "@/lib/cookie-consent";
 
 export function CookieBar() {
   const [visible, setVisible] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (readConsent() === null) setVisible(true);
   }, []);
+
+  // While the bar is shown, tell the page how much of the bottom it covers
+  // (--cookie-bar-space, used in globals.css for scroll-padding-bottom and the
+  // body's bottom padding), so it never hides the focused element.
+  useEffect(() => {
+    const el = barRef.current;
+    if (!visible || !el) return;
+    const root = document.documentElement;
+    const update = () => {
+      const space = Math.ceil(window.innerHeight - el.getBoundingClientRect().top);
+      root.style.setProperty("--cookie-bar-space", `${Math.max(space, 0)}px`);
+    };
+    update();
+    const observer =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    observer?.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", update);
+      root.style.removeProperty("--cookie-bar-space");
+    };
+  }, [visible]);
 
   const handle = (value: Consent) => {
     saveConsent(value);
@@ -19,6 +43,7 @@ export function CookieBar() {
 
   return (
     <div
+      ref={barRef}
       className="cookie-bar"
       role="region"
       aria-label="Souhlas s cookies"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X, ArrowLeft, ArrowRight, Phone, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CHYBA_EMAIL, EMAIL_RE, messageBranchSteps } from "./funnel-data";
@@ -31,6 +31,28 @@ function persistBookedSlot(slot: string) {
 
 type Branch = "call" | "message";
 
+/**
+ * Makes everything outside `el` inert (siblings of `el` and of each of its
+ * ancestors up to <body>), so Tab and screen readers stay in the dialog.
+ * Elements that were inert already are left alone. Returns the undo.
+ */
+function inertOutside(el: HTMLElement): () => void {
+  const changed: HTMLElement[] = [];
+  let node: HTMLElement = el;
+  while (node.parentElement && node !== document.body) {
+    const parent: HTMLElement = node.parentElement;
+    for (const sibling of Array.from(parent.children)) {
+      if (sibling === node || !(sibling instanceof HTMLElement) || sibling.inert) continue;
+      sibling.inert = true;
+      changed.push(sibling);
+    }
+    node = parent;
+  }
+  return () => {
+    for (const element of changed) element.inert = false;
+  };
+}
+
 interface Props {
   isOpen: boolean;
   initialBranch: Branch;
@@ -49,6 +71,9 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   // Kontakt z formuláře před kalendářem. Dokud není, kalendář se neukáže.
   const [kontakt, setKontakt] = useState<KonzultaceKontakt | null>(null);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const fullscreen = branch === "call" && kontakt !== null && !submitted;
+
   // The "call" branch is now Calendly; only the "message" branch runs the
   // step-based Web3Forms flow.
   const steps = messageBranchSteps;
@@ -66,6 +91,30 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
       setKontakt(null);
     }
   }, [isOpen, initialBranch]);
+
+  // Modal focus: while open, the rest of the page is inert (Tab stays here)
+  // and on close the focus returns to the link or button that opened it.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!isOpen || !dialog) return;
+    const active = document.activeElement;
+    const opener =
+      active instanceof HTMLElement && active !== document.body ? active : null;
+    const undoInert = inertOutside(dialog);
+    return () => {
+      undoInert();
+      // A link in the closed mobile menu is inert by now and cannot take it.
+      if (opener?.isConnected && !opener.closest("[inert]")) {
+        opener.focus({ preventScroll: true });
+      }
+    };
+  }, [isOpen]);
+
+  // Focus moves into the dialog when it opens and again when the contact
+  // form gives way to the fullscreen calendar (its button is gone then).
+  useEffect(() => {
+    if (isOpen) dialogRef.current?.focus({ preventScroll: true });
+  }, [isOpen, fullscreen]);
 
   // Body scroll lock
   useEffect(() => {
@@ -188,9 +237,11 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
   // Call branch: first the short contact form (in the modal), then fullscreen
   // Calendly with a single close button and the contact prefilled, so booking
   // a slot has the whole screen and no surrounding chrome.
-  if (branch === "call" && kontakt && !submitted) {
+  if (fullscreen) {
     return (
       <div
+        ref={dialogRef}
+        tabIndex={-1}
         className="funnel-backdrop funnel-backdrop--full"
         role="dialog"
         aria-modal="true"
@@ -211,6 +262,8 @@ export function ContactFunnel({ isOpen, initialBranch, onClose }: Props) {
 
   return (
     <div
+      ref={dialogRef}
+      tabIndex={-1}
       className="funnel-backdrop"
       role="dialog"
       aria-modal="true"

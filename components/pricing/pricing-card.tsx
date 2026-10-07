@@ -1,21 +1,13 @@
 import type { CSSProperties } from "react";
 import { Check } from "lucide-react";
 import { MagneticButton } from "@/components/ui/magnetic-button";
-import { cn } from "@/lib/utils";
+import { cn, keepShortWords } from "@/lib/utils";
 import {
   formatAmount,
   formatBudgetMin,
   formatCzk,
   type PricingPlan,
 } from "@/lib/pricing";
-
-/**
- * Czech typography: a one-letter preposition or conjunction ("s Meta",
- * "u Vás") must not end a line, so it is glued to the next word.
- */
-function keepShortWords(text: string): string {
-  return text.replace(/(^|\s)([ksvzouaiKSVZOUAI]) /g, "$1$2\u00A0");
-}
 
 interface Props {
   plan: PricingPlan;

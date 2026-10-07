@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useScroll } from "@/components/ui/use-scroll";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 
 // Anchors are absolute (/#id) so they work from sub-pages (blog, legal) too.
 // Six links do not fit next to the logo and CTA on a tablet, so the desktop
@@ -24,13 +24,16 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("");
 
-  // Lock body scroll when drawer open
+  // Lock body scroll when drawer open. The class lets CSS move the cookie
+  // bar out of the way, it would otherwise cover the drawer's last links.
   useEffect(() => {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("nav-drawer-open");
     return () => {
       document.body.style.overflow = prev;
+      document.documentElement.classList.remove("nav-drawer-open");
     };
   }, [open]);
 
@@ -138,11 +141,13 @@ export function Nav() {
           </div>
 
           {/* RIGHT: KONTAKT (desktop) */}
-          <a href="/#konzultace" className="hidden lg:inline-flex">
-            <Button variant="primary" className="px-5 py-2.5 text-xs">
-              Chci konzultaci
-            </Button>
-          </a>
+          <ButtonLink
+            href="/#konzultace"
+            variant="primary"
+            className="hidden lg:inline-flex px-5 py-2.5 text-xs"
+          >
+            Chci konzultaci
+          </ButtonLink>
 
           {/* RIGHT: Hamburger (mobile) */}
           <button
@@ -162,14 +167,15 @@ export function Nav() {
         </nav>
       </header>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer. Closed it is inert: its links are invisible, so they
+          must not take Tab stops (CSS adds visibility: hidden as a fallback). */}
       <div
         id="mobile-drawer"
         className={cn(
           "nav-drawer lg:hidden",
           open ? "nav-drawer--open" : "nav-drawer--closed",
         )}
-        aria-hidden={!open}
+        inert={!open}
       >
         <div className="nav-drawer__inner">
           <div className="flex flex-col">
@@ -188,15 +194,16 @@ export function Nav() {
               </a>
             ))}
           </div>
-          <a
-            href="/#konzultace"
-            onClick={() => setOpen(false)}
-            className="nav-drawer-cta"
-          >
-            <Button variant="primary" className="w-full py-4 text-sm">
+          <div className="nav-drawer-cta">
+            <ButtonLink
+              href="/#konzultace"
+              onClick={() => setOpen(false)}
+              variant="primary"
+              className="w-full py-4 text-sm"
+            >
               Chci konzultaci
-            </Button>
-          </a>
+            </ButtonLink>
+          </div>
         </div>
       </div>
     </>
